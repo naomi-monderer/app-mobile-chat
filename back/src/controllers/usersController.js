@@ -1,9 +1,10 @@
-const db = require('../database');
-const bcrypt = require('bcrypt');
+const db = require('../../database');
+// const bcrypt = require('bcrypt');
 var express = require('express');
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
+// const app = express();
 
-app.use(express.json());
+// app.use(express.json());
 
 const getUsers = (req, res) => {
 	const sql = 'SELECT `login` FROM users'

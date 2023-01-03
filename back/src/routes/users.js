@@ -6,3 +6,5 @@ var {
 
 // Une route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
 router.get('/', getUsers);
+
+module.exports = router;
