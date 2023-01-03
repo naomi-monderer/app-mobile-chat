@@ -1,4 +1,6 @@
 const db = require('../../database');
+const userModel = require('../models/usersModel');
+const bodyParser = require('body-parser');
 // const bcrypt = require('bcrypt');
 var express = require('express');
 // const jwt = require('jsonwebtoken')
@@ -17,7 +19,29 @@ const getUsers = (req, res) => {
 		}
 	})
 }
+const addUserToRoom = (req, res) => {
+	
+	// let error = validationResult(req)
+	// if(error){}
+	// else{
+		res.status(201).send('recuperé')
+		// ;}
+
+}
+
+const test = (req, res) =>{
+	// let error = validationResult(req)
+	// if(error){}
+	// else{
+		res.status(201).send('recuperé');
+	// }
+	
+}
+
+
+
 
 module.exports = {
-	getUsers,
+	getUsers, addUserToRoom, test
 }
+
