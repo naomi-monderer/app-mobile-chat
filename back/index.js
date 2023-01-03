@@ -1,51 +1,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const port = 3000
 
 const app = express();
 
 // Parse request bodies as JSON
 app.use(bodyParser.json());
+app.use(express.json());
+// get data from form-data -- build-in middleware
+app.use(express.urlencoded({ extended: false }));
 
-// Connect to MySQL database
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'chat'
-});
-
-connection.connect((error) => {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('MySQL connected');
-  }
-});
 
 // Define routes
-// app.get('/users', (req, res) => {
-//   connection.query('SELECT * FROM users', (error, results) => {
-//     if (error) {
-//       res.status(500).send(error);
-//     } else {
-//       res.send(results);
-//     }
-//   });
-// });
 
-// app.post('/users', (req, res) => {
-//   const user = req.body;
-//   connection.query('INSERT INTO users SET ?', user, (error) => {
-//     if (error) {
-//       res.status(500).send(error);
-//     } else {
-//       res.send('User created');
-//     }
-//   });
-// });
+// créer un dossier public où on y pose notre css - images pour que ça s'affiche
+// app.use(express.static(path.join(__dirname, '/public')));
+var users = require('./routes/users');
+app.use('/users', users);
+
 
 // Start server
-app.listen(3000, () => {
-  console.log('API server listening on port 3000');
-});
+app.listen(port, () => {
+		console.log(`Example app listening on port ${port}`)
+})
