@@ -1,6 +1,27 @@
 const db = require('../../database');
-// const bcrypt = require('bcrypt');
 var express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+
+const getAllUsers = () => {
+    
+    return Promise((resolve, reject)=>{
+
+        const sql = 'SELECT `login` FROM users'
+        db.query(sql, function(error, data){
+            if (error) {
+                throw error;
+            }
+            else {
+                res.send(data);
+            }
+        })
+    })
+}
 
 const createParticipation = () => {
 
@@ -19,23 +40,5 @@ const createParticipation = () => {
 }
 
 
-const test = () => {
 
-    return  Promise ((resolve, reject) =>{
-
-        const sql = `lalala`
-        db.query(sql, function(error, data){
-            if (error) {
-                return reject(error);
-            }
-            else {
-                return resolve(data);
-            }
-        })
-        console.log(sql);
-    })
-}
-
-
-
-module.exports = { createParticipation, test}
+module.exports = { createParticipation, getAllUsers}
