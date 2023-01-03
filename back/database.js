@@ -1,6 +1,9 @@
-var mysql      = require('mysql');
+var mysql = require('mysql');
+const express = require('express');
+const app = express();
+
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: '127.0.0.1',
 	user: 'root',
 	password: 'root',
 	database: 'chat',
