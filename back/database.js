@@ -3,11 +3,11 @@ const express = require('express');
 const app = express();
 
 var connection = mysql.createConnection({
-    host: '127.0.0.1',
+    host: 'localhost',
 	user: 'root',
 	password: 'root',
 	database: 'chat',
-    port    : '8889',
+    port    : '3000',
 });
 
 connection.connect(function(error){

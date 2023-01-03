@@ -18,6 +18,10 @@ const getUsers = (req, res) => {
 	})
 }
 
+const auth = (req, res) => {
+	
+}
+
 module.exports = {
 	getUsers,
 }

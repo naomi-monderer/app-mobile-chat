@@ -8,20 +8,20 @@ const app = express();
 app.use(bodyParser.json());
 
 // Connect to MySQL database
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'chat'
-});
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'root',
+//   database: 'chat'
+// });
 
-connection.connect((error) => {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('MySQL connected');
-  }
-});
+// connection.connect((error) => {
+//   if (error) {
+//     console.error(error);
+//   } else {
+//     console.log('MySQL connected');
+//   }
+// });
 
 // Define routes
 // app.get('/users', (req, res) => {
