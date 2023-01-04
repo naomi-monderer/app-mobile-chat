@@ -3,10 +3,6 @@ const db = require('../../database');
 var express = require('express');
 // const jwt = require('jsonwebtoken')
 const app = express();
-const bodyParser = require('body-parser');
-
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 const getUsers = (req, res) => {
 	const sql = 'SELECT `login` FROM users'
@@ -24,15 +20,16 @@ const authUsers = (req, res) => {
 	const login = req.body.login;
     const password = req.body.password;
     // const email = req.body.email;
-	const query = 'SELECT * FROM users WHERE login = ? AND password = ?';
-	const params = [login, password];
+	const query = `SELECT * FROM users WHERE login = '${login}' AND password = '${password}'`;
+	// const params = [login, password];
 
 	if (login && password){
-		db.query(query, params, (error, results) => {
+		db.query(query, (error, results) => {
 			if (error) throw error;
 		  
 			if (results.length > 0) {
 			  // Les données de connexion sont valides
+			  res.send(results)
 			} else {
 			  // Les données de connexion ne sont pas valides
 			}

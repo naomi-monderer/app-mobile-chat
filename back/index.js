@@ -1,12 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-
 const app = express();
 
 // Parse request bodies as JSON
 app.use(bodyParser.json());
+// app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+
+
+
+
+var users = require('./src/routes/users');
+app.use('/users', users);
 
 
 // Start server
