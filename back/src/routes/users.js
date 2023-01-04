@@ -9,10 +9,12 @@ var {
 } = require('../controllers/usersController')
 
 
-// router.use(verifyToken)
+// router.use('/test',verifyToken)
 // Une route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
 router.get('/', getUsers);
 
+
+//route [BACK/02 connexion]
 router.post('/auth', authUsers)
 
 module.exports = router;

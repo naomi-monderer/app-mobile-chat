@@ -16,6 +16,7 @@ const getUsers = (req, res) => {
 	})
 }
 
+
 const authUsers =  (req, res) => {
 	const login = req.body.login;
     const password = req.body.password;
@@ -31,9 +32,11 @@ console.log(login)
 			if (results.length > 0) {
 			  // Les données de connexion sont valides
 			//   for(var count = 0; count < results.length; count++) {
+			
 				console.log("query auth ok")
 				const token = jwt.sign({email:email}, 'your_jwt_secret')
 				console.log(token)
+				
 				
 			//   }
 			
