@@ -21,20 +21,7 @@ const getUsers = (req, res) => {
 	
 }
 
-// permet à l'admin de modifier le rôle et le login d'un user.
 
-const adminUpdateUser = (req, res) => {
-
-	
-	const sql = 'UPDATE  users SET login = ?, id_role = ? WHERE id = ?'
-	db.query(sql, [req.body.login, req.body.id_role, req.params.id] , function(error, data){
-
-		if(error){throw error;}
-		else{res.send(data).status(204);}
-		
-	})
-
-}
 
 const authUsers =  (req, res)	 => {
 	const login = req.body.login;
@@ -84,5 +71,5 @@ module.exports = {
 	getUsers,
 	authUsers,
 	connectedUser,
-	adminUpdateUser
+	
 }
