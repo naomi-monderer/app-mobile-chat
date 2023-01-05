@@ -18,7 +18,7 @@ const getUsers = (req, res) => {
 }
 
 
-const authUsers =  (req, res) => {
+const authUsers =  (req, res)	 => {
 	const login = req.body.login;
     const password = req.body.password;
     const email = req.body.email;
