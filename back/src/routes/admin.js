@@ -1,8 +1,10 @@
 const db = require('../../database')
 var express = require('express');
 var {isAdmin} = require('../middlewares/isAdmin');
+var {signIn} = require('../middlewares/auth');
 
 var router = express.Router();
+
 
 var {
 	supressMessagesFromGreneral,
@@ -12,4 +14,6 @@ var {
 var {authUsers}= require('../controllers/usersController')
 
 
-router.get('/supress', isAdmin.isAdmin, supressMessagesFromGreneral)
+router.get('/supress',  supressMessagesFromGreneral)
+
+module.exports = router;

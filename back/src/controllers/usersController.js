@@ -81,13 +81,13 @@ const registerUsers = async (req, res) => {
 const authUsers =  (req, res) => {
 	const login = req.body.login;
     const password = req.body.password;
-    const email = req.body.email;
-	const id = req.body.id;
-	const id_role = req.body.id_role
+    // const email = req.body.email;
+	// const id = req.body.id;
+	// const id_role = req.body.id_role
 
 
 		db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
-			console.log('resultssss',typeof(results[0]))
+			
 			if (results.length > 0) {
 				bcrypt.compareSync(password, results[0].password, function(err, result) {
 					if(result) {
@@ -100,9 +100,16 @@ const authUsers =  (req, res) => {
 				   });
 
 				const mySecret = "mysecret";
-				const token = jwt.sign({login:login, password:password, email:email,id:id, id_role:id_role}, mySecret);
-			
-			
+				const token = jwt.sign({
+					login:login,
+					email:results[0].email,
+					id:results[0].id,
+					id_role:results[0].id_role,
+				}, mySecret);
+
+				// const token = jwt.sign({login:login, password:password, email:email,id:id, id_role:id_role}, mySecret);
+				
+				console.log(token)
 			  res.status(200).json({
 				status: true,
 				token: token
