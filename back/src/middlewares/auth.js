@@ -12,13 +12,14 @@ exports.signIn = (req, res, next) => {
     expireIn: "7d",
     algorithm:  "HS256"
   }
-    
+  const tokenToUse = req.headers;
+
   if(!tokenToUse.hasOwnProperty("authorization")) res.status(401).json({ message: "Authorization not found"})
  
     try {
       const mySecret = "mysecret";
       console.log("tffvrerfzfzghhgh",req.body)
-      const decoded = jwt.verify(token, mySecret, signInOptions);
+      const decoded = jwt.verify(tokenToUse, mySecret, signInOptions);
  
       req.user = decoded;
 
