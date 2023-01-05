@@ -1,10 +1,9 @@
 const db = require('../../database');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 var express = require('express');
-// const jwt = require('jsonwebtoken')
-// const app = express();
-
-// app.use(express.json());
+const jwt = require('jsonwebtoken');
+const {signIn} = require("../middlewares/auth");
+const app = express();
 
 const getUsers = (req, res) => {
 	const sql = 'SELECT `login` FROM users'
@@ -18,4 +17,51 @@ const getUsers = (req, res) => {
 	})
 }
 
-module.exports = { getUsers }
+
+const authUsers =  (req, res)	 => {
+	const login = req.body.login;
+    const password = req.body.password;
+    const email = req.body.email;
+	const id = req.body.id;
+	const id_role = req.body.id_role
+
+
+		db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
+			console.log('resultssss',typeof(results[0]))
+			if (results.length > 0) {
+				bcrypt.compareSync(password, results[0].password, function(err, result) {
+					if(result) {
+					 
+					  return res.send({ message: "Login Successful" });
+					}
+					else {
+					  return res.status(400).send({ message: "Invalid Password" });
+					}
+				   });
+
+				const mySecret = "mysecret";
+				const token = jwt.sign({login:login, password:password, email:email,id:id, id_role:id_role}, mySecret);
+			
+			
+			  res.status(200).json({
+				status: true,
+				token: token
+			  });
+			} else {
+			  console.log('not working')
+			}
+		  })
+	
+}
+const connectedUser = (req, res) => {
+	console.log('!!!!fonction connectedUser du controller!!!!');
+	res.status(200).json({
+		user: req.user
+	})
+}
+
+module.exports = {
+	getUsers,
+	authUsers,
+	connectedUser
+}
