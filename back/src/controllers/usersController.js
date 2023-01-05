@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const { config } = require('../../database');
 const app = express();
 
-const {signIn} = require("../middlewares/auth");
 
 
 const getUsers = (req, res) => {
