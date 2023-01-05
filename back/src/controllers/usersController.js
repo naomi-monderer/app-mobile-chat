@@ -3,16 +3,12 @@ const db = require('../../database');
 // _APPDIR
 // const {getAllUsers} = require('../models/usersModel');
 var express = require('express');
+// const jwt = require('jsonwebtoken')
 const app = express();
 const bodyParser = require('body-parser');
-const { json } = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken')
-// app.use(express.json());
-//
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const getUsers = (req, res) => {
 
@@ -84,8 +80,28 @@ const addUserToRoom = (req, res) => {
 	})
 }
 
+const authUsers = (req, res) => {
+	const login = req.body.login;
+    const password = req.body.password;
+    // const email = req.body.email;
+	const query = 'SELECT * FROM users WHERE login = ? AND password = ?';
+	const params = [login, password];
 
-module.exports = {
-	getUsers, addUserToRoom
+	if (login && password){
+		db.query(query, params, (error, results) => {
+			if (error) throw error;
+		  
+			if (results.length > 0) {
+			  // Les données de connexion sont valides
+			} else {
+			  // Les données de connexion ne sont pas valides
+			}
+		  })
+	}
 }
 
+module.exports = {
+	getUsers,
+	authUsers,
+	addUserToRoom
+}
