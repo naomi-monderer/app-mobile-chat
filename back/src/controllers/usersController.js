@@ -4,7 +4,6 @@ var express = require('express');
 const jwt = require('jsonwebtoken')
 // const app = express();
 
-
 const registerUsers = async (req, res) => {
 	const { login, password, email } = req.body;
 	// Champs envoyer dans la requête
@@ -62,7 +61,8 @@ const registerUsers = async (req, res) => {
 		}
 	}
 
-const authUsers =  (req, res) => {
+
+const authUsers =  (req, res)	 => {
 	const login = req.body.login;
 	const password = req.body.password;
 	

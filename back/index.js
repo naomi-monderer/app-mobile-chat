@@ -5,6 +5,7 @@ const app = express();
 const jwt = require('jsonwebtoken');
 
 const {signIn} = require("./src/middlewares/auth");
+const {isAdmin} = require("./src/middlewares/isAdmin")
 
 // Parse request bodies as JSON
 app.use(bodyParser.json());
@@ -13,10 +14,18 @@ app.use(express.urlencoded({ extended: false }));
 
 
 var users = require('./src/routes/users');
+var admin = require('./src/routes/admin');
+
 app.use('/users', users);
+// app.use('/admin', admin);
+
+app.use('/admin', admin)
 
 var participants = require('./src/routes/participants');
 app.use('/participants', participants);
+
+// Verify route
+app.use('/connected', signIn, users )
 
 // Start server
 app.listen(3000, () => {
