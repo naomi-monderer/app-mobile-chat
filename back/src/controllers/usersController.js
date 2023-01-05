@@ -1,11 +1,8 @@
 const db = require('../../database');
 const bcrypt = require('bcrypt');
 var express = require('express');
-const jwt = require('jsonwebtoken');
-const { config } = require('../../database');
-const app = express();
-
-const {signIn} = require("../middlewares/auth");
+const jwt = require('jsonwebtoken')
+// const app = express();
 
 
 const getUsers = (req, res) => {
@@ -77,13 +74,10 @@ const registerUsers = async (req, res) => {
 	}
 }
 
+
 const authUsers =  (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;
-	const email = req.body.email;
-	const id = req.body.id;
-	const id_role = req.body.id_role
-
 
 	db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
 			if (results.length > 0) {
@@ -97,7 +91,12 @@ const authUsers =  (req, res) => {
 				});
 
 				const mySecret = "mysecret";
-				const token = jwt.sign({login:login, password:password, email:email,id:id, id_role:id_role}, mySecret);
+				const token = jwt.sign({
+					login:login, 
+					email:results[0].email,
+					id:results[0].id, 
+					id_role:results[0].id_role
+				}, mySecret);
 
 			res.status(200).json({
 				status: true,
