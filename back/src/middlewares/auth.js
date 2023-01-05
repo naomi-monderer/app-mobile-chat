@@ -14,15 +14,12 @@ exports.signIn = (req, res, next) => {
   }
     
   if(!tokenToUse.hasOwnProperty("authorization")) res.status(401).json({ message: "Authorization not found"})
- 
     try {
       const mySecret = "mysecret";
-      console.log("tffvrerfzfzghhgh",req.body)
       const decoded = jwt.verify(token, mySecret, signInOptions);
- 
+
       req.user = decoded;
 
-      
     } catch (err) {
       return res.status(401).send("Invalid Token");
     }

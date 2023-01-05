@@ -27,8 +27,8 @@ const registerUsers = async (req, res) => {
 	try {
 		//Verification champs renseigné
 		if (login == null || password == null || email == null){
-            return res.status(400).json({'error': 'missing params'});
-        } else {		
+			return res.status(400).json({'error': 'missing params'});
+		} else {		
 		//Vérification du login disponnible en base de donnée
 		db.query("SELECT * FROM users WHERE login = '"+ login +"'", async (err, response) => {
 
@@ -77,45 +77,38 @@ const registerUsers = async (req, res) => {
 	}
 }
 
-
-
 const authUsers =  (req, res) => {
 	const login = req.body.login;
-    const password = req.body.password;
-    const email = req.body.email;
+	const password = req.body.password;
+	const email = req.body.email;
 	const id = req.body.id;
 	const id_role = req.body.id_role
 
 
-		db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
-			console.log('resultssss',typeof(results[0]))
+	db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
 			if (results.length > 0) {
 				bcrypt.compareSync(password, results[0].password, function(err, result) {
 					if(result) {
-					 
-					  return res.send({ message: "Login Successful" });
+						return res.send({ message: "Login Successful" });
 					}
 					else {
-					  return res.status(400).send({ message: "Invalid Password" });
+						return res.status(400).send({ message: "Invalid Password" });
 					}
-				   });
+				});
 
 				const mySecret = "mysecret";
 				const token = jwt.sign({login:login, password:password, email:email,id:id, id_role:id_role}, mySecret);
-			
-			
-			  res.status(200).json({
+
+			res.status(200).json({
 				status: true,
 				token: token
-			  });
+			});
 			} else {
-			  console.log('not working')
+				console.log('not working')
 			}
-		  })
-	
+	})
 }
 const connectedUser = (req, res) => {
-	console.log('!!!!fonction connectedUser du controller!!!!');
 	res.status(200).json({
 		user: req.user
 	})
