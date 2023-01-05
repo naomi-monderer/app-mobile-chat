@@ -21,7 +21,6 @@ app.use('/connected', signIn, users )
 
 var admin = require('./src/routes/admin')
 app.use('/admin', [signIn,isAdmin],admin)
-console.log(isAdmin)
 
 // Start server
 app.listen(3000, () => {

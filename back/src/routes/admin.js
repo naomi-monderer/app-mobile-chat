@@ -5,15 +5,14 @@ var {signIn} = require('../middlewares/auth');
 
 var router = express.Router();
 
-
 var {
 	supressMessagesFromGreneral,
 
 } = require('../controllers/adminController')
 
-var {authUsers}= require('../controllers/usersController')
+// var {authUsers}= require('../controllers/usersController')
 
 
-router.get('/supress',  supressMessagesFromGreneral)
+router.get('/supress', [signIn, isAdmin], supressMessagesFromGreneral)
 
 module.exports = router;

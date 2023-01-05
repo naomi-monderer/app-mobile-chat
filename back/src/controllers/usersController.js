@@ -106,14 +106,11 @@ const authUsers =  (req, res) => {
 					id:results[0].id,
 					id_role:results[0].id_role,
 				}, mySecret);
-
-				// const token = jwt.sign({login:login, password:password, email:email,id:id, id_role:id_role}, mySecret);
 				
-				console.log(token)
-			  res.status(200).json({
-				status: true,
-				token: token
-			  });
+			  	res.status(200).json({
+					status: true,
+					token: token
+			  	});
 			} else {
 			  console.log('not working')
 			}
