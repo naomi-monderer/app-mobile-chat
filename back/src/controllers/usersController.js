@@ -22,8 +22,9 @@ const authUsers =  (req, res) => {
 	const login = req.body.login;
     const password = req.body.password;
     const email = req.body.email;
-	// const token = req.body.token;
-	console.log(password)
+	const id = req.body.id;
+	const id_role = req.body.id_role
+
 
 		db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
 			console.log('resultssss',typeof(results[0]))
@@ -39,8 +40,7 @@ const authUsers =  (req, res) => {
 				   });
 
 				const mySecret = "mysecret";
-				// const token = jwt.sign({email:email, login:login, password:password}, mySecret);
-				const token = jwt.sign({login:login, password:password}, mySecret);
+				const token = jwt.sign({login:login, password:password, email:email,id:id, id_role:id_role}, mySecret);
 			
 			
 			  res.status(200).json({
@@ -48,14 +48,13 @@ const authUsers =  (req, res) => {
 				token: token
 			  });
 			} else {
-			  // Les données de connexion ne sont pas valides
 			  console.log('not working')
 			}
 		  })
 	
 }
-const test = (req, res) => {
-	console.log('!!!!fonction test du controller!!!!');
+const connectedUser = (req, res) => {
+	console.log('!!!!fonction connectedUser du controller!!!!');
 	res.status(200).json({
 		user: req.user
 	})
@@ -64,5 +63,5 @@ const test = (req, res) => {
 module.exports = {
 	getUsers,
 	authUsers,
-	test
+	connectedUser
 }
