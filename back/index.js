@@ -18,9 +18,9 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, '/public')));
 var users = require('./src/routes/users');
 var admin = require('./src/routes/admin');
-app.use('/users', users);
-app.use('/admin', admin);
 
+app.use('/users', users);
+app.use('/admin', [signIn,isAdmin],admin)
 
 // Start server
 app.listen(port, () => {
