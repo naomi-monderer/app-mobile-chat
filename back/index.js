@@ -17,8 +17,8 @@ app.use(express.urlencoded({ extended: false }));
 // créer un dossier public où on y pose notre css - images pour que ça s'affiche
 // app.use(express.static(path.join(__dirname, '/public')));
 var users = require('./src/routes/users');
+var admin = require('./src/routes/admin');
 app.use('/users', users);
-app.use('/rooms', rooms);
 app.use('/admin', admin);
 
 
