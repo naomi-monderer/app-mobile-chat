@@ -26,6 +26,7 @@ const updateUser = async (req, res) => {
 	 * 
 	 */
 	const { login, email, password, confPassword } = req.body;
+	console.log(password)
 	try {
 	
 		if (login == null || email == null){
