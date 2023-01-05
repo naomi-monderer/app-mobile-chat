@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, '/public')));
 var users = require('./src/routes/users');
 app.use('/users', users);
+app.use('/rooms', rooms);
+app.use('/admin', admin);
 
 
 // Start server
