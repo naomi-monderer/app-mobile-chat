@@ -19,7 +19,7 @@ var admin = require('./src/routes/admin');
 app.use('/users', users);
 // app.use('/admin', admin);
 
-app.use('/admin', [signIn,isAdmin], admin)
+app.use('/admin', admin)
 
 // Verify route
 app.use('/connected', signIn, users )
