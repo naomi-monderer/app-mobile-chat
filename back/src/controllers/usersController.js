@@ -14,7 +14,7 @@ const registerUsers = async (req, res) => {
 			return res.status(400).json({'error': 'missing params'});
 		} else {		
 			//Vérification du login disponnible en base de donnée
-			db.query("SELECT * FROM users WHERE login = '"+ login +"'", async (err, response) => {
+			db.query("SELECT * FROM users WHERE login = '" + login + "'", async (err, response) => {
 				
 				if(response.length > 0) {
 					//Si le login existe déjà en base de donnée on return l'erreur
