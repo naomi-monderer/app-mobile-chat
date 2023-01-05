@@ -16,7 +16,7 @@ const getParticipants = (req, res) => {
 				throw error;
 			}
 			else {
-				res.status(200);
+				res.send(data);
 			}
 		})
 	}
