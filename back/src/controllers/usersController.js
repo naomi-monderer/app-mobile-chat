@@ -1,7 +1,8 @@
 const db = require('../../database');
 const bcrypt = require('bcrypt');
 var express = require('express');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const {signIn} = require("../middlewares/auth");
 const app = express();
 
 const getUsers = (req, res) => {
@@ -21,24 +22,26 @@ const authUsers =  (req, res) => {
 	const login = req.body.login;
     const password = req.body.password;
     const email = req.body.email;
-	// const token 
-	// const query = ;
-	// const params = [login, password];
-console.log(login)
-	if (login && password){
-		db.query(`SELECT * FROM users WHERE login = '${login}' AND password = '${password}'`, function (error, results) {
-			// if (error) throw error;
-		  
+	// const token = req.body.token;
+	console.log(password)
+
+		db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
+			console.log('resultssss',typeof(results[0]))
 			if (results.length > 0) {
-			  // Les données de connexion sont valides
-			//   for(var count = 0; count < results.length; count++) {
+				bcrypt.compareSync(password, results[0].password, function(err, result) {
+					if(result) {
+					 
+					  return res.send({ message: "Login Successful" });
+					}
+					else {
+					  return res.status(400).send({ message: "Invalid Password" });
+					}
+				   });
+
+				const mySecret = "mysecret";
+				// const token = jwt.sign({email:email, login:login, password:password}, mySecret);
+				const token = jwt.sign({login:login, password:password}, mySecret);
 			
-				console.log("query auth ok")
-				const token = jwt.sign({email:email}, 'your_jwt_secret')
-				console.log(token)
-				
-				
-			//   }
 			
 			  res.status(200).json({
 				status: true,
@@ -49,12 +52,17 @@ console.log(login)
 			  console.log('not working')
 			}
 		  })
-	}
+	
 }
-
-// const authentication = await authUsers()
+const test = (req, res) => {
+	console.log('!!!!fonction test du controller!!!!');
+	res.status(200).json({
+		user: req.user
+	})
+}
 
 module.exports = {
 	getUsers,
-	authUsers
+	authUsers,
+	test
 }
