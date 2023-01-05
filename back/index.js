@@ -17,6 +17,10 @@ app.use('/users', users);
 
 var participants = require('./src/routes/participants');
 app.use('/participants', participants);
+<<<<<<< HEAD
+=======
+
+>>>>>>> BACK/19-get-rooms-of-user
 
 // Start server
 app.listen(3000, () => {
