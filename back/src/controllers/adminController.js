@@ -44,33 +44,53 @@ const adminUpdateRoom = (req, res) =>{
 const adminUpdateUser = (req, res) => {
 
 	// res.send('ok').status(200)
-	// const { login } = req.body;
+	// const login = req.body;
+	// console.log(login)
+
 	//verif login unique 
 	
 	// if(login == null){
 
 	// 	return res.status(400).json({'error': 'missing params'});
 	// }else{ 
-	// 	db.query("SELECT login FROM users WHERE login = login = '" + login + "'" ,(error, data) =>{
+		const verifyLogin = `SELECT login FROM users WHERE login = ?`
+		db.query(verifyLogin, [req.params.login], (error, logins) =>{
 
-	// 		console.log(data);
-	// 		// if(data.length > 0){
+			console.log(logins)
+			res.send(logins)
 
-	// 		// 	return res.status(400).json({'error': 'this login is already in use'});
-	// 		// }
-			const sql = 'UPDATE  users SET login = ? WHERE id = ?'
-			db.query(sql, [req.body.login, req.params.id] , function(error, data){
+				// logins.forEach((login) => {
 
-			if(error){
-				throw error;
-			}else{
-				res.send(data).status(204);
-			}
+				// 	// console.log(login)
+				// 	if(!login){
+
+				// 		console.log('This login is already in use')
+				// 	}
+				// 	else
+				// 	{
+						
+				// 	}
+				});
+				// console.log(req.user.login);
+				// res.send(login)
+				// console.log(login.length)
+			// if(login.length == user.req.login ){
+
+			// 	return res.status(400).json({'error': 'this login is already in use'});
+			// }
+			// const sql = 'UPDATE  users SET login = ? WHERE id = ?'
+			// db.query(sql, [req.body.login, req.params.id] , function(error, data){
+
+			// if(error){
+			// 	throw error;
+			// }else{
+			// 	res.send(data).status(204);
+			// }
 		
-			});
+			// });
 
 
-	// 	});
+		// });
 
 	// }
 
