@@ -6,11 +6,11 @@ const jwt = require('jsonwebtoken');
 const {signIn} = require("./src/middlewares/auth");
 const {isAdmin} = require("./src/middlewares/isAdmin");
 
+
 // Parse request bodies as JSON
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
-//Route accessible a tous
 var users = require('./src/routes/users');
 var admin = require('./src/routes/admin');
 var participants = require('./src/routes/participants')
