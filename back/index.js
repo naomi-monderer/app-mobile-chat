@@ -5,10 +5,10 @@ const app = express();
 const jwt = require('jsonwebtoken');
 
 const {signIn} = require("./src/middlewares/auth");
+const {isAdmin} = require("./src/middlewares/isAdmin");
 
 // Parse request bodies as JSON
 app.use(bodyParser.json());
-// app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
@@ -17,10 +17,14 @@ app.use('/users', users);
 
 var participants = require('./src/routes/participants');
 app.use('/participants', participants);
-<<<<<<< HEAD
-=======
 
->>>>>>> BACK/19-get-rooms-of-user
+// Verify route
+app.use('/connected', signIn, users )
+
+//Admin route
+var admin = require('./src/routes/admin')
+app.use('/admin', [signIn,isAdmin],admin)
+
 
 // Start server
 app.listen(3000, () => {
