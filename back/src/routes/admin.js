@@ -17,10 +17,10 @@ router.patch('/users/:id/update', [signIn,isAdmin] ,adminUpdateUser);
 // Une route qui update le role d'un user BACK/???
 router.patch('/users/:id/update/role', [signIn,isAdmin] ,adminUpdateRole);
 
-
-// route supression de tous les messages
+// route supression de tous les messages BACK/???
 router.get('/supress', [signIn, isAdmin], supressMessagesFromGreneral)
-// route supression d'un message
+
+// route supression d'un message BACK/???
 router.get('/supressmessage/:id',[signIn, isAdmin], supressOneMessage)
 
 

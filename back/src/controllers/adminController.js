@@ -14,9 +14,6 @@ const supressMessagesFromGreneral = (req,res) =>{
             db.query('DELETE FROM messages WHERE `id_room` = 0')
             res.status(200).send("All messages from GENERAL are know deleted ")
 
-            db.query('DELETE FROM messages WHERE `id_room` IS NULL')
-              res.status(200).send("All messages from GENERAL are now deleted ")
-
         } 
         else {
             res.status(400).json({
@@ -88,6 +85,6 @@ module.exports = {
 	adminUpdateUser, 
 	adminUpdateRole, 
 	supressMessagesFromGreneral,
-  supressOneMessage
+    supressOneMessage
 }
 
