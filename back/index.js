@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
 const jwt = require('jsonwebtoken');
-
 const {signIn} = require("./src/middlewares/auth");
 const {isAdmin} = require("./src/middlewares/isAdmin");
 
@@ -13,20 +12,22 @@ app.use(express.urlencoded({ extended: false }));
 
 
 var users = require('./src/routes/users');
-app.use('/users', users);
+var admin = require('./src/routes/admin');
+var participants = require('./src/routes/participants')
 
-var participants = require('./src/routes/participants');
+app.use('/users', users);
+// app.use('/admin', admin);
+
 app.use('/participants', participants);
 
 // Verify route
 app.use('/connected', signIn, users )
 
 //Admin route
-var admin = require('./src/routes/admin')
 app.use('/admin', [signIn,isAdmin],admin)
 
 
-// Start server
+// Start servera
 app.listen(3000, () => {
 	console.log('API server listening on port 3000');
 });

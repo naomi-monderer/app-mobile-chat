@@ -4,7 +4,6 @@ var express = require('express');
 const jwt = require('jsonwebtoken')
 // const app = express();
 
-
 const registerUsers = async (req, res) => {
 	const { login, password, email } = req.body;
 	// Champs envoyer dans la requête
@@ -15,7 +14,7 @@ const registerUsers = async (req, res) => {
 			return res.status(400).json({'error': 'missing params'});
 		} else {		
 			//Vérification du login disponnible en base de donnée
-			db.query("SELECT * FROM users WHERE login = '"+ login +"'", async (err, response) => {
+			db.query("SELECT * FROM users WHERE login = '" + login + "'", async (err, response) => {
 				
 				if(response.length > 0) {
 					//Si le login existe déjà en base de donnée on return l'erreur
@@ -62,7 +61,8 @@ const registerUsers = async (req, res) => {
 		}
 	}
 
-const authUsers =  (req, res) => {
+
+const authUsers =  (req, res)	 => {
 	const login = req.body.login;
     const password = req.body.password;
 

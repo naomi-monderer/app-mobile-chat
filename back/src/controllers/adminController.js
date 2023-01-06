@@ -22,6 +22,75 @@ const supressMessagesFromGreneral = (req,res) =>{
 
 }
 
-module.exports={
-    supressMessagesFromGreneral,
+
+// permet à l'admin de modifier le nom d'une room.
+const adminUpdateRoom = (req, res) =>{
+
+
+	// verif avec les middle ware
+	const sql = 'UPDATE rooms SET name = ? WHERE id = ?'
+	db.query(sql, [req.body.name, req.params.id],function(error,data){
+
+		if (error){throw error;}
+		else {
+
+            res.send(data);
+            console.log('ok')
+        }
+	})
 }
+
+// permet à l'admin de modifier le rôle et le login d'un user.
+const adminUpdateUser = (req, res) => {
+
+	// res.send('ok').status(200)
+	// const { login } = req.body;
+	//verif login unique 
+	
+	// if(login == null){
+
+	// 	return res.status(400).json({'error': 'missing params'});
+	// }else{ 
+	// 	db.query("SELECT login FROM users WHERE login = login = '" + login + "'" ,(error, data) =>{
+
+	// 		console.log(data);
+	// 		// if(data.length > 0){
+
+	// 		// 	return res.status(400).json({'error': 'this login is already in use'});
+	// 		// }
+			const sql = 'UPDATE  users SET login = ? WHERE id = ?'
+			db.query(sql, [req.body.login, req.params.id] , function(error, data){
+
+			if(error){
+				throw error;
+			}else{
+				res.send(data).status(204);
+			}
+		
+			});
+
+
+	// 	});
+
+	// }
+
+	
+
+}
+
+// permet à l'admin de modifier le rôle et le login d'un user.
+const adminUpdateRole = (req, res) => {
+
+	const sql = 'UPDATE users SET id_role = ? WHERE id = ?'
+
+	db.query(sql, [req.body.id_role, req.params.id] , function(error, data){
+
+		if(error){throw error;}
+		else{res.send(data).status(204);}
+		
+	})
+
+}
+
+
+module.exports = { adminUpdateRoom, adminUpdateUser, adminUpdateRole, supressMessagesFromGreneral}
