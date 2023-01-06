@@ -61,40 +61,40 @@ const registerUsers = async (req, res) => {
 		}
 	}
 
-
-const authUsers =  (req, res)	 => {
+const authUsers =  (req, res) => {
 	const login = req.body.login;
-    const password = req.body.password;
-
-		db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
-			
-			if (results.length > 0) {
-				bcrypt.compareSync(password, results[0].password, function(err, result) {
-					if(result) {
-					  return res.send({ message: "Login Successful" });
-					}
-					else {
-					  return res.status(400).send({ message: "Invalid Password" });
-					}
-				   });
-
-				const mySecret = "mysecret";
-				const token = jwt.sign({
-					login:login,
-					email:results[0].email,
-					id:results[0].id,
-					id_role:results[0].id_role,
-				}, mySecret);
-				
-			  	res.status(200).json({
-					status: true,
-					token: token
-			  	});
-			} else {
-			  console.log('not working')
-			}
-		  })
+	const password = req.body.password;
 	
+	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
+		if (results.length > 0) {
+			bcrypt.compareSync(password, results[0].password, function(err, result) {
+				if(result) {
+					return res.send({ message: "Login Successful" });
+				}
+				else {
+					return res.status(400).send({ message: "Invalid Password" });
+				}
+			});
+
+			const rooms = results[0].rooms.split(',')
+
+			const mySecret = "mysecret";
+			const token = jwt.sign({
+				login:login, 
+				email:results[0].email,
+				id:results[0].id, 
+				id_role:results[0].id_role,
+				id_rooms: rooms
+			}, mySecret);
+			
+			res.status(200).json({
+				status: true,
+				token: token
+			});
+		} else {
+			console.log('not working')
+		}
+	})
 }
 
 const connectedUser = (req, res) => {

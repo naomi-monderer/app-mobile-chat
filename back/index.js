@@ -26,6 +26,9 @@ app.use('/connected', signIn, users )
 //Admin route
 app.use('/admin', [signIn,isAdmin],admin)
 
+var chat = require('./src/routes/messages');
+app.use('/chat', chat);
+
 
 // Start servera
 app.listen(3000, () => {
