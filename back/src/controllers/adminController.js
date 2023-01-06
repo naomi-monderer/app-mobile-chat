@@ -22,7 +22,7 @@ const adminUpdateRoom = (req, res) =>{
 // permet à l'admin de modifier le rôle et le login d'un user.
 const adminUpdateUser = (req, res) => {
 
-	res.send('ok').status(200)
+	// res.send('ok').status(200)
 	// const { login } = req.body;
 	//verif login unique 
 	
@@ -37,16 +37,16 @@ const adminUpdateUser = (req, res) => {
 
 	// 		// 	return res.status(400).json({'error': 'this login is already in use'});
 	// 		// }
-	// 		// const sql = 'UPDATE  users SET login = ? WHERE id = ?'
-	// 		// db.query(sql, [req.body.login, req.params.id] , function(error, data){
+			const sql = 'UPDATE  users SET login = ? WHERE id = ?'
+			db.query(sql, [req.body.login, req.params.id] , function(error, data){
 
-	// 		// if(error){
-	// 		// 	throw error;
-	// 		// }else{
-	// 		// 	res.send(data).status(204);
-	// 		// }
+			if(error){
+				throw error;
+			}else{
+				res.send(data).status(204);
+			}
 		
-	// 		// });
+			});
 
 
 	// 	});
