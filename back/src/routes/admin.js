@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var { signIn } = require('../middlewares/auth')
-var { adminUpdateRoom, adminUpdateUser, adminUpdateRole, supressMessagesFromGreneral} = require('../controllers/adminController')
+var { adminUpdateRoom, adminUpdateUser, adminUpdateRole, supressMessagesFromGreneral,supressOneMessage} = require('../controllers/adminController')
 const {isAdmin} = require('../middlewares/isAdmin');
 
 
@@ -13,7 +13,8 @@ router.patch('/users/:id/update', [signIn,isAdmin] ,adminUpdateUser);
 router.patch('/users/:id/update/role', [signIn,isAdmin] ,adminUpdateRole);
 // route supression de tous les messages
 router.get('/supress', [signIn, isAdmin], supressMessagesFromGreneral)
-
+// route supression d'un message
+router.get('/supressmessage/:id',[signIn, isAdmin], supressOneMessage)
 
 
 module.exports = router;
