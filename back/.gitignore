@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 database.js
 index.js
+package.json
+package-lock.json

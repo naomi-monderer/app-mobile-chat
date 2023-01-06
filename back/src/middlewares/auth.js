@@ -1,37 +1,30 @@
 const jwt = require("jsonwebtoken");
+const JWT_SIGN_SECRET = 'oaziehiozaaoi8756123hiauzdi29';
+const db = require('../../database');
+const bcrypt = require('bcrypt');
+var express = require('express');
+const app = express();
 
-exports.verifyToken = (req, res, next) => {
-    const token =
-      req.body.token || req.query.token || req.headers["x-access-token"];
-  
-    if (!token) {
-      return res.status(403).send("A token is required for authentication");
-    }
-    try {
-      const decoded = jwt.verify(token, config.TOKEN_KEY);
-      req.user = decoded;
-    } catch (err) {
-      return res.status(401).send("Invalid Token");
-    }
-    return next();
-  };
 
-exports.isLoggedIn = (req, res, next) => {
-    // Get the JWT from the request header
-    const token = req.headers['authorization'];
-  
-    // If there is no token, the user is not logged in
-    if (!token) {
-      return res.status(401).send({ message: 'Unauthorized' });
-    }
-  
-    // Verify the JWT and check if it is valid
-    jwt.verify(token, secret, (error, decoded) => {
-      if (error) {
-        return res.status(401).send({ message: 'Unauthorized' });
-      }
-  
-      // If the JWT is valid, call the next middleware function
-      next();
-    });
-}
+exports.signIn = (req, res, next) => {
+	var signInOptions = {
+		expireIn: "7d",
+		algorithm:  "HS256"
+	}
+	const tokenToUse = req.headers;
+	const token = tokenToUse.authorization.split(' ')[1]
+
+	if(!tokenToUse.hasOwnProperty("authorization")) res.status(401).json({ message: "Authorization not found"})
+		try {
+			const mySecret = "mysecret";
+			const decoded = jwt.verify(token, mySecret, signInOptions);
+
+			req.user = decoded;
+			
+		} catch (err) {
+			return res.status(401).send("Invalid Token");
+		}
+		return next();
+
+	
+};
