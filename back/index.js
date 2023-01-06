@@ -14,10 +14,13 @@ app.use(express.urlencoded({ extended: false }));
 var users = require('./src/routes/users');
 var admin = require('./src/routes/admin');
 var participants = require('./src/routes/participants')
+var chat = require('./src/routes/messages');
+var rooms = require('./src/routes/rooms');
 
+//Users route
 app.use('/users', users);
-// app.use('/admin', admin);
 
+//Participants route
 app.use('/participants', participants);
 
 // Verify route
@@ -26,9 +29,11 @@ app.use('/connected', signIn, users )
 //Admin route
 app.use('/admin', [signIn,isAdmin],admin)
 
-var chat = require('./src/routes/messages');
+//Message route
 app.use('/chat', chat);
 
+//Rooms route
+app.use('/rooms', rooms);
 
 // Start servera
 app.listen(3000, () => {

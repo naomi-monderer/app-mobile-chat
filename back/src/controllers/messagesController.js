@@ -11,11 +11,11 @@ const postMessage = (req, res) => {
 	const data = req.body;
 
 	if(data.content) {
-		const sql = `INSERT INTO messages (content, created_at, id_user) VALUES ("${data.content}", "${datetime}", ${req.user.id})`
+		const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${datetime}", ${req.user.id}, 0)`
 
 		db.query(sql, function (err) {
 			if (err) throw err;
-			else console.log("inserted");
+			else res.status(200).send('message inserted');
 		});
 	}
 	else res.send('write a message, please')
@@ -31,10 +31,10 @@ const postMessageinChat = (req, res) => {
 
 			db.query(sql, function (err) {
 				if (err) throw err;
-				else console.log("inserted");
+				else res.status(200).send('message inserted');
 			});
 		}
-		else res.send('You are not allowed to post on this chat. Please subscribe to this chat.')
+		else res.status(405).send('You are not allowed to post on this chat. Please subscribe to this chat.')
 	}
 	else res.send('write a message, please')
 }

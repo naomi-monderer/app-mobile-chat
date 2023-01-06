@@ -6,8 +6,7 @@ const jwt = require('jsonwebtoken')
 
 const registerUsers = async (req, res) => {
 	const { login, password, email } = req.body;
-	// Champs envoyer dans la requête
-	
+	// Champs envoyer dans la requête	
 	try {
 		//Verification champs renseigné
 		if (login == null || password == null || email == null){
@@ -42,13 +41,27 @@ const registerUsers = async (req, res) => {
 									message: 'There was a problem with the query.'
 								});
 								
-							} else {
-								
+							} 
+							else {
 								// send the JWT to the client
-								res.status(200).json({
-									status: true,
-									message: 'Inscription valider'
-								});
+								const sql = `SELECT users.id FROM users WHERE users.login = "${login}"`
+								db.query(sql, function(error, data){
+									if (error) {
+										throw error;
+									}
+									else {
+										console.log(data)
+										const sql = `INSERT INTO participants (id_room, id_user) VALUES (0, ${data[0].id})`
+										db.query(sql, function(error){
+											if (error) throw error;
+
+											res.status(200).json({
+												status: true,
+												message: 'Inscription valider'
+											});
+										})
+									}
+								})
 							}
 						});
 					});
@@ -65,7 +78,7 @@ const authUsers =  (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;
 	
-	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
+	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
 		if (results.length > 0) {
 			bcrypt.compareSync(password, results[0].password, function(err, result) {
 				if(result) {
@@ -82,7 +95,7 @@ const authUsers =  (req, res) => {
 			const token = jwt.sign({
 				login:login, 
 				email:results[0].email,
-				id:results[0].id, 
+				id:results[0].id.toString(), 
 				id_role:results[0].id_role,
 				id_rooms: rooms
 			}, mySecret);
