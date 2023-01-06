@@ -9,7 +9,6 @@ const {isAdmin} = require("./src/middlewares/isAdmin");
 
 // Parse request bodies as JSON
 app.use(bodyParser.json());
-// app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 

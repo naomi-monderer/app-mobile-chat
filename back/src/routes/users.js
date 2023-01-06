@@ -15,6 +15,7 @@ router.get('/', getUsers);
 
 // Une route qui inscrit les utilisateurs BACK/01-inscription
 router.post('/inscription', registerUsers);
+
 // route [BACK/02 verif token and secure route for connected users]
 router.get('/signin', signIn, connectedUser);
 
