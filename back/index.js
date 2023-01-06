@@ -2,6 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const port = 3000
+// const io = require("socket.io")(3000, {
+// 	cors: {
+// 		origin: ["http://localhost:3000"],
+// 	}
+// })
+
+// io.on("connection", socket => {
+// 	console.log(socket.id)
+// })
 
 const app = express();
 
@@ -18,6 +27,9 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, '/public')));
 var users = require('./src/routes/users');
 app.use('/users', users);
+
+var chat = require('./src/routes/messages');
+app.use('/chat', chat);
 
 
 // Start server
