@@ -50,7 +50,6 @@ const registerUsers = async (req, res) => {
 										throw error;
 									}
 									else {
-										console.log(data)
 										const sql = `INSERT INTO participants (id_room, id_user) VALUES (0, ${data[0].id})`
 										db.query(sql, function(error){
 											if (error) throw error;
@@ -68,11 +67,11 @@ const registerUsers = async (req, res) => {
 				})
 				
 			}
-		}catch (error) {
-			console.log(error);
-			res.status(500).send(error);
-		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).send(error);
 	}
+}
 
 const authUsers =  (req, res) => {
 	const login = req.body.login;
@@ -105,7 +104,7 @@ const authUsers =  (req, res) => {
 				token: token
 			});
 		} else {
-			console.log('not working')
+			res.status(400).send("You cannot login.")
 		}
 	})
 }
