@@ -27,7 +27,7 @@ app.use('/participants', participants);
 // Verify route
 app.use('/connected', signIn, users )
 
-// Start server
+// Start servera
 app.listen(3000, () => {
 	console.log('API server listening on port 3000');
 });
