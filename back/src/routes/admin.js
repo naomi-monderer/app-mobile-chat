@@ -10,7 +10,6 @@ var {
 
 } = require('../controllers/adminController')
 
-// var {authUsers}= require('../controllers/usersController')
 
 
 router.get('/supress', [signIn, isAdmin], supressMessagesFromGreneral)

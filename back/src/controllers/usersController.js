@@ -81,17 +81,12 @@ const registerUsers = async (req, res) => {
 const authUsers =  (req, res) => {
 	const login = req.body.login;
     const password = req.body.password;
-    // const email = req.body.email;
-	// const id = req.body.id;
-	// const id_role = req.body.id_role
-
 
 		db.query(`SELECT * FROM users WHERE login = '${login}'`, function (error, results) {
 			
 			if (results.length > 0) {
 				bcrypt.compareSync(password, results[0].password, function(err, result) {
 					if(result) {
-					 
 					  return res.send({ message: "Login Successful" });
 					}
 					else {
