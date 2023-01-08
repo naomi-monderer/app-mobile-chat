@@ -1,0 +1,18 @@
+const db = require('../../database');
+var express = require('express');
+
+const getAllRooms = (req, res) => {
+	const sql = `SELECT id, name FROM rooms`
+	db.query(sql, function(error, data){
+		if (error) {
+			throw error;
+		}
+		else {
+			res.send(data);
+		}
+	})
+}
+
+module.exports = { 
+	getAllRooms
+}
