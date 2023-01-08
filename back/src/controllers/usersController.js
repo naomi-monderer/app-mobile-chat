@@ -2,7 +2,6 @@ const db = require('../../database');
 const bcrypt = require('bcrypt');
 var express = require('express');
 const jwt = require('jsonwebtoken')
-// const app = express();
 
 const registerUsers = async (req, res) => {
 	const { login, password, email } = req.body;
@@ -137,6 +136,7 @@ const getUserDetails = (req, res) => {
 			res.send(data);
 		}
 	})
+}
 
 const updateUser = (req, res) => {
 	const { login, email, password, confPassword } = req.body;
