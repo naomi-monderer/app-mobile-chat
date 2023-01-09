@@ -41,6 +41,26 @@ const supressOneMessage = (req, res) => {
     })
 }
 
+const getAllMessagesFromGeneral = (req,res) => {
+
+    db.query('SELECT * FROM messages WHERE `id_room` = 0', function (error, results) {
+        if (results.length > 1) {
+            console.log("neux funck!!jej",results)
+            res.status(200).send({
+                message : "All messages are from chat: GENERAL",
+                data: results
+            })
+
+        } 
+        else {
+            res.status(400).json({
+                message: "the room doesn't contain messages",
+            });
+        }
+    })
+
+}
+
 
 
 // permet à l'admin de modifier le nom d'une room.
@@ -85,6 +105,7 @@ module.exports = {
 	adminUpdateUser, 
 	adminUpdateRole, 
 	supressMessagesFromGreneral,
-    supressOneMessage
+    supressOneMessage,
+    getAllMessagesFromGeneral,
 }
 
