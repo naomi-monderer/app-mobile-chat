@@ -1,8 +1,8 @@
 const express = require('express');
+const jwt = require("jsonwebtoken");
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
-const jwt = require('jsonwebtoken');
 const {signIn} = require("./src/middlewares/auth");
 const {isAdmin} = require("./src/middlewares/isAdmin");
 

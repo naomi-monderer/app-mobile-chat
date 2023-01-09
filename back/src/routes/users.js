@@ -8,6 +8,7 @@ var {
 	registerUsers, 
 	authUsers, 
 	connectedUser,
+	addUserToRoom,
 	getUsers,
 	getUserDetails,
 	updateUser
@@ -25,6 +26,11 @@ router.post('/auth',  authUsers)
 
 // route BACK/03 retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
 router.get('/', getUsers);
+
+// BACK/05
+// router.post('/:userId/room/',signIn, addUserToRoom);
+router.post('/room/:idRoom',signIn, addUserToRoom);
+// ajouter un idRoom à la suite de cette route
 
 //route [BACK/07] get the details from 1 user
 router.get('/details/:userId', signIn ,getUserDetails);
