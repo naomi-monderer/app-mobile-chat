@@ -9,8 +9,13 @@ var {
 	authUsers, 
 	connectedUser,
 	getUsers,
+<<<<<<< HEAD
 	getUserDetails,
 	updateUser
+=======
+	getUserDetails
+
+>>>>>>> BACK/18-delete-own-message
 } = require('../controllers/usersController')
 
 
@@ -29,7 +34,10 @@ router.get('/', getUsers);
 //route [BACK/07] get the details from 1 user
 router.get('/:userId', signIn ,getUserDetails);
 
+<<<<<<< HEAD
 //Une route qui permet de mettre a jour les informations des utilisateurs BACK/08-update-user
 router.post('/update',signIn, updateUser);
 
+=======
+>>>>>>> BACK/18-delete-own-message
 module.exports = router;

@@ -25,4 +25,10 @@ exports.signIn = (req, res, next) => {
 			return res.status(401).send("Invalid Token");
 		}
 		return next();
+<<<<<<< HEAD
 };
+=======
+
+	
+};
+>>>>>>> BACK/18-delete-own-message
