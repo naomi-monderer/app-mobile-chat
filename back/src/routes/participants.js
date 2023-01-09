@@ -7,13 +7,13 @@ var {
 	getRooms,
 } = require('../controllers/participantsController')
 
-// Une route get All users from 1 room (TICKET BACK/04)
+//[BACK/04-get-user-from-a-group]: Une route qui récupère tous les users d'une seule room
 router.get('/:roomId', signIn, getParticipants);
 
-// BACK/06 route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
+//[BACK/06-delete-user-from-room]: Une route qui supprime un utilisateur d'une room.
 router.delete('/:roomId/:userId', signIn ,deleteUser);
 
-// Une route get All users from 1 room (TICKET BACK/04-19)
+//[BACK/04-19????]: Une route qui récupère la liste des rooms auxquelles participe un user. 
 router.get('/rooms-list/:userId', signIn, getRooms);
 
 module.exports = router;

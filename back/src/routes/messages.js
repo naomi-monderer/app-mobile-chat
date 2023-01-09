@@ -9,19 +9,19 @@ var {
     specificChat,
 } = require('../controllers/messagesController')
 
-// Une route qui poste sur le chat global BACK/09.
+//[BACK/09-send-message-global-chat]: Une route qui poste sur le chat global .
 router.post('/', signIn, postMessage);
 
-// Une route qui poste sur un chat spé BACK/10.
+//[BACK/10]: Une route qui poste sur un chat spé.
 router.post('/:roomId', signIn, postMessageinChat);
 
-// Une route qui delete un message BACK/18.
+//[BACK/18-delete-own-messafe]: Une route qui delete un message.
 router.delete('/delete/:messageId', signIn, deleteMessage);
 
-// Une route qui update un message BACK/17
+//[BACK/17-modify-own-message]: Une route qui update un message 
 router.post('/edit/:messageId', signIn, updateMessage);
 
-// Une route GET tous les message d'un chat spécifique BACK/27.
+//[BACK/27-get-message-chat-room]: Une route GET tous les message d'un chat spécifique.
 router.get('/get/:roomId', signIn, specificChat);
 
 module.exports = router;

@@ -5,6 +5,7 @@ var {
 	getAllRooms, 
 } = require('../controllers/roomsController')
 
+//[BACK/???]: Une route qui retourne toutes les rooms
 router.get('/', getAllRooms);
 
 module.exports = router;

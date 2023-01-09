@@ -250,7 +250,7 @@ const updateUser = (req, res) => {
 				return res.status(401).json({'error': 'password not avaible'});
 			} else {
 				if (password === confPassword) {
-						//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs et on hash
+					//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs et on hash
 					const salt =  bcrypt.genSalt()
 					const hash =   bcrypt.hash(password, salt);
 					res.status(200).json({
