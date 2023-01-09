@@ -101,10 +101,20 @@ const specificChat = (req, res) => {
     }
 }
 
+const getMessagesinGlobalChat = (req, res) => {
+	const sql = `SELECT content, created_at, users.login FROM messages INNER JOIN users ON id_user = users.id WHERE id_room = 0`
+
+	db.query(sql, function (err, data) {
+		if (err) throw err;
+		else res.status(200).send(data);
+	});
+}
+
 module.exports = {
 	postMessage,
 	postMessageinChat,
 	deleteMessage,
 	updateMessage,
-    specificChat
+    specificChat,
+	getMessagesinGlobalChat
 }

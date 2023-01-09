@@ -7,13 +7,11 @@ const app = express();
 
 
 exports.signIn = (req, res, next) => {
- 
 	var signInOptions = {
 		expireIn: "7d",
 		algorithm:  "HS256"
 	}
 	const tokenToUse = req.headers;
-
 	const token = tokenToUse.authorization.split(' ')[1]
 
 	if(!tokenToUse.hasOwnProperty("authorization")) res.status(401).json({ message: "Authorization not found"})
