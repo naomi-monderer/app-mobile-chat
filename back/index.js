@@ -19,6 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 var users = require('./src/routes/users');
 app.use('/users', users);
 
+var chat = require('./src/routes/messages');
+app.use('/chat', chat);
+
 
 // Start server
 app.listen(port, () => {
