@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const port = 3000
+const {signIn} = require("./src/middlewares/auth");
+const {isAdmin} = require("./src/middlewares/isAdmin");
 
 const app = express();
 
@@ -19,6 +21,13 @@ app.use(express.urlencoded({ extended: false }));
 var users = require('./src/routes/users');
 app.use('/users', users);
 
+var admin = require('./src/routes/admin');
+
+//Users route
+app.use('/users', users);
+
+//Admin route
+app.use('/admin', [signIn,isAdmin], admin)
 
 // Start server
 app.listen(port, () => {
