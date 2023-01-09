@@ -43,7 +43,6 @@ const registerUsers = async (req, res) => {
 									status: false,
 									message: 'There was a problem with the query.'
 								});
-
 							}
 							else {
 								// send the JWT to the client
@@ -68,7 +67,6 @@ const registerUsers = async (req, res) => {
 						});
 				});
 			})
-
 		}
 	} catch (error) {
 		console.log(error);

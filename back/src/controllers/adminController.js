@@ -6,7 +6,6 @@ const { config } = require('../../database');
 const app = express();
 
 
-
 const supressMessagesFromGreneral = (req,res) =>{
     db.query('SELECT * FROM messages WHERE `id_room` = 0', function (error, results) {
         if (results.length > 1) {
@@ -22,7 +21,6 @@ const supressMessagesFromGreneral = (req,res) =>{
         }
     })
 }
-
 
 const supressOneMessage = (req, res) => {
     const id_message = req.params.id
@@ -41,8 +39,8 @@ const supressOneMessage = (req, res) => {
     })
 }
 
+// à voir si on l'utilise
 const getAllMessagesFromGeneral = (req,res) => {
-
     db.query('SELECT * FROM messages WHERE `id_room` = 0', function (error, results) {
         if (results.length > 1) {
         
@@ -61,14 +59,12 @@ const getAllMessagesFromGeneral = (req,res) => {
 
 }
 
-
-
 // permet à l'admin de modifier le nom d'une room.
 const adminUpdateRoom = (req, res) =>{
 	// verif avec les middle ware
 	const sql = 'UPDATE rooms SET name = ? WHERE id = ?'
 	db.query(sql, [req.body.name, req.params.id],function(error){
-		if (error){throw error;}
+		if (error) throw error;
 		else res.status(200).send("Room's name updated !");
 	})
 }
@@ -78,12 +74,8 @@ const adminUpdateUser = (req, res) => {
 	const sql = 'UPDATE  users SET login = ? WHERE id = ?'
 	db.query(sql, [req.body.login, req.params.id] , function(error, data){
 
-	if(error){
-		throw error;
-	}else{
-		res.send(data).status(204);
-	}
-
+	if(error) throw error;
+	else res.send(data).status(204);
 	});
 }
 
@@ -93,9 +85,19 @@ const adminUpdateRole = (req, res) => {
 
 	db.query(sql, [req.body.id_role, req.params.id] , function(error, data){
 
-		if(error){throw error;}
-		else{res.send(data).status(204);}
+		if(error) throw error;
+		else res.send(data).status(204);
 		
+	})
+}
+
+const addNewRoom = (req, res) => {
+    const data = req.body
+    const sql = `INSERT INTO rooms (name) VALUES ("${data.name}")`
+
+    db.query(sql, function(error, data){
+		if(error) throw error;
+		else res.send(data).status(204);
 	})
 }
 
@@ -107,5 +109,6 @@ module.exports = {
 	supressMessagesFromGreneral,
     supressOneMessage,
     getAllMessagesFromGeneral,
+    addNewRoom
 }
 
