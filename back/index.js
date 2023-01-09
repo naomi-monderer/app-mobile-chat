@@ -13,12 +13,13 @@ app.use(express.urlencoded({ extended: false }));
 
 
 // Define routes
+var chat = require('./src/routes/messages');
 
 // créer un dossier public où on y pose notre css - images pour que ça s'affiche
 // app.use(express.static(path.join(__dirname, '/public')));
 var users = require('./src/routes/users');
 app.use('/users', users);
-
+app.use('/chat', chat);
 
 // Start server
 app.listen(port, () => {
