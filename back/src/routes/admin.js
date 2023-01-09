@@ -7,7 +7,8 @@ var {
     supressMessagesFromGreneral,
     supressOneMessage, 
     getAllMessagesFromGeneral,
-    addNewRoom
+    addNewRoom,
+    deleteMessageFromRoom
 } = require('../controllers/adminController')
 
 
@@ -31,5 +32,8 @@ router.get('/messages', getAllMessagesFromGeneral)
 
 // route créer une room BACK/28
 router.post('/add-room', addNewRoom)
+
+// route supression d'un message d'une room spécifique BACK/16
+router.get('/delete/:roomId/:id', [signIn, isAdmin,], deleteMessageFromRoom);
 
 module.exports = router;
