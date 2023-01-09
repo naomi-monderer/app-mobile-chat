@@ -44,9 +44,7 @@ const deleteMessage = (req, res) => {
 	db.query(sql, function (err, data) {
 		if (err) throw err;
 		else {
-			console.log(data[0].id_user.toString())
 			if(req.user.id === data[0].id_user.toString()) {
-				console.log('test')
 				const sql = `DELETE FROM messages WHERE id = ${req.params.messageId} AND id_user = ${req.user.id}`
 	
 				db.query(sql, function (err) {
@@ -62,8 +60,34 @@ const deleteMessage = (req, res) => {
 
 }
 
+const updateMessage = (req, res) => {
+	const datas = req.body;
+
+	const sql = `SELECT id_user FROM messages WHERE id = ${req.params.messageId}`
+	db.query(sql, function (err, data) {
+		if (err) throw err;
+		else {
+			if(req.user.id === data[0].id_user.toString()) {
+				if(datas.content) {
+					const sql = `UPDATE messages SET content="${datas.content}" WHERE id = ${req.params.messageId}`
+			
+					db.query(sql, function (err) {
+						if (err) throw err;
+						else res.status(200).send('Message edited.');
+					});
+				}
+				else res.status(200).send('Please enter a message.');
+			}
+			else {
+				res.status(400).send("You cannot edit this message.")
+			}
+		}
+	});
+}
+
 module.exports = {
 	postMessage,
 	postMessageinChat,
-	deleteMessage
+	deleteMessage,
+	updateMessage
 }

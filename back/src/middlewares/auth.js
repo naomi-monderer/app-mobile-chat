@@ -12,7 +12,6 @@ exports.signIn = (req, res, next) => {
 		algorithm:  "HS256"
 	}
 	const tokenToUse = req.headers;
-	// console.log("tokentouse",tokenToUse )
 	const token = tokenToUse.authorization.split(' ')[1]
 
 	if(!tokenToUse.hasOwnProperty("authorization")) res.status(401).json({ message: "Authorization not found"})

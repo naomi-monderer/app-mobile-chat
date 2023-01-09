@@ -36,7 +36,7 @@ const supressOneMessage = (req, res) => {
         else {
             res.status(400).json({
                 message: "the message does not exist",
-              });
+            });
         }
     })
 }

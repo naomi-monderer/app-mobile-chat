@@ -127,7 +127,6 @@ const getUsers = (req, res) => {
 }
 
 const getUserDetails = (req, res) => {
-	console.log('req', req.params.userId);
 	const sql = `SELECT users.login, users.email, GROUP_CONCAT(rooms.name) AS rooms_name FROM users, rooms WHERE users.id = ${req.params.userId}`
 	db.query(sql, function(error, data){
 		if (error) {
