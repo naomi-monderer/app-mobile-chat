@@ -5,7 +5,8 @@ var {
 	postMessage,
 	postMessageinChat, 
 	deleteMessage,
-	updateMessage
+	updateMessage,
+    specificChat,
 } = require('../controllers/messagesController')
 
 // Une route qui poste sur le chat global BACK/09.
@@ -19,5 +20,8 @@ router.delete('/delete/:messageId', signIn, deleteMessage);
 
 // Une route qui update un message BACK/17
 router.post('/edit/:messageId', signIn, updateMessage);
+
+// Une route GET tous les message d'un chat spécifique BACK/27.
+router.get('/get/:roomId', signIn, specificChat);
 
 module.exports = router;
