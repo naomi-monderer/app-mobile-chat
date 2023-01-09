@@ -28,7 +28,9 @@ router.post('/auth',  authUsers)
 router.get('/', getUsers);
 
 // BACK/05
-router.post('/:id/room', addUserToRoom);
+// router.post('/:userId/room/',signIn, addUserToRoom);
+router.post('/room/:idRoom',signIn, addUserToRoom);
+// ajouter un idRoom à la suite de cette route
 
 //route [BACK/07] get the details from 1 user
 router.get('/:userId', signIn ,getUserDetails);
