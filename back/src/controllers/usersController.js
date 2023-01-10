@@ -97,25 +97,28 @@ const authUsers =  (req, res) => {
 				id:results[0].id.toString(), 
 				id_role:results[0].id_role,
 				id_rooms: rooms
-			}, mySecret);
+			}, mySecret,{
+				expiresIn: "30d",
+				});
 
 			const refreshToken = jwt.sign({ 
 				message: "refresh Token info",
 				// token: req.headers.authorization,
 				email:results[0].email,
 				login:login,
+				id_rooms: rooms,
 				id:results[0].id.toString(),
 				id_role:results[0].id_role,},
 				mySecret, 
-				// {
-				// expiresIn: "1m",
-				// }
+				{
+				expiresIn: "1m",
+				}
 				);
 			
 			res.status(200).json({
 				status: true,
 				token: token,
-				refreshToken: refreshToken,
+				refresh: refreshToken,
 			});
 		} else {
 			res.status(400).send("You cannot login.")
@@ -129,61 +132,33 @@ const connectedUser = (req, res) => {
 	})
 }
 
-const refreshToken = (req, res) => {
+const refreshToken =  (id, callback) => {
 
-	// console.log("i'm in controller refresh!");
-	// const login = req.body.login;
-	// const password = req.body.password;
-	// const refreshToken = req.body.refreshToken;
+	console.log(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE users.id = ${id} GROUP BY id`)
 
-	// console.log("refreshTkn", req.body);
-	// if(!isValid) {
-	// 	return res.status(401).json({ success: false, error: "Invalid token,try login again" });
-	// 	}
-	// 	// const token = jwt.sign({ email: email }, "accessSecret", {expiresIn: "2m"});
-	// 	// const response = {
-	// 	// 	"status": "Logged in",
-	// 	// 	"token": token,
-	// 	// 	"refreshToken": refreshToken,
-	// 	// }
-	// 	tokenList[refreshToken] = response
+	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE users.id = ${id} GROUP BY id`, (err, results) => {
 
-	// 	return res.status(200).json({ success: true, accessToken });
+		console.log(results)
 
-
-	
-
-		
-	const login = req.user.login;
-	// const password = req.user.password;
-	console.log(login,"wsh je recupe le req.user!")
-	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
 		if (results.length > 0) {
+			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
-			const refreshToken = jwt.sign({ 
-				message: "refresh Token info",
-				token: req.headers.authorization,
-				email:results[0].email,
-				login:login,
-				id:results[0].id.toString(),
-				id_role:results[0].id_role,},
-				mySecret, {
-				expiresIn: "1m",
-				});
-					return res.status(200).send({ 
-						message: "Refresh Successful",
-						refreshToken: refreshToken
-				 });
-				}
-				else {
-					return res.status(400).send({ message: "Invalid Refresh " });
-				}
-			})
+			const token = jwt.sign({
+				id: '2',
+			}, mySecret)
+	
+			console.log(token)
+			callback(token)
+	
 		}
+	})
+
+	
+
+}
 	
 
 	
-	//envoyé un token si mauvais envoyé ds l'erreur l'attraper ou je sais pas
 	
 
 const getUsers = (req, res) => {
