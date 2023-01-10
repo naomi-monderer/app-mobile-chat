@@ -19,6 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 var users = require('./src/routes/users');
 app.use('/users', users);
 
+var rooms = require('./src/routes/rooms');
+app.use('/rooms', rooms);
+
 
 // Start server
 app.listen(port, () => {
