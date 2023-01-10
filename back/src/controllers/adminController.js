@@ -62,7 +62,6 @@ const getAllMessagesFromGeneral = (req,res) => {
 }
 
 
-
 // permet à l'admin de modifier le nom d'une room.
 const adminUpdateRoom = (req, res) =>{
 	// verif avec les middle ware

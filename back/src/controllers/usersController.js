@@ -90,6 +90,7 @@ const authUsers =  (req, res) => {
 			const rooms = results[0].rooms.split(',')
 
 			const mySecret = "mysecret";
+
 			const token = jwt.sign({
 				login:login, 
 				email:results[0].email,
@@ -97,10 +98,24 @@ const authUsers =  (req, res) => {
 				id_role:results[0].id_role,
 				id_rooms: rooms
 			}, mySecret);
+
+			const refreshToken = jwt.sign({ 
+				message: "refresh Token info",
+				// token: req.headers.authorization,
+				email:results[0].email,
+				login:login,
+				id:results[0].id.toString(),
+				id_role:results[0].id_role,},
+				mySecret, 
+				// {
+				// expiresIn: "1m",
+				// }
+				);
 			
 			res.status(200).json({
 				status: true,
-				token: token
+				token: token,
+				refreshToken: refreshToken,
 			});
 		} else {
 			res.status(400).send("You cannot login.")
@@ -113,6 +128,63 @@ const connectedUser = (req, res) => {
 		user: req.user
 	})
 }
+
+const refreshToken = (req, res) => {
+
+	// console.log("i'm in controller refresh!");
+	// const login = req.body.login;
+	// const password = req.body.password;
+	// const refreshToken = req.body.refreshToken;
+
+	// console.log("refreshTkn", req.body);
+	// if(!isValid) {
+	// 	return res.status(401).json({ success: false, error: "Invalid token,try login again" });
+	// 	}
+	// 	// const token = jwt.sign({ email: email }, "accessSecret", {expiresIn: "2m"});
+	// 	// const response = {
+	// 	// 	"status": "Logged in",
+	// 	// 	"token": token,
+	// 	// 	"refreshToken": refreshToken,
+	// 	// }
+	// 	tokenList[refreshToken] = response
+
+	// 	return res.status(200).json({ success: true, accessToken });
+
+
+	
+
+		
+	const login = req.user.login;
+	// const password = req.user.password;
+	console.log(login,"wsh je recupe le req.user!")
+	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
+		if (results.length > 0) {
+			const mySecret = "mysecret";
+			const refreshToken = jwt.sign({ 
+				message: "refresh Token info",
+				token: req.headers.authorization,
+				email:results[0].email,
+				login:login,
+				id:results[0].id.toString(),
+				id_role:results[0].id_role,},
+				mySecret, {
+				expiresIn: "1m",
+				});
+					return res.status(200).send({ 
+						message: "Refresh Successful",
+						refreshToken: refreshToken
+				 });
+				}
+				else {
+					return res.status(400).send({ message: "Invalid Refresh " });
+				}
+			})
+		}
+	
+
+	
+	//envoyé un token si mauvais envoyé ds l'erreur l'attraper ou je sais pas
+	
 
 const getUsers = (req, res) => {
 	const sql = 'SELECT `login` FROM users'
@@ -239,5 +311,6 @@ module.exports = {
 	connectedUser,
 	getUsers,
 	getUserDetails,
-	updateUser
+	updateUser,
+	refreshToken
 }

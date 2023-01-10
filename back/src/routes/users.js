@@ -10,7 +10,8 @@ var {
 	connectedUser,
 	getUsers,
 	getUserDetails,
-	updateUser
+	updateUser,
+	refreshToken
 } = require('../controllers/usersController')
 
 
@@ -19,6 +20,9 @@ router.post('/inscription', registerUsers);
 
 // route [BACK/02 verif token and secure route for connected users]
 router.get('/signin', signIn, connectedUser);
+
+//route [BACK/27] verif token and refresh token if user is connected
+router.get('/refresh', signIn, refreshToken)
 
 //route [BACK/02 connexion de l'user et attribution du token]
 router.post('/auth',  authUsers)
