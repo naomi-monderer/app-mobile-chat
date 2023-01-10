@@ -34,6 +34,6 @@ router.get('/messages', getAllMessagesFromGeneral)
 router.post('/add-room', addNewRoom)
 
 // route supression d'un message d'une room spécifique BACK/16
-router.get('/delete/:roomId/:id', [signIn, isAdmin,], deleteMessageFromRoom);
+router.get('/delete/:roomId/:id', deleteMessageFromRoom);
 
 module.exports = router;
