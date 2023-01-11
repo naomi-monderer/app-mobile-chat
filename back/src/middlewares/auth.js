@@ -1,28 +1,38 @@
 const jwt = require("jsonwebtoken");
-const JWT_SIGN_SECRET = 'oaziehiozaaoi8756123hiauzdi29';
 const db = require('../../database');
 const bcrypt = require('bcrypt');
 var express = require('express');
+const { refreshToken } = require("../controllers/usersController");
 const app = express();
 
 
 exports.signIn = (req, res, next) => {
-	var signInOptions = {
-		expireIn: "7d",
-		algorithm:  "HS256"
-	}
-	const tokenToUse = req.headers;
-	const token = tokenToUse.authorization.split(' ')[1]
-
-	if(!tokenToUse.hasOwnProperty("authorization")) res.status(401).json({ message: "Authorization not found"})
+	
+	const tokenToUse = req.headers.token1
+	const tokenRefresh = req.headers.refreshtoken;
 		try {
 			const mySecret = "mysecret";
-			const decoded = jwt.verify(token, mySecret, signInOptions);
+			const decoded1 = jwt.verify(tokenToUse, mySecret);
+			req.user = decoded1;
+			try{
+				const decoded2 = jwt.verify(tokenRefresh, mySecret)
+				req.userRefresh = decoded2;
+				console.log('object');
 
-			req.user = decoded;
-			
+				next();
+			}catch(err){
+				return  refreshToken(decoded1.id, token => {
+					res.status(417).send(token)
+				})
+					
+			}
+
 		} catch (err) {
-			return res.status(401).send("Invalid Token");
+			return res.status(401).send(err);
 		}
-		return next();
+			
+
 };
+
+
+

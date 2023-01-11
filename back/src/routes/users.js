@@ -11,7 +11,8 @@ var {
 	addUserToRoom,
 	getUsers,
 	getUserDetails,
-	updateUser
+	updateUser,
+	refreshToken
 } = require('../controllers/usersController')
 
 
@@ -21,7 +22,10 @@ router.post('/inscription', registerUsers);
 //[BACK/02 verif token and secure route for connected users]
 router.get('/signin', signIn, connectedUser);
 
-//[BACK/02-connexion]: Une route qui connecte l'user et lui attribu du token
+//route [BACK/27] verif token and refresh token if user is connected
+router.get('/refresh', signIn, refreshToken)
+
+//route [BACK/02 connexion de l'user et attribution du token]
 router.post('/auth',  authUsers)
 
 //[BACK/03-get-all-users]: Une route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.

@@ -92,18 +92,35 @@ const authUsers = (req, res) => {
 			const rooms = results[0].rooms.split(',')
 
 			const mySecret = "mysecret";
+
 			const token = jwt.sign({
 				login: login,
 				email: results[0].email,
 				id: results[0].id.toString(),
 				id_role: results[0].id_role,
 				id_rooms: rooms
+			}, mySecret,{
+				expiresIn: "30d",
+				});
 
-			}, mySecret);
-
+			const refreshToken = jwt.sign({ 
+				message: "refresh Token info",
+				// token: req.headers.authorization,
+				email:results[0].email,
+				login:login,
+				id_rooms: rooms,
+				id:results[0].id.toString(),
+				id_role:results[0].id_role,},
+				mySecret, 
+				{
+				expiresIn: "1m",
+				}
+				);
+			
 			res.status(200).json({
 				status: true,
-				token: token
+				token: token,
+				refresh: refreshToken,
 			});
 		} else {
 			res.status(400).send("You cannot login.")
@@ -116,6 +133,35 @@ const connectedUser = (req, res) => {
 		user: req.user
 	})
 }
+
+const refreshToken =  (id, callback) => {
+
+	console.log(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE users.id = ${id} GROUP BY id`)
+
+	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE users.id = ${id} GROUP BY id`, (err, results) => {
+
+		console.log(results)
+
+		if (results.length > 0) {
+			const rooms = results[0].rooms.split(',')
+			const mySecret = "mysecret";
+			const token = jwt.sign({
+				id: '2',
+			}, mySecret)
+	
+			console.log(token)
+			callback(token)
+	
+		}
+	})
+
+	
+
+}
+	
+
+	
+	
 
 const getUsers = (req, res) => {
 
@@ -287,5 +333,6 @@ module.exports = {
 	authUsers,
 	addUserToRoom,
 	getUserDetails,
-	updateUser
+	updateUser,
+	refreshToken
 }
