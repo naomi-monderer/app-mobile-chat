@@ -31,7 +31,6 @@ exports.signIn = (req, res, next) => {
 
 				next();
 			}catch(err){
-				// return res.status(417).send("vivi")
 				return  refreshToken(decoded1.id, token => {
 					res.status(417).send(token)
 				})
