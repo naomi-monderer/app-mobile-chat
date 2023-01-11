@@ -10,7 +10,7 @@ const postMessage = (req, res) => {
 	const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
 	const data = req.body;
 
-	if(data.content) {
+	if(data.content && req.user.id_role !== 0) {
 		const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${datetime}", ${req.user.id}, 0)`
 
 		db.query(sql, function (err) {
@@ -25,7 +25,7 @@ const postMessageinChat = (req, res) => {
 	const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
 	const data = req.body;
 
-	if(data.content) {
+	if(data.content && req.user.id_role !== 0) {
 		if(Object.keys(req.params).length !== 0 && req.user.id_rooms.includes(req.params.roomId)) {
 			const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${datetime}", ${req.user.id}, "${req.params.roomId}")`
 

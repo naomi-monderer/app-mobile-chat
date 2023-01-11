@@ -62,8 +62,22 @@ const getRooms = (req, res) => {
 	}
 }
 
+const addParticipant = (req, res) => {
+	if(req.user.id_role !== 0) {
+		const sql = `INSERT INTO participants(id_room, id_user) VALUES (${req.params.roomId},${req.user.id})`
+		db.query(sql, function(error){
+			if (error) throw error
+			else res.send("Added to the chat.");
+		})
+	}
+	else {
+		res.send("You might be banned from entering another chatroom.");
+	}
+}
+
 module.exports = {
 	getParticipants,
 	deleteUser,
 	getRooms,
+	addParticipant
 }
