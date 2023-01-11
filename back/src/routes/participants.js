@@ -14,7 +14,7 @@ router.get('/:roomId', signIn, getParticipants);
 //[BACK/06-delete-user-from-room]: Une route qui supprime un utilisateur d'une room.
 router.delete('/:roomId/:userId', signIn ,deleteUser);
 
-//[BACK/04-19????]: Une route qui récupère la liste des rooms auxquelles participe un user. 
+//[BACK/04-19]: Une route qui récupère la liste des rooms auxquelles participe un user. 
 router.get('/rooms-list/:userId', signIn, getRooms);
 
 // [BACK/13-continuation-ticket]

@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middlewares/auth')
 
 
-
 const registerUsers = async (req, res) => {
 	const { login, password, email } = req.body;
 	// Champs envoyer dans la requête	
@@ -135,58 +134,23 @@ const connectedUser = (req, res) => {
 }
 
 const refreshToken =  (id, callback) => {
-
-	console.log(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE users.id = ${id} GROUP BY id`)
-
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE users.id = ${id} GROUP BY id`, (err, results) => {
-
-		console.log(results)
-
 		if (results.length > 0) {
 			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
 			const token = jwt.sign({
 				id: '2',
 			}, mySecret)
-	
-			console.log(token)
 			callback(token)
-	
 		}
 	})
-
-	
-
 }
-	
-
-	
-	
 
 const getUsers = (req, res) => {
-
 	const sql = 'SELECT `login` FROM users'
 	db.query(sql, function (error, data) {
-		if (error) {
-			throw error;
-		}
-		else {
-			res.send(data);
-		}
-	})
-}
-
-const insertToRoom = (id_room, id_user) => {
-	const sql = `INSERT INTO participants (id_room, id_user) VALUES (?,?)`
-	db.query(sql, [id_room, id_user], function (error, data) {
-
-		if (error) {
-			throw (error)
-		}
-		else {
-			return data
-		}
-
+		if (error) throw error;
+		else res.send(data);
 	})
 }
 
@@ -208,13 +172,9 @@ const addUserToRoom = (req, res) => {
 						var insertUser = insertToRoom(req.body.id_room, req.user.id);
 						res.status(200).send({message:'Request succeed.'})
 					
-					}else{
-						res.status(400).send({message : 'The id user '+[req.user.id]+ ' is already related to the id room '+[req.body.id_room]+' .'});
-					}
+					} else res.status(400).send({message : 'The id user '+[req.user.id]+ ' is already related to the id room '+[req.body.id_room]+' .'});
 				})
-			} else {
-				res.status(400).send({ message: 'You were ban of this room.' })
-			}
+			} else res.status(400).send({ message: 'You were ban of this room.' })
 		}
 	})
 }		
@@ -222,12 +182,8 @@ const addUserToRoom = (req, res) => {
 const getUserDetails = (req, res) => {
 	const sql = `SELECT users.login, users.email, GROUP_CONCAT(rooms.name) AS rooms_name FROM users, rooms WHERE users.id = ${req.params.userId}`
 	db.query(sql, function (error, data) {
-		if (error) {
-			throw error;
-		}
-		else {
-			res.send(data);
-		}
+		if (error) throw error;
+		else res.send(data);
 	})
 }
 
@@ -236,7 +192,7 @@ const updateUser = (req, res) => {
 	try {
 		if (login != null) {
 			//Si le login est remplis
-			db.query("SELECT login FROM users WHERE id = '" + req.params.id + "'", (err, response) => {
+			db.query("SELECT login FROM users WHERE id = '" + req.params.id + "'", (response) => {
 				if (response.length > 0) {
 					//Si le login est déjà pris en base de donnée return erreur
 					return res.status(401).json({ 'error': 'Login not avaible' });
@@ -247,18 +203,15 @@ const updateUser = (req, res) => {
 							status: true,
 							message: 'Login updated'
 						});
-						db.query("UPDATE users set login='" + login + "' WHERE id = '" + req.user.id + "'  "), (err, response) => {
+						db.query("UPDATE users set login='" + login + "' WHERE id = '" + req.user.id + "'  "), (err) => {
 							if (err) {
-
 								res.status(500).json({
 									status: false,
 									message: 'There was a problem with the query.'
 								});
 							}
 						}
-					} else {
-						res.status(401).json({ 'error': 'the password do not match' });
-					}
+					} else res.status(401).json({ 'error': 'the password do not match' });
 				}
 			})
 		} else if (email != null) {
@@ -282,14 +235,12 @@ const updateUser = (req, res) => {
 						});						
 					}
 				}
-			} else {
-				res.status(401).json({'error': 'the password do not match'});
-			}
+			} else res.status(401).json({'error': 'the password do not match'});
 		}
 	})
 	} else if (password != null){
 			//Si le password est remplis
-		db.query("SELECT password FROM users WHERE id = '"+ req.params.id +"'", (err, response) => {
+		db.query("SELECT password FROM users WHERE id = '"+ req.params.id +"'", (response) => {
 			if(response.length > 0) {
 				return res.status(401).json({'error': 'password not avaible'});
 			} else {
@@ -301,7 +252,7 @@ const updateUser = (req, res) => {
 						status: true,
 						message: 'Password updated'
 				});
-				db.query("UPDATE users set password='"+hash+"' WHERE id = '"+req.user.id+"'  "), (err, response) => {
+				db.query("UPDATE users set password='"+hash+"' WHERE id = '"+req.user.id+"'  "), (err) => {
 					if(err) {
 
 					res.status(500).json({
@@ -310,18 +261,12 @@ const updateUser = (req, res) => {
 					});						
 				}
 			}
-				} else {
-					res.status(401).json({'error': 'the password do not match'});
-				}
+				} else res.status(401).json({'error': 'the password do not match'});
 			}
 		})
-	} else{
-		//Si l'utilisateurs ne remplis aucun champs return erreur
-		res.status(401).json({'error': 'Empty field'});
-		}
-
+	} else res.status(401).json({'error': 'Empty field'});
 	} catch (error) {
-		console.log(error)
+		return res.status(400).send(error)
 	}
 }
 

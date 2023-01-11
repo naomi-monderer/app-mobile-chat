@@ -5,7 +5,7 @@ var {
 	getAllRooms, 
 } = require('../controllers/roomsController')
 
-//[BACK/???]: Une route qui retourne toutes les rooms
+//[BACK/04]: Une route qui retourne toutes les rooms
 router.get('/', signIn, getAllRooms);
 
 module.exports = router;

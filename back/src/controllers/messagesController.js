@@ -1,10 +1,6 @@
 const db = require('../../database');
-// const bcrypt = require('bcrypt');
 var express = require('express');
-// const jwt = require('jsonwebtoken')
-// const app = express();
 
-// app.use(express.json());
 
 const postMessage = (req, res) => {
 	const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -41,6 +37,7 @@ const postMessageinChat = (req, res) => {
 
 const deleteMessage = (req, res) => {
 	const sql = `SELECT id_user FROM messages WHERE id = ${req.params.messageId}`
+
 	db.query(sql, function (err, data) {
 		if (err) throw err;
 		else {
@@ -64,6 +61,7 @@ const updateMessage = (req, res) => {
 	const datas = req.body;
 
 	const sql = `SELECT id_user FROM messages WHERE id = ${req.params.messageId}`
+
 	db.query(sql, function (err, data) {
 		if (err) throw err;
 		else {
@@ -86,23 +84,17 @@ const updateMessage = (req, res) => {
 }
 
 const specificChat = (req, res) => {
-    
     if(req.user.id_rooms.includes(req.params.roomId)){
-
         const sql = `SELECT content, created_at, login FROM messages INNER JOIN users ON messages.id_user = users.id WHERE id_room = ${req.params.roomId}`
-
         db.query(sql, function (err, data){
             if (err) throw err;
-
-            res.send(data);
+            else res.send(data);
         })
-    } else {
-        res.status(400).send('You do not have access to the room');
-    }
+    } else res.status(400).send('You do not have access to the room');
 }
 
 const getMessagesinGlobalChat = (req, res) => {
-	const sql = `SELECT id, content, created_at, users.login FROM messages INNER JOIN users ON id_user = users.id WHERE id_room = 0`
+	const sql = `SELECT messages.id, content, created_at, users.login FROM messages INNER JOIN users ON id_user = users.id WHERE id_room = 0`
 
 	db.query(sql, function (err, data) {
 		if (err) throw err;

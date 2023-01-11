@@ -27,7 +27,7 @@ app.use('/participants', participants);
 app.use('/connected', signIn, users )
 
 //Admin route
-app.use('/admin', [signIn,isAdmin], admin)
+app.use('/admin', [signIn, isAdmin], admin)
 
 //Message route
 app.use('/chat', chat);

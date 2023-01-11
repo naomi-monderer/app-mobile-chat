@@ -22,23 +22,6 @@ const supressMessagesFromGreneral = (req,res) =>{
 	})
 }
 
-const supressOneMessage = (req, res) => {
-	const id_message = req.params.id
-
-	db.query(`SELECT * FROM messages WHERE id = '${id_message}'`, function (error, results){
-
-		if(results.length > 0){
-			db.query(`DELETE FROM messages WHERE id = '${id_message}'`)
-			res.status(200).send("the message number: " + id_message +  " is now supressed")
-		}
-		else {
-			res.status(400).json({
-				message: "the message does not exist",
-			});
-		}
-	})
-}
-
 const deleteMessageFromRoom = (req, res) => {
 	const id_message = req.params.id
 	const id_room = req.params.roomId;
@@ -57,29 +40,8 @@ const deleteMessageFromRoom = (req, res) => {
 	})
 }
 
-// à voir si on l'utilise
-const getAllMessagesFromGeneral = (req,res) => {
-	db.query('SELECT * FROM messages WHERE `id_room` = 0', function (error, results) {
-		if (results.length > 1) {
-		
-			res.status(200).send({
-				message : "All messages are from chat: GENERAL",
-				data: results
-			})
-
-		} 
-		else {
-			res.status(400).json({
-				message: "the room doesn't contain messages",
-			});
-		}
-	})
-
-}
-
 // permet à l'admin de modifier le nom d'une room.
 const adminUpdateRoom = (req, res) =>{
-	// verif avec les middle ware
 	const sql = 'UPDATE rooms SET name = ? WHERE id = ?'
 	db.query(sql, [req.body.name, req.params.id],function(error){
 		if (error) throw error;
@@ -89,7 +51,7 @@ const adminUpdateRoom = (req, res) =>{
 
 // permet à l'admin de modifier le rôle et le login d'un user.
 const adminUpdateUser = (req, res) => {
-	const sql = 'UPDATE  users SET login = ? WHERE id = ?'
+	const sql = 'UPDATE users SET login = ? WHERE id = ?'
 	db.query(sql, [req.body.login, req.params.id] , function(error, data){
 
 	if(error) throw error;
@@ -133,8 +95,6 @@ module.exports = {
 	adminUpdateUser, 
 	adminUpdateRole, 
 	supressMessagesFromGreneral,
-	supressOneMessage,
-	getAllMessagesFromGeneral,
 	addNewRoom,
 	deleteMessageFromRoom
 }

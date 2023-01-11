@@ -7,7 +7,6 @@ const app = express();
 
 
 exports.signIn = (req, res, next) => {
-	
 	const tokenToUse = req.headers.token1
 	const tokenRefresh = req.headers.refreshtoken;
 		try {
@@ -17,21 +16,15 @@ exports.signIn = (req, res, next) => {
 			try{
 				const decoded2 = jwt.verify(tokenRefresh, mySecret)
 				req.userRefresh = decoded2;
-				console.log('object');
-
 				next();
 			}catch(err){
 				return  refreshToken(decoded1.id, token => {
 					res.status(417).send(token)
 				})
-					
 			}
-
 		} catch (err) {
 			return res.status(401).send(err);
 		}
-			
-
 };
 
 
