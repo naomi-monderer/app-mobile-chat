@@ -142,8 +142,9 @@ const refreshToken =  (id, callback) => {
 			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
 			const token = jwt.sign({
-				id: '2',
+				id: results[0].id,
 			}, mySecret)
+			//je place un callback en paramètre 
 			callback(token)
 		}
 	})
