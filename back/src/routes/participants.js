@@ -18,6 +18,6 @@ router.delete('/:roomId/:userId', signIn ,deleteUser);
 router.get('/rooms-list/:userId', signIn, getRooms);
 
 // [BACK/13-continuation-ticket]
-router.post('/rooms-list/add/:roomId', signIn, addParticipant);
+router.post('/rooms-list/add', signIn, addParticipant);
 
 module.exports = router;

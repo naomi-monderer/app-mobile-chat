@@ -22,14 +22,18 @@ router.post('/inscription', registerUsers);
 //[BACK/02 verif token and secure route for connected users]
 router.get('/signin', signIn, connectedUser);
 
-//[BACK/27] verif token and refresh token if user is connected
+//route [BACK/27] verif token and refresh token if user is connected
 router.get('/refresh', signIn, refreshToken)
 
-//[BACK/02] connexion de l'user et attribution du token]
+//route [BACK/02 connexion de l'user et attribution du token]
 router.post('/auth',  authUsers)
 
 //[BACK/03-get-all-users]: Une route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
 router.get('/', getUsers);
+
+//[BACK/05-post-user-to-a-room]: Permet d'ajouter un user à une room. 
+router.post('/room/:idRoom',signIn, addUserToRoom);
+// ajouter un idRoom à la suite de cette route
 
 //[BACK/07] get the details from 1 user
 router.get('/details/:userId', signIn ,getUserDetails);
