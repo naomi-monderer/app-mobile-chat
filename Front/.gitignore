@@ -1,4 +1,9 @@
 node_modules/
+.expo
+app.json
+node_modules
+package.json
+package-lock.json
 .expo/
 dist/
 npm-debug.*
