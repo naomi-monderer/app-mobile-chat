@@ -94,6 +94,8 @@ const authUsers = (req, res) => {
 
 			const token = jwt.sign({
 				login: login,
+				iat: ~~(Date.now() / 1000),
+				type: 'authtoken',
 				email: results[0].email,
 				id: results[0].id.toString(),
 				id_role: results[0].id_role,
@@ -104,7 +106,8 @@ const authUsers = (req, res) => {
 
 			const refreshToken = jwt.sign({ 
 				message: "refresh Token info",
-				// token: req.headers.authorization,
+				iat: ~~(Date.now() / 1000),
+				type: 'token',
 				email:results[0].email,
 				login:login,
 				id_rooms: rooms,
@@ -139,8 +142,9 @@ const refreshToken =  (id, callback) => {
 			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
 			const token = jwt.sign({
-				id: '2',
+				id: results[0].id,
 			}, mySecret)
+			//je place un callback en paramètre 
 			callback(token)
 		}
 	})
