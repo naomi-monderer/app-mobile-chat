@@ -127,7 +127,7 @@ const authUsers = (req, res) => {
 		} else {
 			res.status(400).send("You cannot login.")
 		}
-	})
+	}
 }
 
 const connectedUser = (req, res) => {
