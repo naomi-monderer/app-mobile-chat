@@ -16,25 +16,7 @@ import { View,Image,Text,StyleSheet,TouchableOpacity } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 function TabBar() {
-
-  const screenOptions = {
-    tabBarStyle:{
-      height:70,
-      position: 'absolute',
-      bottom: 10,
-      left: 10,
-      right: 10,
-      elevation: 0,
-      backgroundColor: '#000000',
-      borderRadius: 15,
-      height: 90, 
-    },
-    tabBarItemStyle:{
-      margin:5,
-      borderRadius:10,
-    }, 
-  };
-
+  
   const styles = StyleSheet.create({
     shadow:{
       shadowColor: '#7F5DF0',
@@ -47,6 +29,26 @@ function TabBar() {
       elevation: 5
       }
   })
+
+  const screenOptions = {
+    tabBarStyle:{
+      height:70,
+      position: 'absolute',
+      bottom: 10,
+      left: 10,
+      right: 10,
+      elevation: 0,
+      backgroundColor: '#000000',
+      borderRadius: 15,
+      height: 90, 
+      ...styles.shadow
+    },
+    tabBarItemStyle:{
+      margin:5,
+      borderRadius:10,
+    }, 
+  };
+
 
   return (
     <Tab.Navigator tabBarOptions={{showLabel: false}}  {...{ screenOptions}}>
@@ -110,7 +112,7 @@ function TabBar() {
           )
         }}
       />
-      
+
     </Tab.Navigator>
   );
 }
