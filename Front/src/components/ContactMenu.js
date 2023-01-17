@@ -16,13 +16,7 @@ const config = {
 
 
 export default function ContactMenu() {
-	const [contacts, setContacts] = useState([
-		{
-			id: 1,
-			name: "lol",
-			content: "test"
-			}
-		]);
+	const [contacts, setContacts] = useState([]);
 
 	useEffect(() => {
 		axios.get(
@@ -33,15 +27,6 @@ export default function ContactMenu() {
 			})
 			.catch(error => console.log(error));
 		}, []);
-
-
-	// const contacts = [
-	// 	{
-	// 		id: 1,
-	// 		name: "lol",
-	// 		content: "test"
-	// 	}
-	// ]
 
 	return (
 		<View>

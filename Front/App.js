@@ -22,7 +22,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-        <Stack.Screen name='Contact' component={Contact} />
+        <Stack.Screen name='Contact' component={Contact}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
