@@ -1,4 +1,10 @@
 node_modules/
+.expo
+app.json
+app.js
+node_modules
+package.json
+package-lock.json
 .expo/
 dist/
 npm-debug.*
@@ -12,3 +18,4 @@ web-build/
 
 # macOS
 .DS_Store
+# 
