@@ -10,22 +10,6 @@ const Register = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
 
-    const image = {uri: '../'}
-
-    // this.state = {
-    //     fieldValue: '',
-    //     errorMessage: ''
-    // };
-
-//       handleChange = (text) => {
-//     this.setState({ fieldValue: text });
-//     if (!text) {
-//       this.setState({ errorMessage: 'This field is required' });
-//     } else {
-//       this.setState({ errorMessage: '' });
-//     }   
-//   }
-
     const handleSubmit = () => {
         if (password !== passwordConfirm) {
             alert('Passwords do not match');
@@ -66,35 +50,38 @@ const Register = () => {
             marginTop: 40,
         },
         input: {
-            // flex:1,
-            textAlign:'center',
-            // flex: 1,
-            // height: 40,
-            // margin: 25,
-            // borderWidth: 1,
             padding: 10,
+            marginLeft:50,
+            marginRight:50,
+            textAlign:'center',
             borderBottomColor: 'black',
             borderBottomWidth: 1,
-            // borderColor: '#645682',
             borderBottomStyle: 'solid'
         },
         label: {
-            textAlign:'center',
-            // flex:2,
+            padding:10,
+            marginLeft:30,
+            textAlign:'left',
             fontSize: 16,
             lineHeight:19,
             fontWeight:'500',
             color:'#000000',
-
         },
         title: {
             padding:20,
             textAlign: 'center',
-            // flex:2,
             fontWeight:'600',
             fontSize:40,
             lineHeight:46,
             color:'#000000',
+        },
+        button: {
+            marginTop:30,
+            backgroundColor: '#000000',
+            padding: 10,
+            margin:30,
+            borderRadius: 10,
+            alignItems: 'center',
         }
     });
 
@@ -111,7 +98,6 @@ const Register = () => {
                     <Text style={styles.label}>Login:</Text>
                     <TextInput
                         style={styles.input}
-                        // placeholder="John Do"
                         value={login}
                         onChangeText={text => setLogin(text)}
                     />
@@ -119,7 +105,6 @@ const Register = () => {
                     <Text style={styles.label}>Email:</Text>
                     <TextInput
                         style={styles.input}
-                        // placeholder="John.do@mail.com"
                         value={email}
                         onChangeText={text => setEmail(text)}
                     />
@@ -127,7 +112,6 @@ const Register = () => {
                     <Text style={styles.label}>Password:</Text>
                     <TextInput
                         style={styles.input}
-                        // placeholder="Password"
                         value={password}
                         onChangeText={text => setPassword(text)}
                         secureTextEntry={true}
@@ -136,7 +120,6 @@ const Register = () => {
                     <Text style={styles.label}>Confirm password:</Text>
                     <TextInput
                         style={styles.input}
-                        // placeholder="Confirm Password"
                         value={passwordConfirm}
                         onChangeText={text => setPasswordConfirm(text)}
                         secureTextEntry={true}
@@ -144,8 +127,8 @@ const Register = () => {
                 </View>
 
                 
-                <TouchableOpacity onPress={handleSubmit}>
-                    <Text>Submit</Text>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
             </ImageBackground>
 
