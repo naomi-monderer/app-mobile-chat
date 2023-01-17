@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AllRooms from '../screen/AllRooms'
 import Profil from '../screen/Profil'
 import Messages from '../screen/Messages'
-import { View,Image,Text } from 'react-native';
+import { View,Image,Text,StyleSheet,TouchableOpacity } from 'react-native';
 
 
 
@@ -33,17 +33,23 @@ function TabBar() {
       margin:5,
       borderRadius:10,
     }, 
-  
-  
   };
 
+  const styles = StyleSheet.create({
+    shadow:{
+      shadowColor: '#7F5DF0',
+      shadowOffset: {
+        width: 0,
+        height: 10,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.5,
+      elevation: 5
+      }
+  })
+
   return (
-    <Tab.Navigator tabBarOptions={{showLabel: false}} 
-      
-      {...{ screenOptions}}
-      
-    
-      >
+    <Tab.Navigator tabBarOptions={{showLabel: false}}  {...{ screenOptions}}>
       <Tab.Screen name="AllRooms" component={AllRooms} options={{ 
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center',}}>
@@ -62,10 +68,9 @@ function TabBar() {
           </View>
         
           )
-      }}
-
-        
+        }}  
       />
+
       <Tab.Screen name="Messages" component={Messages} options={{ 
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', }}>
@@ -82,9 +87,10 @@ function TabBar() {
                rooms
               </Text>
           </View>
-        
           )
-      }} />
+        }} 
+      />
+
       <Tab.Screen name="Profil" component={Profil}  options={{ 
           tabBarIcon: ({focused}) => (
           <View style={{alignItems: 'center', justifyContent: 'center', }}>
@@ -101,9 +107,10 @@ function TabBar() {
               profil
             </Text>
           </View>
-          
           )
-      }}/>
+        }}
+      />
+      
     </Tab.Navigator>
   );
 }
