@@ -8,12 +8,13 @@ const app = express();
 
 
 exports.signIn = (req, res, next) => {
-
+	console.log('req', req.headers)
 	//je reçois deux tokens du controllers, l'un durant 30 jrs de validité l'autre 1minute
 	const tokenToUse = req.headers.token1
 	const tokenRefresh = req.headers.refreshtoken;
 	try {
-
+		console.log(tokenToUse)
+		console.log(tokenRefresh)
 		const mySecret = "mysecret";
 		const decoded1 = jwt.verify(tokenToUse, mySecret);
 		req.user = decoded1;
