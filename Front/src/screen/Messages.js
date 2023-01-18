@@ -1,13 +1,21 @@
 import * as React from 'react';
 import  {useState, useEffect, useCallback} from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 // import { GiftedChat, Bubble, Time} from 'react-native-gifted-chat';
 
 const Messages = () => {
-    const onPressButton = () => {
-        console.log('You tapped the button!');
-     
+    const [message, setMessage] = useState('Press and hold to change the message');
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleLongPress = () => {
+        setModalVisible(true);
     };
+
+    const handleReaction = (reaction) => {
+        setMessage(`${message} ${reaction}`);
+        setModalVisible(false);
+    };
+
     const [dateTime, setDateTime] = useState(new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',  hour12: true }));
 
     const styles = StyleSheet.create({
@@ -59,12 +67,38 @@ const Messages = () => {
         
         <View style={styles.container}>
              <View style={styles.receivedMessage}>
-                <Text style={{margin:15}}>
-                {
-                //inclure data ici
-                }
-                    gfrbehqbkhbfc,lkrf,rjferjfnzefnksdjnfsjknfksjncjsndcsndcjsdncsnduhufhouhouf
-                </Text>
+                <TouchableOpacity onLongPress={handleLongPress}>
+                    <Text style={{margin:15}}>
+                    {
+                    //inclure data ici
+                    }
+                        gfrbehqbkhbfc,lkrf,rjferjfnzefnksdjnfsjknfksjncjsndcsndcjsdncsnduhufhouhouf
+                    </Text>
+                </TouchableOpacity>
+                <Modal
+                animationType="slide"
+                transparent={false}
+                visible={modalVisible}
+                style={styles.modalContainer}
+            >
+                <View style={styles.sendedHour}>
+                    <TouchableOpacity
+                        onPress={() => handleReaction('😃')}
+                    >
+                        <Text>😃</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => handleReaction('😢')}
+                    >
+                        <Text>😢</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => handleReaction('🤔')}
+                    >
+                        <Text>🤔</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
             </View>
             <Text style={styles.sendedHour}>
                 {
@@ -72,13 +106,17 @@ const Messages = () => {
                 }
                     {dateTime}
             </Text>
+
             <Text style={styles.currentHour}>
                     {dateTime}
             </Text>
-            <View style={styles.sendMessage}>  
-                <Text style={{margin:15}}>
-                    blic bloc hfzieudhuidhu
-                </Text>
+
+            <View style={styles.sendMessage}> 
+                <TouchableOpacity onLongPress={handleLongPress}> 
+                    <Text style={{margin:15}}>
+                        blic bloc hfzieudhuidhu
+                    </Text>
+                </TouchableOpacity>
             </View>
                 <Text style={styles.receivedHour}>
                     {dateTime}
