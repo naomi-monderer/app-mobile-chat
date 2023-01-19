@@ -193,8 +193,8 @@ const getUserDetails = (req, res) => {
 
 const updateUser = (req, res) => {
 	const { login, email, password, confPassword } = req.body;
-	// console.log(password)
-	// console.log(req.body)
+	console.log(password)
+	console.log(req.body)
 	console.log("SELECT email FROM users WHERE id = '" + req.user.id + "'")
 
 	try {
