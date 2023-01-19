@@ -1,12 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ImageBackground, SafeAreaView } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 
 
-const baseUrl = "http://10.10.46.224:3000"
-
+// const baseUrl = "http://10.10.46.224:3000"
+const baseUrl = "http://192.168.0.49:3000"
 
 export default function Connexion() {
 	const [login, setLogin] = useState('')
@@ -35,7 +35,6 @@ export default function Connexion() {
 			SecureStore.setItemAsync('token1', token).then(() => {
 				SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
 					console.log(token)
-					console.log('token is tokened')
 				})
 			})
 		})
@@ -59,41 +58,77 @@ export default function Connexion() {
 	}
 
 	return (
-		<View style={styles.margin}>
-			<Text style={styles.title}>
-				Sign in
-			</Text>
-			<View>
-			<TextInput 
-				style={styles.input}
-				placeholder="login"
-				onChangeText={login => setLogin(login)}
-			/>
-			<TextInput 
-				style={styles.input}
-				placeholder="password"
-				onChangeText={password => setPassword(password)}
-			/>
-			<TouchableOpacity onPress={() => connect() } style={styles.button}>
-				<Text>Login</Text>
-			</TouchableOpacity>
+		<ImageBackground 
+		source={require("../assets/connexion.png")} 
+		resizeMode="cover" 
+		style={{width: '100%', height: '100%', backgroundColor: '#C5AAFF'}} 
+		>
+			<View style={styles.container}>
+				<Text style={styles.title}>
+					Sign in
+				</Text>
+				<View>
+					<Text style={styles.label}>
+						Login
+					</Text>
+					<TextInput 
+						style={styles.input}
+						onChangeText={login => setLogin(login)}
+					/>
+					<Text style={styles.label}>
+						Password
+					</Text>
+					<TextInput 
+						style={styles.input}
+						onChangeText={password => setPassword(password)}
+					/>
+					<TouchableOpacity 
+					onPress={() => connect() } 
+					style={styles.button}
+					>
+						<Text
+							style={styles.buttonText}
+						>
+							Login
+						</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
-		</View>
+		</ImageBackground>
 	)
 }
 
 const styles = StyleSheet.create({
-	margin: {
-		marginTop: 190
+	container: {
+		flex: 1,
+		marginTop: 52,
+		alignItems: 'center'
 	},
 	title: {
-		color: 'red',
+		fontSize: 40,
+		fontWeight: 600,
+		marginBottom: 15,
+	},
+	label: {
+		marginTop: 15,
+		fontSize: 15,
+		fontWeight: 500,
 	},
 	input: {
 		borderBottomColor: 'black',
 		borderBottomWidth: 1,
+		height: 40,
 	},
 	button: {
-		backgroundColor: 'yellow',
+		marginTop: 20,
+		backgroundColor: 'black',
+		borderRadius: 12
+	},
+	buttonText: {
+		color: '#C5AAFF',
+		textAlign: 'center',
+		padding: 10,
+		fontWeight: 500,
+		fontSize: 15,
 	}
 })

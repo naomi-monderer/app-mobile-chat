@@ -17,18 +17,22 @@ export default function LogoutButton () {
 
     return (
         <View>
-            <TouchableOpacity onPress={() => logout() } style={styles.button}>
-				<Text>Logout</Text>
+            <TouchableOpacity 
+                onPress={() => logout() } 
+                style={styles.button}
+            >
+				<Text style={styles.buttonText}>Logout</Text>
 			</TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-	margin: {
-		marginTop: 190
-	},
     button: {
-        backgroundColor: 'pink'
+        backgroundColor: '#0F0D23',
+    },
+    buttonText: {
+        color: 'white',
+        padding: 14,
     }
 })
