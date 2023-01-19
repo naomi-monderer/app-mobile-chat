@@ -193,11 +193,15 @@ const getUserDetails = (req, res) => {
 
 const updateUser = (req, res) => {
 	const { login, email, password, confPassword } = req.body;
+	// console.log(password)
+	// console.log(req.body)
+	console.log("SELECT email FROM users WHERE id = '" + req.user.id + "'")
+
 	try {
 		if (login != null) {
 			//Si le login est remplis
-			db.query("SELECT login FROM users WHERE id = '" + req.params.id + "'", (response) => {
-				if (response.length > 0) {
+			db.query("SELECT login FROM users WHERE id = '" + req.user.id + "'", (err,response) => {
+				if (response.login == login) {
 					//Si le login est déjà pris en base de donnée return erreur
 					return res.status(401).json({ 'error': 'Login not avaible' });
 				} else {
@@ -218,10 +222,10 @@ const updateUser = (req, res) => {
 					} else res.status(401).json({ 'error': 'the password do not match' });
 				}
 			})
-		} else if (email != null) {
+		} if (email != null) {
 			//Si le email est remplis
-			db.query("SELECT email FROM users WHERE id = '" + req.params.id + "'", (err, response) => {
-				if (response.length > 0) {
+			db.query("SELECT email FROM users WHERE id = '" + req.user.id + "'", (err, response) => {
+				if (response.email == email) {
 					//Si le email est déjà pris en base de donnée return erreur
 					return res.status(401).json({ 'error': 'email not avaible' });
 				} else {
@@ -242,10 +246,12 @@ const updateUser = (req, res) => {
 			} else res.status(401).json({'error': 'the password do not match'});
 		}
 	})
-	} else if (password != null){
-			//Si le password est remplis
-		db.query("SELECT password FROM users WHERE id = '"+ req.params.id +"'", (response) => {
-			if(response.length > 0) {
+	} if (password != null){
+	console.log(password)
+	//Si le password est remplis
+		db.query("SELECT password FROM users WHERE id = '"+ req.user.id +"'", (response) => {
+			console.log(response)
+			if(bcrypt.compareSync(password, response.password)) {
 				return res.status(401).json({'error': 'password not avaible'});
 			} else {
 				if (password === confPassword) {
@@ -270,6 +276,7 @@ const updateUser = (req, res) => {
 		})
 	} else res.status(401).json({'error': 'Empty field'});
 	} catch (error) {
+		console.log('error', error);
 		return res.status(400).send(error)
 	}
 }

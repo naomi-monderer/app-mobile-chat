@@ -24,25 +24,59 @@ const UpdateUser = () => {
 		SecureStore.getItemAsync('token1').then((rest) => {
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if(res) {
+                    // console.log(res)
                     var decoded = jwt_decode(res);
+                    // console.log(decoded)
+                    const userId = decoded.id;
+                    console.log(decoded)
                     
                     const tata = SecureStore.getItemAsync('token1')
                     const id = '40';
-                    console.log('token',rest)
-                    console.log('refresh', res)
-                const config = {
-                    headers: {
-                        token1: `${rest}`,
-                        // refreshtoken: `${res}`
-                    }
-                }
-                const token = rest;
-                const data = [login,password, email];
-                // console.log(API)
-                // axios.post(`${API}/users/update/`,config, {
-                    console.log(data)
-                
-                    axios.post(`${API}/users/update`,config,{
+                    // console.log('token',rest)
+                    // console.log('refresh', res)
+                    const token = rest;
+                    // console.log('PAYLOD',rest)
+                    const data = [userId,login,password, email];
+                    // const config = {
+                    //     headers: {
+                    //             token1: `${rest}`,
+                    //         },
+                    // };
+                    // const config = {
+                    //     headers: {
+                    //        Authorization: "Bearer " + res
+                    //     }
+                    //  }
+                    // const config = {
+                    //     headers: {
+                    //         'Authorization': `Bearer ${rest}`
+                    //     }
+                    // };
+                    // console.log('config : ',config)
+                    // axios.get(`${API}/users/details/${userId}`,config )
+                    //     .then(response => {
+                    //         console.log('no homo',response.data);
+                    //     })
+                    //     .catch(error => {
+                    //         console.log(error);
+                    //     });
+                    axios({
+                        method: 'post',
+                        url:`${API}/users/update`,
+                        headers: {
+                            'Content-Type' : 'application/json',
+                            token1: rest,
+                            refreshtoken: res
+                        },
+                        data: JSON.stringify({
+                            id: userId,
+                            login: login,
+                            password: password,
+                            confPassword: passwordConfirm,
+                            email: email
+                        }),
+                    })
+                    // axios.post(`${API}/users/update`,{
                         // method: 'post',
                         // url: `${API}/users/update`,
                         // // token1: `${rest}`,
@@ -58,8 +92,8 @@ const UpdateUser = () => {
                         // //     token1: `${rest}`,
                         // //     refreshtoken: `${res}`
                         // // },
-                        data: data,
-                    })
+                    //     data: data,
+                    // })
                 .then(response => {
                     console.log('response',response);
                     // Show success message

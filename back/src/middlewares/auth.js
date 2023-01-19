@@ -29,6 +29,7 @@ exports.signIn = (req, res, next) => {
 					/* expired */ 
 					//le token est disponible ds le scope grace au callback ds refreshToken du usersController 
 					return refreshToken(decoded1.id, token => {
+						console.log('first')
 						res.status(417).send(token)
 					});
 				}
@@ -38,6 +39,7 @@ exports.signIn = (req, res, next) => {
 			}catch(err){
 
 				return  refreshToken(decoded1.id, token => {
+					console.log('2eme')
 					res.status(417).send(token)
 				})
 			}
