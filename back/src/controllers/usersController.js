@@ -192,93 +192,39 @@ const getUserDetails = (req, res) => {
 }
 
 const updateUser = (req, res) => {
-	const { login, email, password, confPassword } = req.body;
-	console.log(password)
-	console.log(req.body)
-	console.log("SELECT email FROM users WHERE id = '" + req.user.id + "'")
+	// let password = hashage(req.body.password);
+	const { login, email,password, confPassword } = req.body;
 
-	try {
-		if (login != null) {
-			//Si le login est remplis
-			db.query("SELECT login FROM users WHERE id = '" + req.user.id + "'", (err,response) => {
-				if (response.login == login) {
-					//Si le login est déjà pris en base de donnée return erreur
-					return res.status(401).json({ 'error': 'Login not avaible' });
-				} else {
-					if (password === confPassword) {
-						//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs
-						res.status(200).json({
-							status: true,
-							message: 'Login updated'
-						});
-						db.query("UPDATE users set login='" + login + "' WHERE id = '" + req.user.id + "'  "), (err) => {
-							if (err) {
-								res.status(500).json({
-									status: false,
-									message: 'There was a problem with the query.'
-								});
-							}
-						}
-					} else res.status(401).json({ 'error': 'the password do not match' });
+	const sql2 = "SELECT * FROM users WHERE  email LIKE '" + email + "'"
+	db.query(sql2, async (response, data) => {
+	
+		if (data.email == email) {                                    // Vérifie la longueur du resultat et si = de 0 utilisateur : erreur
+			return response.status(400).json({ message: 'Erreur, un compte est déjà lié a cet email' })
+			
+		} else {
+
+			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;                                                 //minimum 8char, 1maj, 1minuscule ett 1 chiffre
+			const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if (password == confPassword){
+				console.log(password)
+				const salt =  await bcrypt.genSalt()
+				const hash =   await bcrypt.hash(password, salt);
+				const sqlUpdate = "UPDATE users SET `login` = '" + login + "', `password`= '" + hash + "', `email`= '" + email + "' WHERE id = '"+ req.user.id +"' ";
+
+				if (!passwordRegex.test(req.body.password)) {
+					return res.status(400).json({ message: 'Erreur, le mot de passe doit contenir au minimum 8 charactères, 1 majuscule et 1 minuscule' })
 				}
-			})
-		} if (email != null) {
-			//Si le email est remplis
-			db.query("SELECT email FROM users WHERE id = '" + req.user.id + "'", (err, response) => {
-				if (response.email == email) {
-					//Si le email est déjà pris en base de donnée return erreur
-					return res.status(401).json({ 'error': 'email not avaible' });
-				} else {
-					if (password === confPassword) {
-						//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs
-						res.status(200).json({
-							status: true,
-							message: 'Email updated'
-					});
-					db.query("UPDATE users set email='"+email+"' WHERE id = '"+req.user.id+"'  "), (err, response) => {
-						if(err) {
-							res.status(500).json({
-								status: false,
-								message: 'There was a problem with the query.'
-						});						
-					}
+
+				if (!emailRegex.test(req.body.email)) {
+					return res.status(400).json({ message: 'Erreur, email invalide' })
 				}
-			} else res.status(401).json({'error': 'the password do not match'});
+
+				db.query(sqlUpdate, [req.params.id], (err, data) => {
+					return res.status(200).json({ message: "Utilisateur modifié avec succès" });
+				})
+			}
 		}
 	})
-	} if (password != null){
-	console.log(password)
-	//Si le password est remplis
-		db.query("SELECT password FROM users WHERE id = '"+ req.user.id +"'", (response) => {
-			console.log(response)
-			if(bcrypt.compareSync(password, response.password)) {
-				return res.status(401).json({'error': 'password not avaible'});
-			} else {
-				if (password === confPassword) {
-					//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs et on hash
-					const salt =  bcrypt.genSalt()
-					const hash =   bcrypt.hash(password, salt);
-					res.status(200).json({
-						status: true,
-						message: 'Password updated'
-				});
-				db.query("UPDATE users set password='"+hash+"' WHERE id = '"+req.user.id+"'  "), (err) => {
-					if(err) {
-
-					res.status(500).json({
-						status: false,
-						message: 'There was a problem with the query.'
-					});						
-				}
-			}
-				} else res.status(401).json({'error': 'the password do not match'});
-			}
-		})
-	} else res.status(401).json({'error': 'Empty field'});
-	} catch (error) {
-		console.log('error', error);
-		return res.status(400).send(error)
-	}
 }
 
 module.exports = {
