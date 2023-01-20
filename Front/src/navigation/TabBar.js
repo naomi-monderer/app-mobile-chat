@@ -18,7 +18,7 @@ function TabBar() {
         width: 0,
         height: 10,
       },
-      shadowOpacity: 0.25,
+      shadowOpacity: 0.35,
       shadowRadius: 3.5,
       elevation: 5
       }
@@ -28,16 +28,17 @@ function TabBar() {
     tabBarStyle:{
       height:70,
       position: 'absolute',
-      bottom: 10,
+      bottom: 20,
       left: 10,
       right: 10,
       elevation: 0,
       backgroundColor: '#000000',
-      borderRadius: 15,
+      borderRadius: 25,
       height: 90, 
       ...styles.shadow
     },
     tabBarItemStyle:{
+      paddingTop: 30,
       margin:5,
       borderRadius:10,
     }, 
@@ -53,8 +54,8 @@ function TabBar() {
               source={require('../../assets/icons/message-icon.png')}
               resizeMode='contain '
               style={{
-                width: 35,
-                height: 35,
+                width: 50,
+                height: 50,
                 tintColor: focused ? '#B2FFDF' : '#ADADAD'
               }}
             />
@@ -73,8 +74,8 @@ function TabBar() {
                 source={require('../../assets/icons/chuu-purpl.png')}
                 resizeMode="contain"
                 style={{
-                  width: 35,
-                  height: 35,
+                  width: 50,
+                  height: 50,
                   tintColor: focused ? '#C5AAFF' : '#ADADAD'
                 }}
               />
@@ -93,8 +94,8 @@ function TabBar() {
               source={require('../../assets/icons/profil-icon.png')}
               resizeMode='contain '
               style={{
-                width: 30,
-                height: 30,
+                width: 44,
+                height: 44,
                 tintColor: focused ? '#FFE589' : '#ADADAD'
               }}
             />
