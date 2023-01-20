@@ -1,36 +1,40 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, TextInput, Text, Button, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import InputText from '../components/InputText';
-import ButtonMessage from '../components/ButtonMessage';
+import InputText2 from '../components/InputText2';
+// import ButtonMessage from '../components/ButtonMessage';
+// import axios from 'axios';
+// import { API } from '../constant/constant';
 
 
 
+export default function ChatScreen(props) {
 
-const handleSubmit = () =>{
+    // const [message, setMessage] = useState('');
+    // const MultilineTextInputExample = () => {
+  
 
-    if(value.length < 1000 || value !== undefined  || value !== null)
-    {
-        alert('Enter correct text value .')
-        return 
-    }
 
-}
+    const room_id = 4
+    
 
-export default function ChatScreen({ navigation }) {
-
-    const [message, setMessage] = useState('');
 
     return (
-        <View>
-            {/* <RenderButtonMessage/> */}
-            <Text>
-                Bienvenue sur ChatScreen
-            </Text>
-            <InputText placeholder="Test" value={message} onChangeText={(text) => setMessage(text)} />
-            <ButtonMessage/>
-            {/* <TouchableOpacity onPress={() => alert(message)}><ActivityIndicator size="large" /></TouchableOpacity> */}
+        <View style={{ position: 'relative', height: '100%' }}>
+
+            <InputText2
+                idRoom={room_id}
+                onChangeText = {props.text}
+
+              
+            
+            />
 
         </View>
     )
+
+
+
 }
+
 
