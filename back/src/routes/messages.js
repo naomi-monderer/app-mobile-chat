@@ -14,7 +14,7 @@ var {
 router.post('/', signIn, postMessage);
 
 //[BACK/10]: Une route qui poste sur un chat spé.
-router.post('/:roomId', signIn, postMessageinChat);
+router.post('/:roomId', postMessageinChat);
 
 //[BACK/18-delete-own-messafe]: Une route qui delete un message.
 router.delete('/delete/:messageId', signIn, deleteMessage);
