@@ -35,7 +35,6 @@ const postMessageinChat = (req, res) => {
 	else res.send('write a message, please')
 }
 
-
 const deleteMessage = (req, res) => {
 	const sql = `SELECT id_user FROM messages WHERE id = ${req.params.messageId}`
 
