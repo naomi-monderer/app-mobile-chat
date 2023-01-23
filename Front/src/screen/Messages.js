@@ -13,21 +13,28 @@ import { Text, View, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 
 const Messages = () => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [message, setMessages] = useState('Press and hold to change the message');
     // const [dateTime, setDateTime] = useState();
     const [selectedReaction, setSelectedReaction] = useState(null);
-    const [message, setMessages] = useState('Press and hold to change the message');
     
     
     const fetchMessages = async () => {
         const client = axios.create({
-            baseURL: "http://localhost:3000/",
+            baseURL: "http://10.10.54.144:3000/",
         })
         try {
-            const response = await client.get('chat/');
+            const response = await client.get(`chat/messages`, 
+                {headers: {
+                    'Access-Control-Allow-Origin':  'http://10.10.54.144:3000',
+                    'Access-Control-Allow-Methods': 'GET',
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                },} 
+            );
             setMessages(response.data);
             console.log("my messsssszages", response.data)
         } catch (error) {
-            console.error(error);
+            console.error(error.response);
         }
     };
     
