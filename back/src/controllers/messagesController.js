@@ -18,13 +18,13 @@ const postMessage = (req, res) => {
 }
 
 const postMessageinChat = (req, res) => {
-	
 	const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
 	const data = req.body;
-	console.log(req.user);
-		if (data.content && req.user.id_role !== 0) {
-		if (Object.keys(req.params).length !== 0) {
+
+	if(data.content && req.user.id_role !== 0) {
+		if(Object.keys(req.params).length !== 0 && req.user.id_rooms.includes(req.params.roomId)) {
 			const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${datetime}", ${req.user.id}, "${req.params.roomId}")`
+
 			db.query(sql, function (err) {
 				if (err) throw err;
 				else res.status(200).send('message inserted');
@@ -34,6 +34,7 @@ const postMessageinChat = (req, res) => {
 	}
 	else res.send('write a message, please')
 }
+
 
 const deleteMessage = (req, res) => {
 	const sql = `SELECT id_user FROM messages WHERE id = ${req.params.messageId}`
