@@ -4,10 +4,10 @@ import ButtonMessage from './ButtonMessage';
 
 export default function InputText(props) {
 
+    // 1. je déclare mon State 
     const [text, setText] = useState('');
     const [height, setHeight] = useState()
 
-    // console.log(text)
     return (
 
         <View style={styles.container}>
@@ -16,19 +16,29 @@ export default function InputText(props) {
             <KeyboardAvoidingView
                 style={styles.box}
                 keyboardVerticalOffset={100}
-                behavior={Platform.OS === 'ios' ? 'padding' : null}>
+                behavior={Platform.OS === 'ios' ? 'padding' : null}
+            >
+
                 <View style={styles.foot}>
                     <TextInput
                         multiline={true}
+                        // 2. j'utilise l'attribu onChangeText pour recuper la valeur de mon input
                         onChangeText = {(text) => setText(text)}
                         style= {[styles.input, {height}]}
-                        // onFocus={() =>console.log("focus received" ) }
+
+                        // 7. Je recupère le state à jour qui a été vidé  dans le .then de ma requete axios,
+                        //   dans ma const text 
+                        value = {text}
                     />
                     <ButtonMessage  
+                        // 6. Je donne à ButtonMessage la permission de modifier le texte. 
+                        setText = {setText}
+                        // 3. je recupère le contenu du message pour le faire passer dans le handleSubmit et le transmettre à la db
                         text={text} 
                         idRoom={props.idRoom} 
                     />
                 </View>
+
             </KeyboardAvoidingView>
         </View>
     )
@@ -59,7 +69,6 @@ const styles = StyleSheet.create({
         maxHeight: 170,
     },
     input: {
-
         backgroundColor: '#ADADAD',
         borderRadius: 25,
         width: '100%',
@@ -72,13 +81,5 @@ const styles = StyleSheet.create({
         fontSize: '20px',
         maxHeight: 160,
         color: '#373737',
-        // color: 'red'
     },
-    // height: {
-        
-    //     backgroundColor: 'blue',
-    //     height : '150px',
-
-    // }
-
 })

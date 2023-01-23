@@ -4,13 +4,9 @@ import InputText from '../components/InputText';
 // import * as SecureStore from 'expo-secure-store';
 // import jwt_decode from 'jwt-decode
 
-export default function ChatScreen(props ) {
+export default function ChatScreen(props) {
 
-   
-    //    const [message, setMessage] = useState('');
-       const room_id = 4
-    //    const Id_room = props.id_room 
-
+        const room_id = 4;
 
     return (
         <TouchableWithoutFeedback onPress={()=>{
@@ -20,6 +16,9 @@ export default function ChatScreen(props ) {
             <InputText
                 
                 idRoom = {room_id}
+
+                //4. je recupère via le props de mon parent mon attribu onChangeText et je lui passe le contenu de l'input
+                //  
                 onChangeText = {props.text}
             />
         </View>

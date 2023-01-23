@@ -7,20 +7,13 @@ import jwt_decode from 'jwt-decode'
 
 export default function ButtonMessage(props) {
 
-    console.log('actualisation du texte: '+ props.text);
-    // console.log(props.idRoom)
-
     const handleSubmit = () => {
-
-        console.log('on passe le handleSubmit');
 
         SecureStore.getItemAsync('token1').then((rest) => {
             console.log('reest'+ rest);
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if (res) {
                     var decoded = jwt_decode(rest);
-
-                    console.log('SECURESTORE: '+ decoded);
 
                     if (props.text) {
                         axios.post(`${API}/chat/${props.idRoom}`, 
@@ -34,9 +27,10 @@ export default function ButtonMessage(props) {
                                 refreshtoken : res
                             }
                         }).then(res => {
-                            // console.log('message sent fati', res);
+                            // 5. Une fois mon message bien reçu à la bdd,
+                            //    je set le contenu de l'input à 'vide' pour clear l'input.
+                            props.setText('');
                             console.log('res: ' + res)
-                            // console.warn(res);
                         }).catch(e => {
                             console.error(e);
                         })
