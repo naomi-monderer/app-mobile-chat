@@ -34,8 +34,7 @@ export default function Connexion() {
             const refresh = response.data.refresh;
             SecureStore.setItemAsync('token1', token).then(() => {
                 SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
-                    console.log(token)
-                    console.log('token is tokened')
+                    console.log('on est dans connexion: recuperation du token')
                 })
             })
         })

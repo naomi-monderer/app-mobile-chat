@@ -7,34 +7,35 @@ import jwt_decode from 'jwt-decode'
 
 export default function ButtonMessage(props) {
 
-    // console.log(props)
+    console.log('actualisation du texte: '+ props.text);
     // console.log(props.idRoom)
 
     const handleSubmit = () => {
 
-        // console.log('object');
+        console.log('on passe le handleSubmit');
 
         SecureStore.getItemAsync('token1').then((rest) => {
+            console.log('reest'+ rest);
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if (res) {
                     var decoded = jwt_decode(rest);
-                    // console.log(decoded);
 
-                    console.log(decoded.id_rooms);
-                    //array rooms
-                    // si token englobe tout pour params req HTTP
+                    console.log('SECURESTORE: '+ decoded);
 
                     if (props.text) {
-                        axios.post(`${API}/chat/${props.idRoom}`, {
-                            data: JSON.stringify({
-                                content: props.text,
-                                id: decoded.id,
-                                id_role: decoded.id_role
-
-                            })
+                        axios.post(`${API}/chat/${props.idRoom}`, 
+                        JSON.stringify({
+                            content: props.text,
+                        }),
+                        {
+                            headers: {
+                                'Content-Type' : 'application/json',
+                                token1 : rest,
+                                refreshtoken : res
+                            }
                         }).then(res => {
                             // console.log('message sent fati', res);
-                            console.log('naomi')
+                            console.log('res: ' + res)
                             // console.warn(res);
                         }).catch(e => {
                             console.error(e);

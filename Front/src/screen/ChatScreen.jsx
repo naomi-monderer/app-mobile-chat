@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, Button, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import InputText from '../components/InputText';
 // import * as SecureStore from 'expo-secure-store';
-// import jwt_decode from 'jwt-decode'
-
-
-
+// import jwt_decode from 'jwt-decode
 
 export default function ChatScreen(props ) {
 
