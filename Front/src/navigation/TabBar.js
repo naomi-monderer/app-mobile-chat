@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import Icon from 'react-native-vector-icons/Ionicons';
 import AllRooms from '../screen/AllRooms'
 import Profil from '../screen/Profil'
 import Messages from '../screen/Messages'
 import { View,Image,Text,StyleSheet,TouchableOpacity } from 'react-native';
+
+
+
+
 
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +29,9 @@ function TabBar() {
   })
 
   const screenOptions = {
+    tabBarShowLabel: false,
     tabBarStyle:{
+      display: 'flex',
       height:70,
       position: 'absolute',
       bottom: 20,
@@ -38,7 +44,7 @@ function TabBar() {
       ...styles.shadow
     },
     tabBarItemStyle:{
-      paddingTop: 30,
+      paddingTop: 0,
       margin:5,
       borderRadius:10,
     }, 
@@ -46,7 +52,7 @@ function TabBar() {
 
 
   return (
-    <Tab.Navigator tabBarOptions={{showLabel: false}}  {...{ screenOptions}}>
+    <Tab.Navigator {...{ screenOptions}}>
       <Tab.Screen name="Messages" component={Messages} options={{ 
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center',}}>

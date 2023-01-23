@@ -6,22 +6,46 @@ import { Text, View, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 // import LongPressMessage from '../components/LongPressMessage';
 // import { GiftedChat, Bubble, Time} from 'react-native-gifted-chat';
 
+
+
+
+
+
 const Messages = () => {
-    const [message, setMessage] = useState('Press and hold to change the message');
     const [modalVisible, setModalVisible] = useState(false);
     // const [dateTime, setDateTime] = useState();
     const [selectedReaction, setSelectedReaction] = useState(null);
+    const [message, setMessages] = useState('Press and hold to change the message');
+    
+    
+    const fetchMessages = async () => {
+        const client = axios.create({
+            baseURL: "http://localhost:3000/",
+        })
+        try {
+            const response = await client.get('chat/');
+            setMessages(response.data);
+            console.log("my messsssszages", response.data)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
+    useEffect(() => {
+        fetchMessages();
+    }, []);
 
     const handleLongPress = () => {
         setModalVisible(true);
     };
    
     const handleReaction = (reaction) => {
-        setMessage(`${message} ${reaction}`);
+        setMessages(`${message} ${reaction}`);
         setSelectedReaction(reaction);
         setModalVisible(false);
         // setDateTime(new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
     };
+
     const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
 
@@ -49,11 +73,12 @@ const Messages = () => {
                         </Text>
                     </TouchableOpacity> 
              </View>
+             <TouchableOpacity>
                 <Modal
                     animationType="none"
                     transparent={true}
                     visible={modalVisible}
-                    style={[styles.modalContainer, {bottom: modalPosition.bottom, right: modalPosition.right }]}
+                    style={[styles.modalContainer, ]}
                 >
                     <View style={[styles.modalContainer]}>
                         <TouchableOpacity
@@ -73,6 +98,7 @@ const Messages = () => {
                         </TouchableOpacity>
                     </View>
                 </Modal> 
+                </TouchableOpacity>
                  
             
             <View style={styles.bottomModal}> 
