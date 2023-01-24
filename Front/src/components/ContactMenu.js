@@ -10,7 +10,7 @@ const refreshtoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxN
 const baseUrl = "http://localhost:3000/rooms/contact"
 
 const config = {
-    headers: { token1: `${token}`,
+	headers: { token1: `${token}`,
 	refreshtoken: `${refreshtoken}`}
 };
 
@@ -70,12 +70,12 @@ export default function ContactMenu() {
 
 
 const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
+	container: {
+		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: '#080713'
-    },
+	},
 	tinyIcon: {
 		width: 50,
 		height: 50,
