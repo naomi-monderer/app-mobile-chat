@@ -70,6 +70,12 @@ const Messages = () => {
 
   if (messages?.length > 0) {
     console.log("ok");
+    messages.forEach(msg => {
+            let date = new Date(msg.created_at)
+            formattedDate = new Date(msg.created_at).toLocaleTimeString('en-US', 
+            { hour: 'numeric', minute: 'numeric', hour12: true })
+         });
+    }
     return (
       <>
         {messages?.map((msg, index) => (
@@ -82,7 +88,6 @@ const Messages = () => {
                   <Text style={{ margin: 15 }}>{msg.content}</Text>
                 </TouchableOpacity>
               </View>
-
                 
 
               <View style={styles.bottomModal} >
@@ -102,7 +107,10 @@ const Messages = () => {
                 ) : (
                   <Text></Text>
                 )}
-
+                    <View>
+                    
+                    <Text style={{ marginLeft: 35 }}>{formattedDate}</Text>
+                  </View>
                 {msg.reaction ? (
                   <View>
                     <Text style={{ marginLeft: 35 }}>{msg.reaction}</Text>
@@ -118,7 +126,7 @@ const Messages = () => {
         ))}
       </>
     );
-  }
+  
 };
 
 export default Messages;
