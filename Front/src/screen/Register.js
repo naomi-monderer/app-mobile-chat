@@ -18,7 +18,6 @@ const Register = () => {
 
         if (passwordRegex.test(password)) {
             console.log("Valid password");
-          
             axios.post(`${API}/users/inscription`, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -86,7 +85,6 @@ const Register = () => {
     });
 
     return (
-        
         <View style={styles.background}>
             <SafeAreaView>
                 <ImageBackground
