@@ -1,13 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6Implbm5pZSIsImlhdCI6MTY3Mzk1NDE4NiwidHlwZSI6ImF1dGh0b2tlbiIsImVtYWlsIjoiamVubmllQGJsYWNrcGluay5jb20iLCJpZCI6IjIiLCJpZF9yb2xlIjoyLCJpZF9yb29tcyI6WyIyIiwiMSIsIjQiXSwiZXhwIjoxNjc2NTQ2MTg2fQ.xjWO6okUAzG2G7E7nXZ6y-SMRIAwjCzt_8DSEzU7buw'
 
 const refreshtoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjczOTU0MzA3fQ.aubpMIY3JKSU-Jmo_2Grrt6p7TrUYcfqk_4hVP7mVX4'
 
-const baseUrl = "http://localhost:3000/rooms/contact"
+// const baseUrl = "http://10.10.46.224:3000"
+// const baseUrl = "http://192.168.0.49:3000"
+// const baseUrl = "http://localhost:3000"
 
 const config = {
 	headers: { token1: `${token}`,
@@ -15,8 +17,11 @@ const config = {
 };
 
 
-export default function ContactMenu() {
+export default function ContactMenu({callTab}) {
 	const [contacts, setContacts] = useState([]);
+
+	let baseUrl = "http://localhost:3000/rooms/generalroom"
+	if (callTab === 2) baseUrl = "http://localhost:3000/rooms/contact"
 
 	useEffect(() => {
 		axios.get(
@@ -26,11 +31,13 @@ export default function ContactMenu() {
 				setContacts(response.data)
 			})
 			.catch(error => console.log(error));
-		}, []);
+		}, [callTab]);
 
 	return (
 		<View>
-		{contacts.map((contact) => 
+		{
+			contacts.length > 0 ?
+			contacts.map((contact) => 
 			<View 
 				style={styles.container}
 				key={contact.id}
@@ -63,6 +70,18 @@ export default function ContactMenu() {
 				</View>
 			</View>
 			)
+			:
+			<View style={styles.container2}>
+				<Text style={styles.text}>
+					You are not subscribed to any rooms.
+				</Text>
+				<TouchableOpacity 
+						// onPress={() => underlined(1)}
+						style={styles.cta}
+					>
+						<Text style={styles.textCta}> Get a room </Text>
+				</TouchableOpacity>
+			</View>
 		}
 		</View>
 	)
@@ -100,4 +119,20 @@ const styles = StyleSheet.create({
 		maxWidth: '100%',
 		marginTop: 7,
 	},
+	container2: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	text: {
+		color: 'white',
+	},
+	cta: {
+		marginTop: 15,
+	},
+	textCta: {
+		color: 'white',
+		padding: 5,
+		backgroundColor: '#C5AAFF',
+	}
 })
