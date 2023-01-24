@@ -18,7 +18,16 @@ const displayRoomsAndChat = (req, res) => {
 	})
 }
 
+const displayMainChat = (req, res) => {
+	const sql = `SELECT rooms.id, rooms.name, messages.content FROM messages CROSS JOIN rooms ON messages.id_room = rooms.id WHERE rooms.id = 0 AND created_at IN (SELECT MAX(created_at) FROM messages GROUP BY id_room)`
+	db.query(sql, function(error, data){
+		if (error) throw error;
+		else res.status(200).send(data);
+	})
+}
+
 module.exports = { 
 	getAllRooms,
-	displayRoomsAndChat
+	displayRoomsAndChat,
+	displayMainChat
 }

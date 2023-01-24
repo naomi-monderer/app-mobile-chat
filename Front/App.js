@@ -11,9 +11,12 @@ const tabs = createBottomTabNavigator();
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
+    // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    //   <Text>Home Screen</Text>
+    // </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Contact" component={Contact} />
+    </Tab.Navigator>
   );
 }
 
@@ -40,6 +43,5 @@ function App() {
     </NavigationContainer>
   );
 }
-
 
 export default App;
