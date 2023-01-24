@@ -115,7 +115,7 @@ const authUsers = (req, res) => {
 				id_role:results[0].id_role,},
 				mySecret, 
 				{
-				expiresIn: "1m",
+				expiresIn: "30m",
 				}
 				);
 			
@@ -192,24 +192,28 @@ const getUserDetails = (req, res) => {
 }
 
 const updateUser = (req, res) => {
-	// let password = hashage(req.body.password);
+
 	const { login, email,password, confPassword } = req.body;
 
-	const sql2 = "SELECT * FROM users WHERE  email LIKE '" + email + "'"
-	db.query(sql2, async (response, data) => {
-	
-		if (data.email == email) {                                    // Vérifie la longueur du resultat et si = de 0 utilisateur : erreur
-			return response.status(400).json({ message: 'Erreur, un compte est déjà lié a cet email' })
-			
-		} else {
+	if (!login.length  || !password.length  || !email.length) {
+		return res.status(400).json({ message : 'missing params' });
+	}
 
+	const sql2 = "SELECT id FROM users WHERE NOT id = '"+req.user.id+"' AND (email = '"+req.body.email+"' OR login = '"+req.body.login+"')"
+	db.query(sql2, async (response, data) => {
+		console.log(req.body)
+		console.log('req.ujser',req.user)
+		
+		if (data.length == 0) {                                    
+				console.log('first')
 			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;                                                 //minimum 8char, 1maj, 1minuscule ett 1 chiffre
 			const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if (password == confPassword){
-				console.log(password)
-				const salt =  await bcrypt.genSalt()
-				const hash =   await bcrypt.hash(password, salt);
-				const sqlUpdate = "UPDATE users SET `login` = '" + login + "', `password`= '" + hash + "', `email`= '" + email + "' WHERE id = '"+ req.user.id +"' ";
+
+				const salt = await  bcrypt.genSalt()
+				const hash =  await  bcrypt.hash(password, salt);
+
+				const sqlUpdate = "UPDATE users SET `login` = '" + req.body.login + "', `password`= '" + hash + "', `email`= '" + req.body.email + "' WHERE id = '"+ req.user.id +"' ";
 
 				if (!passwordRegex.test(req.body.password)) {
 					return res.status(400).json({ message: 'Erreur, le mot de passe doit contenir au minimum 8 charactères, 1 majuscule et 1 minuscule' })
@@ -220,10 +224,15 @@ const updateUser = (req, res) => {
 				}
 
 				db.query(sqlUpdate, [req.params.id], (err, data) => {
+					// return res.json(updateData)
 					return res.status(200).json({ message: "Utilisateur modifié avec succès" });
 				})
 			}
 		}
+		else {
+			return res.status(401).json({ message : "Error, an account is already linked to this email or login" });
+
+	}
 	})
 }
 

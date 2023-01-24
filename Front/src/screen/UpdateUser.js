@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity,SafeAreaView, StyleSheet, ImageBackground } from 'react-native';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { API } from '../constant/constant';
 import jwt_decode from "jwt-decode";
-
 
 const UpdateUser = () => {
 
@@ -12,54 +11,39 @@ const UpdateUser = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
+
+    const [userInfo, setUserInfo] = useState({});
+    
+        useEffect(() => {
+            const getToken = async () => {
+                try {
+
+                    const jwt = await SecureStore.getItemAsync('refreshtoken');
+                    const decoded = jwt_decode(jwt);
+                    setUserInfo(decoded);
+                    setEmail(decoded.email)
+                    setLogin(decoded.login)
+
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            getToken();
+        }, []);
 
     const handleSubmit = () => {
-        console.log('email:',email);
-        console.log('login:',login);
-        console.log('password:',password);
-        console.log('passwordConfirm:',passwordConfirm);
-        
 
 		SecureStore.getItemAsync('token1').then((rest) => {
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if(res) {
-                    // console.log(res)
+
                     var decoded = jwt_decode(res);
-                    // console.log(decoded)
                     const userId = decoded.id;
-                    console.log(decoded)
-                    
-                    const tata = SecureStore.getItemAsync('token1')
-                    const id = '40';
-                    // console.log('token',rest)
-                    // console.log('refresh', res)
-                    const token = rest;
-                    // console.log('PAYLOD',rest)
-                    const data = [userId,login,password, email];
-                    // const config = {
-                    //     headers: {
-                    //             token1: `${rest}`,
-                    //         },
-                    // };
-                    // const config = {
-                    //     headers: {
-                    //        Authorization: "Bearer " + res
-                    //     }
-                    //  }
-                    // const config = {
-                    //     headers: {
-                    //         'Authorization': `Bearer ${rest}`
-                    //     }
-                    // };
-                    // console.log('config : ',config)
-                    // axios.get(`${API}/users/details/${userId}`,config )
-                    //     .then(response => {
-                    //         console.log('no homo',response.data);
-                    //     })
-                    //     .catch(error => {
-                    //         console.log(error);
-                    //     });
+
+                    if(password != passwordConfirm){
+                       return alert('passwords are not the same')
+                    }
+
                     axios({
                         method: 'post',
                         url:`${API}/users/update`,
@@ -76,43 +60,32 @@ const UpdateUser = () => {
                             email: email
                         }),
                     })
-                    // axios.post(`${API}/users/update`,{
-                        // method: 'post',
-                        // url: `${API}/users/update`,
-                        // // token1: `${rest}`,
-                        // // refreshtoken: `${res}`,
-                        // // headers: {
-                        // //     token1: `${rest}`,
-                        // //     refreshtoken: `${res}`
-                        // // },
-                        // headers: {
-                        //     token1: `${rest}`,
-                        // },
-                        // // headers: {
-                        // //     token1: `${rest}`,
-                        // //     refreshtoken: `${res}`
-                        // // },
-                    //     data: data,
-                    // })
                 .then(response => {
                     console.log('response',response);
                     // Show success message
                 })
                 .catch(error => {
                     if (error.response) {
+                        alert(error.response.data.message)
+                        // alert(error.response.data)
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
+                        console.log('error response message', error.response.message)
                         console.log('error response data', error.response.data);
                         console.log('error response status', error.response.status);
                         console.log('error response headers', error.response.headers);
+                        console.log('console log error response ',error.response.headers)
                     } else if (error.request) {
+                        alert(error.response.data.error)
                         // The request was made but no response was received
                         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                         // http.ClientRequest in node.js
                         console.log('error request', error.request);
                     } else {
                         // Something happened in setting up the request that triggered an Error
+                        alert(error.response.data.message)
                         console.log('Error', error.message);
+                        // alert(error.message)
                     }
                 });
             }
@@ -120,7 +93,6 @@ const UpdateUser = () => {
             }) 
         })
     }
-
 
     return (
         <View>
