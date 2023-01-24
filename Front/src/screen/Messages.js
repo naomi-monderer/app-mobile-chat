@@ -3,14 +3,12 @@ import axios from "axios";
 // import * as SecureStore from 'expo-secure-store';
 // import jwt_decode from "jwt-decode";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
-  Modal,
-  SafeAreaView,
 } from "react-native";
 
 const Messages = () => {
@@ -62,7 +60,6 @@ const Messages = () => {
       ...newMessages[index],
       reaction,
     };
-    // newMessages[index].reaction = reaction;
     setMessages(newMessages);
     setSelectedReaction(reaction);
     setModalVisible(false);
@@ -70,68 +67,70 @@ const Messages = () => {
 
   if (messages?.length > 0) {
     console.log("ok");
-    messages.forEach(msg => {
-            let date = new Date(msg.created_at)
-            formattedDate = new Date(msg.created_at).toLocaleTimeString('en-US', 
-            { hour: 'numeric', minute: 'numeric', hour12: true })
-         });
-    }
-    return (
-      <>
-        {messages?.map((msg, index) => (
-          <View style={styles.container} key={index}>
-            <SafeAreaView>
-              <View style={styles.receivedMessage}>
-                <TouchableOpacity
-                  onLongPress={() =>handleLongPress(index)}
-                >
-                  <Text style={{ margin: 15 }}>{msg.content}</Text>
-                </TouchableOpacity>
-              </View>
-                
-
-              <View style={styles.bottomModal} >
-                {selectedMessageIndex === index && modalVisible ? (
-                    <TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleReaction("💅🏽", index)}>
-                        <Text>💅🏽</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleReaction("🫶", index)}>
-                        <Text>🫶</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleReaction("🤮", index)}>
-                        <Text>🤮</Text>
-                        </TouchableOpacity>
-                    </TouchableOpacity>
-                    
-                ) : (
-                  <Text></Text>
-                )}
-                    <View>
-                    
-                    <Text style={{ marginLeft: 35 }}>{formattedDate}</Text>
-                  </View>
-                {msg.reaction ? (
-                  <View>
-                    <Text style={{ marginLeft: 35 }}>{msg.reaction}</Text>
-                  </View>
-                ) : null}
-              </View>
-
-              <View>
-                <Text style={styles.currentHour}>{dateTime}</Text>
-              </View>
-            </SafeAreaView>
+    messages.forEach((msg) => {
+      let date = new Date(msg.created_at);
+      formattedDate = new Date(msg.created_at).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+    });
+  }
+  return (
+    <>
+    <View>
+            <Text style={styles.currentHour}>{dateTime}</Text>
           </View>
-        ))}
-      </>
-    );
-  
+      {messages?.map((msg, index) => (
+        <View style={styles.container} key={index}>
+
+          <View style={styles.receivedMessage}>
+            <TouchableOpacity onLongPress={() => handleLongPress(index)}>
+              <Text style={{ margin: 15 }}>{msg.content}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.display}>
+            <View>
+              <Text style={styles.receivedHour}>{formattedDate}</Text>
+            </View>
+
+            <View style={styles.bottomModal}>
+              {msg.reaction ? (
+                <View style={{ marginBottom:50 }}>
+                  <Text style={{fontSize:25, marginLeft:80, marginBottom:50 }}>{msg.reaction}</Text>
+                </View>
+              ) : null}
+              {selectedMessageIndex === index && modalVisible ? (
+                <TouchableOpacity style={styles.modalContainer}>
+                  <TouchableOpacity onPress={() => handleReaction("💅🏽", index)}>
+                    <Text style={{fontSize:20,}}>💅🏽</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleReaction("🫶", index)}>
+                    <Text style={{fontSize:20,}}>🫶</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleReaction("🤮", index)}>
+                    <Text style={{fontSize:20,}}>🤮</Text>
+                  </TouchableOpacity>
+                </TouchableOpacity>
+              ) : (
+                <Text></Text>
+              )}
+            </View>
+          </View>
+        
+        </View>
+      ))}
+    </>
+  );
 };
 
 export default Messages;
 
 const styles = StyleSheet.create({
+  display: {
+    flexDirection:'row',
+  },
+
   sendMessage: {
     margin: 20,
     width: "40%",
@@ -156,8 +155,8 @@ const styles = StyleSheet.create({
   },
 
   receivedHour: {
-    alignSelf: "flex-end",
-    marginRight: 28,
+    alignSelf: "flex-start",
+    marginLeft: 20,
     paddingTop: 0,
     fontSize: 10,
   },
@@ -171,8 +170,9 @@ const styles = StyleSheet.create({
 
   bottomModal: {
     flexDirection: "row",
-    width: "45%",
-    flexWrap: "nowrap",
+    width: "27%",
+    flexWrap: "wrap",
+    // backgroundColor: "green",
     justifyContent: "space-between",
   },
 
@@ -183,14 +183,17 @@ const styles = StyleSheet.create({
   },
 
   modalContainer: {
-    position: "absolute",
+    alignItems: "flex-end",
+    width: "80%",
     backgroundColor: "white",
+    marginLeft:79,
     padding: 10,
     borderRadius: 10,
     flexDirection: "row",
-  },
+},
 
-  reactionsContainer: {
+reactionsContainer: {
+      
     marginRight: 10,
     width: "20%",
     flexDirection: "row",
