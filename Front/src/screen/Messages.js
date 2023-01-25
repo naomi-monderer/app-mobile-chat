@@ -2,7 +2,6 @@ import * as React from 'react';
 import  {useState, useEffect, useCallback} from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 
-// import { GiftedChat, Bubble, Time} from 'react-native-gifted-chat';
 
 const Messages = () => {
     const onPressButton = () => {
