@@ -44,7 +44,7 @@ function TabBar() {
       ...styles.shadow
     },
     tabBarItemStyle:{
-      paddingTop: 0,
+      paddingTop: 28,
       margin:5,
       borderRadius:10,
     }, 

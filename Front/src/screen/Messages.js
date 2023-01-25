@@ -26,12 +26,12 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     const client = axios.create({
-      baseURL: "http://10.10.57.156:3000/",
+      baseURL: "http://10.10.60.111:3000/",
     });
     try {
       const response = await client.get(`chat/messages`, {
         headers: {
-          "Access-Control-Allow-Origin": "http://10.10.57.156:3000",
+          "Access-Control-Allow-Origin": "http://10.10.60.111:3000",
           "Access-Control-Allow-Methods": "GET",
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
@@ -94,12 +94,12 @@ const Messages = () => {
               <Text style={styles.receivedHour}>{formattedDate}</Text>
             </View>
 
-            <View style={styles.bottomModal}>
               {msg.reaction ? (
-                <View style={{ marginBottom:50 }}>
-                  <Text style={{fontSize:25, marginLeft:80, marginBottom:50 }}>{msg.reaction}</Text>
+                <View style={{ position: 'absolute', bottom: 0, alignSelf: 'flex-start', paddingLeft:67 }}>
+                  <Text style={{fontSize:25, marginLeft:80,  }}>{msg.reaction}</Text>
                 </View>
               ) : null}
+            <View style={styles.bottomModal}>
               {selectedMessageIndex === index && modalVisible ? (
                 <TouchableOpacity style={styles.modalContainer}>
                   <TouchableOpacity onPress={() => handleReaction("💅🏽", index)}>
@@ -170,8 +170,10 @@ const styles = StyleSheet.create({
 
   bottomModal: {
     flexDirection: "row",
+    zIndex: 1000,
     width: "27%",
-    flexWrap: "wrap",
+    alignSelf: "flex-start",
+    // flexWrap: "wrap",
     // backgroundColor: "green",
     justifyContent: "space-between",
   },
@@ -192,13 +194,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 },
 
-reactionsContainer: {
-      
-    marginRight: 10,
-    width: "20%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: 20,
-  },
+// reactionsContainer: {
+//           backgroundColor: "green",
+//     marginRight: 10,
+//     width: "20%",
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     borderRadius: 20,
+//   },
 });
