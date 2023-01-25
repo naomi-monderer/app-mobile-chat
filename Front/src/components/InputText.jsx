@@ -10,36 +10,24 @@ export default function InputText(props) {
 
     return (
 
-        <View style={styles.container}>
-            <View style={styles.head} />
+        <View style={styles.foot}>
+            <TextInput
+                multiline={true}
+                // 2. j'utilise l'attribu onChangeText pour recuper la valeur de mon input
+                onChangeText = {(text) => setText(text)}
+                style= {[styles.input, {height}]}
 
-            <KeyboardAvoidingView
-                style={styles.box}
-                keyboardVerticalOffset={100}
-                behavior={Platform.OS === 'ios' ? 'padding' : null}
-            >
-
-                <View style={styles.foot}>
-                    <TextInput
-                        multiline={true}
-                        // 2. j'utilise l'attribu onChangeText pour recuper la valeur de mon input
-                        onChangeText = {(text) => setText(text)}
-                        style= {[styles.input, {height}]}
-
-                        // 7. Je recupère le state à jour qui a été vidé  dans le .then de ma requete axios,
-                        //   dans ma const text 
-                        value = {text}
-                    />
-                    <ButtonMessage  
-                        // 6. Je donne à ButtonMessage la permission de modifier le texte. 
-                        setText = {setText}
-                        // 3. je recupère le contenu du message pour le faire passer dans le handleSubmit et le transmettre à la db
-                        text={text} 
-                        idRoom={props.idRoom} 
-                    />
-                </View>
-
-            </KeyboardAvoidingView>
+                // 7. Je recupère le state à jour qui a été vidé  dans le .then de ma requete axios,
+                //   dans ma const text 
+                value = {text}
+            />
+            <ButtonMessage  
+                // 6. Je donne à ButtonMessage la permission de modifier le texte. 
+                setText = {setText}
+                // 3. je recupère le contenu du message pour le faire passer dans le handleSubmit et le transmettre à la db
+                text={text} 
+                idRoom={props.idRoom} 
+            />
         </View>
     )
 }
@@ -47,26 +35,31 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: '#080713',
+        justifyContent: 'flex-end',
+        // backgroundColor: '#080713',
+        backgroundColor: 'red',
 
     },
     box: {
 
-        BackgroundColor: 'red',
+        backgroundColor: 'blue',
     },
     head: {
+        // height: 0,
         borderBottomWidth: 1,
         borderBottomColor: '#717171',
-        flex: 1,
+        // flex: 1,
         backgroundColor: '#080713',
 
     },
     foot: {
         padding: 10,
-        paddingBottom: 10,
+        paddingBottom: 20,
         display: 'flex',
         alignItems: 'center',
         maxHeight: 170,
+        borderTopWidth: 1,
+        borderTopColor: '#ffffff',
     },
     input: {
         backgroundColor: '#ADADAD',

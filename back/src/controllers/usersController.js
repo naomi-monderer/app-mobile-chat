@@ -27,7 +27,7 @@ const registerUsers = async (req, res) => {
 
 					if (response.length > 0) {
 						//Si l'email existe déjà en base de donnée on return l'erreur
-						return res.status(400).json({ 'error': 'email alreaddy used' });
+						return res.status(400).json({ 'error': 'email already used' });
 					}
 
 					// Hash password
