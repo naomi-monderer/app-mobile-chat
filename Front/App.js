@@ -8,7 +8,7 @@ import TabBar from './src/navigation/TabBar';
 import Messages from './src/screen/Messages';
 
 // import Screen Components
-// import HomeScreen from './src/screen/HomeScreen';
+import HomeScreen from './src/screen/HomeScreen';
 import ChatScreen from './src/screen/ChatScreen';
 import Connexion from './src/screen/Connexion';
 import LogoutButton from './src/components/LogoutButton';
@@ -28,10 +28,11 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         {/* <Stack.Screen name="HomeScreen" component={LogoutButton} /> */}
         {/* <Stack.Screen name="Connexion" component={Connexion} /> */}
-        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        
+        <Stack.Screen name="ChatScreen"   component={ChatScreen} options ={{title:'nom room'}} />
         {/* <Stack.Screen name='Register' component={Register} /> */}
         {/* <Stack.Screen name='Message' component={Messages} /> */}
 

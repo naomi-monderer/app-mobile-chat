@@ -100,25 +100,26 @@ const authUsers = (req, res) => {
 				id: results[0].id.toString(),
 				id_role: results[0].id_role,
 				id_rooms: rooms
-			}, mySecret,{
+			}, mySecret, {
 				expiresIn: "30d",
-				});
+			});
 
-			const refreshToken = jwt.sign({ 
+			const refreshToken = jwt.sign({
 				message: "refresh Token info",
 				iat: ~~(Date.now() / 1000),
 				type: 'token',
-				email:results[0].email,
-				login:login,
+				email: results[0].email,
+				login: login,
 				id_rooms: rooms,
-				id:results[0].id.toString(),
-				id_role:results[0].id_role,},
-				mySecret, 
+				id: results[0].id.toString(),
+				id_role: results[0].id_role,
+			},
+				mySecret,
 				{
-				expiresIn: "1m",
+					expiresIn: "5m",
 				}
-				);
-			
+			);
+
 			res.status(200).json({
 				status: true,
 				token: token,
@@ -136,7 +137,7 @@ const connectedUser = (req, res) => {
 	})
 }
 
-const refreshToken =  (id, callback) => {
+const refreshToken = (id, callback) => {
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE users.id = ${id} GROUP BY id`, (err, results) => {
 		if (results.length > 0) {
 			const rooms = results[0].rooms.split(',')
@@ -162,26 +163,23 @@ const addUserToRoom = (req, res) => {
 
 	const verifyRoles = `SELECT role FROM  users INNER JOIN roles 
 	ON roles.id = users.id_role WHERE users.id = ?`
-	db.query(verifyRoles, [req.user.id] , function (error, data) {
+	db.query(verifyRoles, [req.user.id], function (error, data) {
 
-		if (data.length !== 0)
-		{
+		if (data.length !== 0) {
 			if (data[0].role !== "ban") {
 
 				const verifyParticipation = `SELECT id_room FROM participants WHERE id_user = ? AND id_room = ?`
-				db.query(verifyParticipation, [req.user.id, req.params.idRoom], function(error,dataIdRoom)
-				{
-					if(dataIdRoom[0] == undefined)
-					{
+				db.query(verifyParticipation, [req.user.id, req.params.idRoom], function (error, dataIdRoom) {
+					if (dataIdRoom[0] == undefined) {
 						var insertUser = insertToRoom(req.body.id_room, req.user.id);
-						res.status(200).send({message:'Request succeed.'})
-					
-					} else res.status(400).send({message : 'The id user '+[req.user.id]+ ' is already related to the id room '+[req.body.id_room]+' .'});
+						res.status(200).send({ message: 'Request succeed.' })
+
+					} else res.status(400).send({ message: 'The id user ' + [req.user.id] + ' is already related to the id room ' + [req.body.id_room] + ' .' });
 				})
 			} else res.status(400).send({ message: 'You were ban of this room.' })
 		}
 	})
-}		
+}
 
 const getUserDetails = (req, res) => {
 	const sql = `SELECT users.login, users.email, GROUP_CONCAT(rooms.name) AS rooms_name FROM users, rooms WHERE users.id = ${req.params.userId}`
@@ -230,45 +228,45 @@ const updateUser = (req, res) => {
 						res.status(200).json({
 							status: true,
 							message: 'Email updated'
-					});
-					db.query("UPDATE users set email='"+email+"' WHERE id = '"+req.user.id+"'  "), (err, response) => {
-						if(err) {
-							res.status(500).json({
-								status: false,
-								message: 'There was a problem with the query.'
-						});						
-					}
+						});
+						db.query("UPDATE users set email='" + email + "' WHERE id = '" + req.user.id + "'  "), (err, response) => {
+							if (err) {
+								res.status(500).json({
+									status: false,
+									message: 'There was a problem with the query.'
+								});
+							}
+						}
+					} else res.status(401).json({ 'error': 'the password do not match' });
 				}
-			} else res.status(401).json({'error': 'the password do not match'});
-		}
-	})
-	} else if (password != null){
+			})
+		} else if (password != null) {
 			//Si le password est remplis
-		db.query("SELECT password FROM users WHERE id = '"+ req.params.id +"'", (response) => {
-			if(response.length > 0) {
-				return res.status(401).json({'error': 'password not avaible'});
-			} else {
-				if (password === confPassword) {
-					//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs et on hash
-					const salt =  bcrypt.genSalt()
-					const hash =   bcrypt.hash(password, salt);
-					res.status(200).json({
-						status: true,
-						message: 'Password updated'
-				});
-				db.query("UPDATE users set password='"+hash+"' WHERE id = '"+req.user.id+"'  "), (err) => {
-					if(err) {
+			db.query("SELECT password FROM users WHERE id = '" + req.params.id + "'", (response) => {
+				if (response.length > 0) {
+					return res.status(401).json({ 'error': 'password not avaible' });
+				} else {
+					if (password === confPassword) {
+						//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs et on hash
+						const salt = bcrypt.genSalt()
+						const hash = bcrypt.hash(password, salt);
+						res.status(200).json({
+							status: true,
+							message: 'Password updated'
+						});
+						db.query("UPDATE users set password='" + hash + "' WHERE id = '" + req.user.id + "'  "), (err) => {
+							if (err) {
 
-					res.status(500).json({
-						status: false,
-						message: 'There was a problem with the query.'
-					});						
+								res.status(500).json({
+									status: false,
+									message: 'There was a problem with the query.'
+								});
+							}
+						}
+					} else res.status(401).json({ 'error': 'the password do not match' });
 				}
-			}
-				} else res.status(401).json({'error': 'the password do not match'});
-			}
-		})
-	} else res.status(401).json({'error': 'Empty field'});
+			})
+		} else res.status(401).json({ 'error': 'Empty field' });
 	} catch (error) {
 		return res.status(400).send(error)
 	}

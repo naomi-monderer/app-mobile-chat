@@ -10,7 +10,7 @@ export default function ButtonMessage(props) {
     const handleSubmit = () => {
 
         SecureStore.getItemAsync('token1').then((rest) => {
-            console.log('reest'+ rest);
+            console.log('rest: '+ rest);
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if (res) {
                     var decoded = jwt_decode(rest);
@@ -75,7 +75,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 20,
         top: 15,
-        zIndex: 3
+        zIndex: 3,
+        borderColor:'#EFE2E2',
+        borderWidth:0.5,
     },
     img: {
         height: 20,
