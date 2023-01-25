@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
 
   receivedHour: {
     alignSelf: "flex-start",
-    marginLeft: 20,
+    marginLeft: 25,
     paddingTop: 0,
     fontSize: 10,
   },
