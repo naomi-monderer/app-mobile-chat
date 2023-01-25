@@ -23,6 +23,7 @@ exports.signIn = (req, res, next) => {
 				const decoded2 = jwt.verify(tokenRefresh, mySecret)
 				var now = new Date().getTime() / 1000;
 
+				//mettrev decoded2.iat et pas .exp
 				if (now > decoded2.exp) { 
 					/* expired */ 
 					//le token est disponible ds le scope grace au callback ds refreshToken du usersController 

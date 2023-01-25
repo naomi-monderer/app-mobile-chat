@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import Icon from 'react-native-vector-icons/Ionicons';
 import AllRooms from '../screen/AllRooms'
 import Profil from '../screen/Profil'
 import Messages from '../screen/Messages'
 import { View,Image,Text,StyleSheet,TouchableOpacity } from 'react-native';
+
+
+
+
 
 
 const Tab = createBottomTabNavigator();
@@ -18,26 +22,29 @@ function TabBar() {
         width: 0,
         height: 10,
       },
-      shadowOpacity: 0.25,
+      shadowOpacity: 0.35,
       shadowRadius: 3.5,
       elevation: 5
       }
   })
 
   const screenOptions = {
+    tabBarShowLabel: false,
     tabBarStyle:{
+      display: 'flex',
       height:70,
       position: 'absolute',
-      bottom: 10,
+      bottom: 20,
       left: 10,
       right: 10,
       elevation: 0,
       backgroundColor: '#000000',
-      borderRadius: 15,
+      borderRadius: 25,
       height: 90, 
       ...styles.shadow
     },
     tabBarItemStyle:{
+      paddingTop: 28,
       margin:5,
       borderRadius:10,
     }, 
@@ -45,7 +52,7 @@ function TabBar() {
 
 
   return (
-    <Tab.Navigator tabBarOptions={{showLabel: false}}  {...{ screenOptions}}>
+    <Tab.Navigator {...{ screenOptions}}>
       <Tab.Screen name="Messages" component={Messages} options={{ 
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center',}}>
@@ -53,8 +60,8 @@ function TabBar() {
               source={require('../../assets/icons/message-icon.png')}
               resizeMode='contain '
               style={{
-                width: 35,
-                height: 35,
+                width: 50,
+                height: 50,
                 tintColor: focused ? '#B2FFDF' : '#ADADAD'
               }}
             />
@@ -73,8 +80,8 @@ function TabBar() {
                 source={require('../../assets/icons/chuu-purpl.png')}
                 resizeMode="contain"
                 style={{
-                  width: 35,
-                  height: 35,
+                  width: 50,
+                  height: 50,
                   tintColor: focused ? '#C5AAFF' : '#ADADAD'
                 }}
               />
@@ -93,8 +100,8 @@ function TabBar() {
               source={require('../../assets/icons/profil-icon.png')}
               resizeMode='contain '
               style={{
-                width: 30,
-                height: 30,
+                width: 44,
+                height: 44,
                 tintColor: focused ? '#FFE589' : '#ADADAD'
               }}
             />
