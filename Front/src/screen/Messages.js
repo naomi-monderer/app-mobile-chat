@@ -26,12 +26,12 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     const client = axios.create({
-      baseURL: "http://10.10.60.111:3000/",
+      baseURL: "http://10.10.63.72:3000/",
     });
     try {
       const response = await client.get(`chat/messages`, {
         headers: {
-          "Access-Control-Allow-Origin": "http://10.10.60.111:3000",
+          "Access-Control-Allow-Origin": "http://10.10.63.72:3000",
           "Access-Control-Allow-Methods": "GET",
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
