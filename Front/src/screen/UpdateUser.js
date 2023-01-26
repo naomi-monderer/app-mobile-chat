@@ -85,7 +85,6 @@ const UpdateUser = () => {
                         // Something happened in setting up the request that triggered an Error
                         alert(error.response.data.message)
                         console.log('Error', error.message);
-                        // alert(error.message)
                     }
                 });
             }
@@ -94,32 +93,127 @@ const UpdateUser = () => {
         })
     }
 
+    const styles = StyleSheet.create({
+        background: {
+            backgroundColor: '#080713',
+            width: '100%',
+            height: '100%',
+        },
+        title: {
+            padding:20,
+            textAlign: 'center',
+            fontWeight:'600',
+            fontSize:40,
+            lineHeight:46,
+            color:'#FFFFFF',
+        },
+        container: {
+            marginTop: 40,
+        },   
+        containerInput: {
+            flexDirection: 'row',
+            width: '100%',
+            padding:'5%'
+        },    
+        input: {
+            alignContent:'center',
+            flex:5,
+            fontSize:13,
+            paddingLeft: 50,
+            color: '#FFFFFF',
+        },
+        label: {
+            justifyContent:'flex-start',
+            marginBottom: 10,
+            fontSize: 13,
+            lineHeight:19,
+            fontWeight:'500',
+            color:'#FFFFFF',
+        },
+        button: {
+            marginTop:30,
+            backgroundColor: '#C5AAFF',
+            padding: 10,
+            margin:30,
+            borderRadius: 10,
+            alignItems: 'center',
+        }
+    })
+
     return (
-        <View>
-            <TextInput
-                placeholder="login"
-                value={login}
-                onChangeText={text => setLogin(text)}
+        <View style={styles.background} >
+            <Text style={styles.title} >Edit your profile</Text>
+
+            <View style={styles.container}>
+
+                <View style={styles.containerInput}>
+                    <Text style={styles.label}>Login:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="login"
+                        value={login}
+                        onChangeText={text => setLogin(text)}
+                    />
+                </View>
+                <View
+                    style={{
+                        borderBottomColor: 'white',
+                        borderBottomWidth: StyleSheet.hairlineWidth,
+                    }}
+                />
+
+            <View style={styles.containerInput}>
+                <Text style={styles.label}>Email:</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="email"
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                />
+            </View>
+            <View
+                style={{
+                    borderBottomColor: 'white',
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                }}
             />
-            <TextInput
-                placeholder="email"
-                value={email}
-                onChangeText={text => setEmail(text)}
+            
+            <Text></Text>
+            
+            <View style={styles.containerInput}>
+            <Text style={styles.label}>Password:</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="password"
+                    value={password}
+                    onChangeText={text => setPassword(text)}
+                    secureTextEntry={true}
+                />
+            </View>
+            <View
+                style={{
+                    borderBottomColor: 'white',
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                }}
             />
-            <TextInput
-                placeholder="password"
-                value={password}
-                onChangeText={text => setPassword(text)}
-                secureTextEntry={true}
-            />
-            <TextInput
-                placeholder="passwordConfirm"
-                value={passwordConfirm}
-                onChangeText={text => setPasswordConfirm(text)}
-                secureTextEntry={true}
-            />
-            <TouchableOpacity onPress={handleSubmit}>
-                <Text>Update</Text>
+
+            <View style={styles.containerInput}>
+            <Text style={styles.label}>Password Cofirm:</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="passwordConfirm"
+                    value={passwordConfirm}
+                    onChangeText={text => setPasswordConfirm(text)}
+                    secureTextEntry={true}
+                />
+            </View>
+
+            </View>
+
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <Text
+                style={{color : '#000000'}}
+                >Update</Text>
             </TouchableOpacity>
         </View>
     );

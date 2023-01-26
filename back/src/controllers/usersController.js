@@ -115,7 +115,7 @@ const authUsers = (req, res) => {
 				id_role:results[0].id_role,},
 				mySecret, 
 				{
-				expiresIn: "30m",
+				expiresIn: "1m",
 				}
 				);
 			
@@ -201,8 +201,6 @@ const updateUser = (req, res) => {
 
 	const sql2 = "SELECT id FROM users WHERE NOT id = '"+req.user.id+"' AND (email = '"+req.body.email+"' OR login = '"+req.body.login+"')"
 	db.query(sql2, async (response, data) => {
-		console.log(req.body)
-		console.log('req.ujser',req.user)
 		
 		if (data.length == 0) {                                    
 				console.log('first')
@@ -224,15 +222,13 @@ const updateUser = (req, res) => {
 				}
 
 				db.query(sqlUpdate, [req.params.id], (err, data) => {
-					// return res.json(updateData)
 					return res.status(200).json({ message: "Utilisateur modifié avec succès" });
 				})
 			}
 		}
 		else {
 			return res.status(401).json({ message : "Error, an account is already linked to this email or login" });
-
-	}
+		}
 	})
 }
 
