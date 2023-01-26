@@ -12,7 +12,8 @@ var {
 	getUsers,
 	getUserDetails,
 	updateUser,
-	refreshToken
+	refreshToken,
+	getAllFromUsers
 } = require('../controllers/usersController')
 
 
@@ -30,6 +31,9 @@ router.post('/auth',  authUsers)
 
 //[BACK/03-get-all-users]: Une route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
 router.get('/', getUsers);
+
+// Une route qui retourne toutes les infos de tous les utilisateurs
+router.get('/all', getAllFromUsers);
 
 //[BACK/05-post-user-to-a-room]: Permet d'ajouter un user à une room. 
 router.post('/room/:idRoom',signIn, addUserToRoom);

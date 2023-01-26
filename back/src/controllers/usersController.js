@@ -158,6 +158,14 @@ const getUsers = (req, res) => {
 	})
 }
 
+const getAllFromUsers = (req, res) => {
+	const sql = 'SELECT * FROM users'
+	db.query(sql, function (error, data) {
+		if (error) throw error;
+		else res.send(data);
+	})
+}
+
 const addUserToRoom = (req, res) => {
 
 	const verifyRoles = `SELECT role FROM  users INNER JOIN roles 
@@ -241,5 +249,6 @@ module.exports = {
 	addUserToRoom,
 	getUserDetails,
 	updateUser,
-	refreshToken
+	refreshToken,
+	getAllFromUsers
 }
