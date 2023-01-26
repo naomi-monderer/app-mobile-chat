@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import ROUTES from '../constant/routes';
 import jwt_decode from "jwt-decode";
 
-const baseUrl = "http://10.10.46.224:3000"
+const baseUrl = "http://10.10.62.232:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 // const baseUrl = "http://localhost:3000"
 
@@ -20,10 +20,10 @@ export default function Login({navigation}) {
 			if(res) {
 				const decoded = jwt_decode(res);
 				setRooms(decoded.id_rooms)
-				navigation.navigate(ROUTES.HOME, {screen: rooms.length > 1 ? ROUTES.MESSAGES : ROUTES.CHATROOMS})
+				// navigation.navigate(ROUTES.HOME, {screen: ROUTES.CONTACT})
 			}
 		})
-	}, [])
+	}, [rooms])
 
 	const connect = () => {
 		if(login !== '' && password !== '') {
@@ -95,7 +95,7 @@ export default function Login({navigation}) {
 					>
 						<Text
 							style={styles.buttonText}
-							onPress={() => navigation.navigate(ROUTES.HOME, {screen: rooms.length > 1 ? ROUTES.MESSAGES : ROUTES.CHATROOMS})}
+							onPress={() => navigation.navigate(ROUTES.HOME, {screen: rooms.length > 1 ? ROUTES.CONTACT : ROUTES.CHATROOMS})}
 						>
 							Login
 						</Text>

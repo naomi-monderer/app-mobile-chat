@@ -2,16 +2,33 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ROUTES from '../constant/routes';
+import Contact from '../screen/Contact'
 import AllRooms from '../screen/AllRooms'
 import Profil from '../screen/Profil'
 import Messages from '../screen/Messages'
-import { View,Image,Text,StyleSheet,TouchableOpacity } from 'react-native';
-import { useEffect, useState } from 'react';
-import jwt_decode from "jwt-decode";
-import * as SecureStore from 'expo-secure-store';
+import { View,Image,Text,StyleSheet } from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const ContactStack = () => {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen 
+				name={ROUTES.CONTACT} 
+				component={Contact} 
+				options={{headerShown:false}}	
+			/>
+			<Stack.Screen 
+				name={ROUTES.MESSAGES} 
+				component={Messages} 
+				options={({route}) => ({title: route.params?.room_name})} 
+			/>
+		</Stack.Navigator>
+);
+}
 
 export default function TabBar() {
 	const styles = StyleSheet.create({
@@ -69,7 +86,7 @@ export default function TabBar() {
 				}}  
 			/>
 
-			<Tab.Screen name={ROUTES.MESSAGES} component={Messages} options={{ 
+			<Tab.Screen name={ROUTES.CONTACT} component={ContactStack} options={{ 
 					tabBarIcon: ({focused}) => (
 						<View style={{alignItems: 'center', justifyContent: 'center', }}>
 							<Image
@@ -85,7 +102,8 @@ export default function TabBar() {
 							rooms
 							</Text>
 					</View>
-					)
+					),
+					headerShown:false
 				}} 
 			/>
 

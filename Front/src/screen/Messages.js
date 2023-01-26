@@ -1,17 +1,17 @@
 import * as React from 'react';
 import  {useState, useEffect, useCallback} from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // import { GiftedChat, Bubble, Time} from 'react-native-gifted-chat';
 
-const Messages = () => {
+const Messages = ({navigation, route}) => {
+    console.log("ID_ROOM", route.params?.id_room)
     const onPressButton = () => {
         console.log('You tapped the button!');
-     
     };
     const [dateTime, setDateTime] = useState(new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',  hour12: true }));
 
     const styles = StyleSheet.create({
-       
         sendMessage: {
             margin: 20,
             width: '40%',
@@ -56,9 +56,8 @@ const Messages = () => {
     });
     
     return (
-        
-        <View style={styles.container}>
-             <View style={styles.receivedMessage}>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.receivedMessage}>
                 <Text style={{margin:15}}>
                 {
                 //inclure data ici
@@ -83,7 +82,7 @@ const Messages = () => {
                 <Text style={styles.receivedHour}>
                     {dateTime}
                 </Text>
-        </View>
+        </SafeAreaView>
     );
 
 

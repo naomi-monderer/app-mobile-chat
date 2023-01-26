@@ -18,7 +18,7 @@ export default function AuthNavigator() {
 		}} initialRouteName={ROUTES.LOGIN}>
 			<Stack.Screen name={ROUTES.LOGIN} component={Login} />
 			<Stack.Screen name={ROUTES.REGISTER} component={Register} />
-			<Stack.Screen name={ROUTES.HOME} component={TabBar} />
+			<Stack.Screen name={ROUTES.HOME} component={TabBar} options={{headerShown: false}} />
 		</Stack.Navigator>
 );
 }
