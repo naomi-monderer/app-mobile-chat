@@ -1,12 +1,6 @@
 import PopUp from "../components/PopUp";
 import { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-
-} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Modal } from "react-native";
 
 const AllRooms = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -24,24 +18,29 @@ const AllRooms = () => {
   };
 
   return (
-    <View>
+    <View >
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text>Open Modal</Text>
       </TouchableOpacity>
+      <Modal visible={modalVisible} transparent={true} animationType={'slide'} >
         <PopUp
-          visible={modalVisible}
           text="Are you sure you want to delete this item?"
           onConfirm={handleConfirm}
           onCancel={handleCancel}
-          // style={styles.innerContainer}
+          
         />
+      </Modal>
     </View>
   );
 };
 
 export default AllRooms;
 
-const styles = StyleSheet.create({
- 
- 
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     // flex: 1,
+//     backgroundColor: "white",
+//     padding: 20,
+//     borderRadius: 10,
+//   },
+// });
