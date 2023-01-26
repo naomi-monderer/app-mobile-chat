@@ -36,11 +36,3 @@ const AllRooms = () => {
 
 export default AllRooms;
 
-// const styles = StyleSheet.create({
-//   container: {
-//     // flex: 1,
-//     backgroundColor: "white",
-//     padding: 20,
-//     borderRadius: 10,
-//   },
-// });
