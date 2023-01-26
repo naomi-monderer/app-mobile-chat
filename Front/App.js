@@ -28,11 +28,12 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} /> 
+         <Stack.Screen name="ChatScreen"   component={ChatScreen} options ={{title:'nom room'}} />
+
         {/* <Stack.Screen name="HomeScreen" component={LogoutButton} /> */}
         {/* <Stack.Screen name="Connexion" component={Connexion} /> */}
         
-        <Stack.Screen name="ChatScreen"   component={ChatScreen} options ={{title:'nom room'}} />
         {/* <Stack.Screen name='Register' component={Register} /> */}
         {/* <Stack.Screen name='Message' component={Messages} /> */}
 

@@ -116,7 +116,7 @@ const authUsers = (req, res) => {
 			},
 				mySecret,
 				{
-					expiresIn: "5m",
+					expiresIn: "10d",
 				}
 			);
 

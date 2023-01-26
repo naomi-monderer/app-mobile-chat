@@ -21,8 +21,8 @@ const postMessageinChat = (req, res) => {
 	const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
 	const data = req.body;
 
-	if(data.content && req.user.id_role !== 0) {
-		if(Object.keys(req.params).length !== 0 && req.user.id_rooms.includes(req.params.roomId)) {
+	if (data.content && req.user.id_role !== 0) {
+		if (Object.keys(req.params).length !== 0 && req.user.id_rooms.includes(req.params.roomId)) {
 			const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${datetime}", ${req.user.id}, "${req.params.roomId}")`
 
 			db.query(sql, function (err) {
@@ -85,7 +85,7 @@ const updateMessage = (req, res) => {
 
 const specificChat = (req, res) => {
 	if (req.user.id_rooms.includes(req.params.roomId)) {
-		const sql = `SELECT content, created_at, login FROM messages INNER JOIN users ON messages.id_user = users.id WHERE id_room = ${req.params.roomId}`
+		const sql = `SELECT messages.id, content, created_at, login FROM messages INNER JOIN users ON messages.id_user = users.id WHERE id_room = ${req.params.roomId} ORDER BY created_at ASC`
 		db.query(sql, function (err, data) {
 			if (err) throw err;
 			else res.send(data);
@@ -94,7 +94,7 @@ const specificChat = (req, res) => {
 }
 
 const getMessagesinGlobalChat = (req, res) => {
-	const sql = `SELECT messages.id, content, created_at, users.login FROM messages INNER JOIN users ON id_user = users.id WHERE id_room = 0`
+	const sql = `SELECT messages.id, content, created_at, users.login FROM messages INNER JOIN users ON id_user = users.id WHERE id_room = 0 ORDER BY created_at ASC`
 
 	db.query(sql, function (err, data) {
 		if (err) throw err;

@@ -14,6 +14,7 @@ export default function ButtonMessage(props) {
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if (res) {
                     var decoded = jwt_decode(rest);
+                    
 
                     if (props.text) {
                         axios.post(`${API}/chat/${props.idRoom}`, 

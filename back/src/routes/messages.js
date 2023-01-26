@@ -26,6 +26,6 @@ router.post('/edit/:messageId', signIn, updateMessage);
 router.get('/get/:roomId', signIn, specificChat);
 
 // [BACK/26 correction to the ticket] Une route qui get tous les messages du chat global
-router.get('/messages',  getMessagesinGlobalChat);
+router.get('/messages', signIn, getMessagesinGlobalChat);
 
 module.exports = router;
