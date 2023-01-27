@@ -86,7 +86,7 @@ export default function TabBar() {
 				}}  
 			/>
 
-			<Tab.Screen name={ROUTES.CONTACT} component={ContactStack} options={{ 
+			<Tab.Screen name={ROUTES.FEED} component={ContactStack} options={{ 
 					tabBarIcon: ({focused}) => (
 						<View style={{alignItems: 'center', justifyContent: 'center', }}>
 							<Image

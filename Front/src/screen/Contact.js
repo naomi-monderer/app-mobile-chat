@@ -6,22 +6,20 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 // import Messages from '../screen/Messages'
 
-const baseUrl = "http://10.10.62.232:3000"
+const baseUrl = "http://10.10.65.62:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 // const baseUrl = "http://localhost:3000"
 
 export default function Contact({navigation}) {
 	const [underline, setUnderline] = useState(1)
-	const [callTab, setCallTab] = useState(1)
 	const [contacts, setContacts] = useState([]);
 
 	const underlined = (number) => {
 		setUnderline(number)
-		setCallTab(number)
 	}
 
 	let uri = "/rooms/generalroom"
-	if (callTab === 2) uri = "/rooms/contact"
+	if (underline === 2) uri = "/rooms/contact"
 
 	useEffect(() => {
 		SecureStore.getItemAsync('token1').then((token) => {
@@ -52,10 +50,14 @@ export default function Contact({navigation}) {
 							})
 							.catch(error => console.log(error))
 						}
-					})
+						else {
+							console.log(error)
+						}
+					}
+					)
 				})
 			})
-		}, [callTab]);
+		}, [underline]);
 
 
 	return (
