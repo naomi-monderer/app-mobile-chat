@@ -6,28 +6,23 @@ const AllRooms = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleConfirm = () => {
-    // Do something when the confirm button is pressed
     setModalVisible(false);
-    console.log("wsh");
   };
 
   const handleCancel = () => {
-    // Do something when the cancel button is pressed
-    console.log("cancel");
     setModalVisible(false);
   };
 
   return (
-    <View >
+    <View>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text>Open Modal</Text>
       </TouchableOpacity>
-      <Modal visible={modalVisible} transparent={true} animationType={'slide'} >
+      <Modal visible={modalVisible} transparent={true} animationType={"slide"}>
         <PopUp
           text="Are you sure you want to delete this item?"
           onConfirm={handleConfirm}
           onCancel={handleCancel}
-          
         />
       </Modal>
     </View>
@@ -35,4 +30,3 @@ const AllRooms = () => {
 };
 
 export default AllRooms;
-

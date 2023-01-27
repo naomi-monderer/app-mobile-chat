@@ -6,7 +6,7 @@ const PopUp = ({ text, onConfirm, onCancel }) => (
     <Text style={styles.text}>{text}</Text>
     <View style={styles.divider} />
     <TouchableOpacity onPress={onConfirm}>
-      <Text style={styles.button}>Confirm</Text>
+      <Text style={[styles.button, { color: "#373737" }]}>Confirm</Text>
     </TouchableOpacity>
     <TouchableOpacity onPress={onCancel}>
       <Text style={styles.button}> Cancel </Text>
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   modalContainer: {
     marginTop: 198,
     alignSelf: "center",
-    // margin: 10,
     width: "70%",
     backgroundColor: "#ADADAD",
     borderRadius: 25,
@@ -35,25 +34,26 @@ const styles = StyleSheet.create({
   },
   divider: {
     borderBottomColor: "#737373",
-    marginBottom:19,
+    marginBottom: 19,
     width: "100%",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   text: {
     padding: 12,
     fontSize: 16,
+    color: "white",
     marginTop: 12,
     marginBottom: 23,
   },
   button: {
     borderRadius: 20,
-    borderColor: "#373737",
+    borderColor: "white",
     elevation: 2,
-    
+    color: "white",
     margin: 10,
     fontSize: 16,
     borderWidth: 1,
-    padding:10,
+    padding: 10,
   },
 });
 
