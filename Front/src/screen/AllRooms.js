@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import BlocRoom from '../components/BlocRoom';
 import * as SecureStore from 'expo-secure-store';
@@ -8,9 +8,11 @@ const baseUrl = "http://10.10.65.62:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 // const baseUrl = "http://localhost:3000"
 
+let arrayRooms = [];
 export default function AllRooms() {
 	const [underline, setUnderline] = useState(2)
 	const [rooms, setRooms] = useState([]);
+	const [moreRooms, setMoreRooms] = useState([])
 
 	const underlined = (number) => {
 		setUnderline(number)
@@ -31,7 +33,6 @@ export default function AllRooms() {
 							refreshtoken: refresh
 						}
 					}).then((response) => {
-						console.log(response.data)
 						setRooms(response.data)
 					})
 					.catch(error => {
@@ -45,7 +46,6 @@ export default function AllRooms() {
 									refreshtoken: error.response.data
 								}
 							}).then((response) => {
-								console.log(response.data)
 								setRooms(response.data)
 							})
 							.catch(error => console.log(error))
@@ -58,10 +58,14 @@ export default function AllRooms() {
 			})
 		}, [underline]);
 
-		console.log(rooms)
+		const essai = (idRoom)=>{
+			arrayRooms.push(idRoom)
+			setMoreRooms(arrayRooms)
+		}
+		console.log(moreRooms)
 
 	return (
-		<>
+		<View style={styles.bg}>
 			<View style={styles.tabs}>
 				<TouchableOpacity onPress={() => underlined(1)}>
 					<Text style={underline === 1 ? styles.selected : styles.notSelected}>My Chuu-Rooms</Text>
@@ -77,17 +81,23 @@ export default function AllRooms() {
 						<BlocRoom 
 							key={room.id}
 							room={room}
+							tab={underline}
+							essai={essai}
 						/>
 					)
 					:
 					<Text>No rooms.</Text>
 				}
 			</View>
-		</>
+		</View>
 	)
 }
 
 const styles = StyleSheet.create({
+	bg: {
+		flex: 1,
+		backgroundColor: '#080713'
+	},
 	tabs: {
 		justifyContent: 'space-evenly',
 		flexDirection: 'row',

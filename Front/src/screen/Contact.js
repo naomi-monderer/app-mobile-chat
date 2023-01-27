@@ -97,6 +97,7 @@ export default function Contact({navigation}) {
 
 const styles = StyleSheet.create({
 	background: {
+		flex:1,
 		backgroundColor: '#080713',
 		marginTop: 50
 	},
