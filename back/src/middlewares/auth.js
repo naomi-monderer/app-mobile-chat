@@ -8,7 +8,6 @@ const app = express();
 
 
 exports.signIn = (req, res, next) => {
-
 	//je reçois deux tokens du controllers, l'un durant 30 jrs de validité l'autre 1minute
 	const tokenToUse = req.headers.token1
 	const tokenRefresh = req.headers.refreshtoken;

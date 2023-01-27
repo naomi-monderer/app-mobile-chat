@@ -14,7 +14,7 @@ var {
 router.post('/', signIn, postMessage);
 
 //[BACK/10]: Une route qui poste sur un chat spé.
-router.post('/:roomId', signIn, postMessageinChat);
+router.post('/:roomId', signIn ,postMessageinChat);
 
 //[BACK/18-delete-own-messafe]: Une route qui delete un message.
 router.delete('/delete/:messageId', signIn, deleteMessage);
@@ -26,6 +26,6 @@ router.post('/edit/:messageId', signIn, updateMessage);
 router.get('/get/:roomId', signIn, specificChat);
 
 // [BACK/26 correction to the ticket] Une route qui get tous les messages du chat global
-router.get('/messages',  getMessagesinGlobalChat);
+router.get('/messages', signIn, getMessagesinGlobalChat);
 
 module.exports = router;
