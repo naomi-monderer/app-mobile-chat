@@ -18,8 +18,38 @@ const postMessage = (req, res) => {
 }
 
 const postMessageinChat = (req, res) => {
-	const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+	// const options = {}
+	// const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ').toLocalString('en-US',{
+		
+	// });
+	// const datetimeFormatSQL = new Date().toISOString().replace('T', ' ').slice(0, 19);
+	// const datetime = new Date().toISOString().slice(0, 19);
+
+	const datetimeFormatSQL = new Date().toISOString().replace('T', ' ').toLocaleString({
+		timeZone: "Europe/Paris",
+	  }).slice(0, 19);
+
+
+	  const nDate = new Date().toLocaleString('en-US', {
+		timeZone: 'Europe/Paris'
+	  });
+
+	  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX SQL', datetimeFormatSQL);
+	  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX nDate', nDate);
+
+	
+	// const formattedDate = date.toLocaleTimeString("en-US", {
+	// 	hour: "numeric",
+	// 	minute: "numeric",
+	// 	hour12: true,
+	// });
+	// const hours = datetime.getHours();
+		// .toISOString().slice(0, 19).replace('T', ' ');
+	// const now = datetime.getUTCDate();
+	
+	// datetime.toLocalDateTime("fr-FR", options)
 	const data = req.body;
+	
 
 	if (data.content && req.user.id_role !== 0) {
 		if (Object.keys(req.params).length !== 0 && req.user.id_rooms.includes(req.params.roomId)) {

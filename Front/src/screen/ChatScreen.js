@@ -9,9 +9,6 @@ export default function ChatScreen(props) {
 
 	return (
 
-
-
-
 		<KeyboardAvoidingView
 			style = {styles.container}
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -19,7 +16,6 @@ export default function ChatScreen(props) {
 			keyboardVerticalOffset={85}
 		>
 		<ScrollView style = {{position: 'relative',  flex:1 }}>
-
 			<Messages idRoom = {route.params.id_room}  />
 
 		</ScrollView>
@@ -43,14 +39,8 @@ export default function ChatScreen(props) {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 2,
+		flex: 3,
 		justifyContent: 'flex-end',
-		// backgroundColor: '#080713',
+		backgroundColor: '#080713',
 	},
 })
-
-{/* <View 
-style = {{ position: 'relative',  flex:1 }}
->
-	<Text style={}> Hello{route.params.id_room}</Text>
-</View>  */}
