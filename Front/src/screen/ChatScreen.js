@@ -6,6 +6,7 @@ import Messages from './Messages';
 
 export default function ChatScreen(props) {
 	const route = useRoute();
+	console.log(route.params.id_room,'hohzeo')
 
 	return (
 
