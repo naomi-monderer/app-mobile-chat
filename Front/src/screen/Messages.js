@@ -13,7 +13,7 @@ import {
 } from "react-native";
 
 
-// props.idRoom ? `${API}/chat/get/` + props.idRoom : `${API}/chat/messages`
+
 
 const Messages = (props) => {
 
@@ -33,20 +33,23 @@ const Messages = (props) => {
 	function getUserInfo(callback) {
 
 		SecureStore.getItemAsync('token1').then((payload) => {
-
 			payload = jwt_decode(payload);
 			callback(payload);
 		})
 
 	}
 
+	// props.idRoom ? `${API}/chat/get/` + props.idRoom : `${API}/chat/messages`
+
+
 	function getMessages(callback) {
 
 		SecureStore.getItemAsync('token1').then((rest) => {
-			console.log('rest: ' + rest);
 			SecureStore.getItemAsync('refreshtoken').then((res) => {
 				if (res) {
 					var payload = jwt_decode(rest);
+					console.log('payload',payload)
+					console.log('idROom',props.idRoom)
 					axios.get(`${API}/chat/get/${props.idRoom}`,
 						{
 							headers: {
@@ -59,12 +62,22 @@ const Messages = (props) => {
 							callback(res.data);
 
 							console.log('DATA-MESSAGES: ', res.data);
+							
 							// console.log('DATA-MESSAGES-0: ', );
-							res.data[0].login;
+							// res.data[0].login;
 							// console.log('DATA-MESSAGES: ', data.data);
 							// console.log('pl: ', payload)
-						}).catch(e => {
-							console.error(e);
+						}).catch(error => {
+							if(error.response) {
+								console.log('error response data', error.response.data);
+                				console.log('error response status', error.response.status);
+                				console.log('error response headers', error.response.headers);
+							} else if (error.request) {
+								console.log('error request', error.request);
+							}
+							else {
+								console.log('Error', error.message);
+							}
 						})
 				}
 			})
