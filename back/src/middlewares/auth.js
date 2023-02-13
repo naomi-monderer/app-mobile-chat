@@ -8,6 +8,7 @@ const app = express();
 
 
 exports.signIn = (req, res, next) => {
+	console.log('req', req.headers)
 	//je reçois deux tokens du controllers, l'un durant 30 jrs de validité l'autre 1minute
 	const tokenToUse = req.headers.token1
 	const tokenRefresh = req.headers.refreshtoken;
@@ -28,6 +29,7 @@ exports.signIn = (req, res, next) => {
 					/* expired */ 
 					//le token est disponible ds le scope grace au callback ds refreshToken du usersController 
 					return refreshToken(decoded1.id, token => {
+						console.log('first')
 						res.status(417).send(token)
 					});
 				}
@@ -37,6 +39,7 @@ exports.signIn = (req, res, next) => {
 			}catch(err){
 
 				return  refreshToken(decoded1.id, token => {
+					console.log('2eme')
 					res.status(417).send(token)
 				})
 			}

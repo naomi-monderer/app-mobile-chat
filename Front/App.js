@@ -19,23 +19,24 @@ import LogoutButton from './src/components/LogoutButton';
 //  function HomeScreen() {
 //   return (
 //             <TabBar /> 
- 
 //   );
 //  }
 
-function HomeScreen() {
-  return (
-    // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    //   <Text>Home Screen</Text>
-    // </View>
-    <Tab.Navigator>
-      <Tab.Screen name="Connexion" component={Connexion} />
-    </Tab.Navigator>
-  );
-}
+// function HomeScreen() {
+//   return (
+//     // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//     //   <Text>Home Screen</Text>
+//     // </View>
+//     <Tab.Navigator>
+//       <Tab.Screen name="Connexion" component={Connexion} />
+//     </Tab.Navigator>
+//   );
+// }
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import AuthNavigator from './src/navigation/AuthNavigation';
 
+const tabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-// const Tab = createBottomTabNavigator();
 
 function App() {
   return (
@@ -52,9 +53,9 @@ function App() {
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
         <Stack.Screen name="Connexion" component={Connexion} />
       </Stack.Navigator>
+      <AuthNavigator />
     </NavigationContainer>
   );
 }
-
 
 export default App;

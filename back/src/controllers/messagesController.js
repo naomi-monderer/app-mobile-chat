@@ -89,9 +89,7 @@ const deleteMessage = (req, res) => {
 
 const updateMessage = (req, res) => {
 	const datas = req.body;
-
 	const sql = `SELECT id_user FROM messages WHERE id = ${req.params.messageId}`
-
 	db.query(sql, function (err, data) {
 		if (err) throw err;
 		else {
