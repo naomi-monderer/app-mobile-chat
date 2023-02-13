@@ -159,6 +159,14 @@ const getUsers = (req, res) => {
 	})
 }
 
+const getAllFromUsers = (req, res) => {
+	const sql = 'SELECT * FROM users'
+	db.query(sql, function (error, data) {
+		if (error) throw error;
+		else res.send(data);
+	})
+}
+
 const addUserToRoom = (req, res) => {
 
 	const verifyRoles = `SELECT role FROM  users INNER JOIN roles 
@@ -190,86 +198,44 @@ const getUserDetails = (req, res) => {
 }
 
 const updateUser = (req, res) => {
-	const { login, email, password, confPassword } = req.body;
-	try {
-		if (login != null) {
-			//Si le login est remplis
-			db.query("SELECT login FROM users WHERE id = '" + req.params.id + "'", (response) => {
-				if (response.length > 0) {
-					//Si le login est déjà pris en base de donnée return erreur
-					return res.status(401).json({ 'error': 'Login not avaible' });
-				} else {
-					if (password === confPassword) {
-						//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs
-						res.status(200).json({
-							status: true,
-							message: 'Login updated'
-						});
-						db.query("UPDATE users set login='" + login + "' WHERE id = '" + req.user.id + "'  "), (err) => {
-							if (err) {
-								res.status(500).json({
-									status: false,
-									message: 'There was a problem with the query.'
-								});
-							}
-						}
-					} else res.status(401).json({ 'error': 'the password do not match' });
-				}
-			})
-		} else if (email != null) {
-			//Si le email est remplis
-			db.query("SELECT email FROM users WHERE id = '" + req.params.id + "'", (err, response) => {
-				if (response.length > 0) {
-					//Si le email est déjà pris en base de donnée return erreur
-					return res.status(401).json({ 'error': 'email not avaible' });
-				} else {
-					if (password === confPassword) {
-						//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs
-						res.status(200).json({
-							status: true,
-							message: 'Email updated'
-						});
-						db.query("UPDATE users set email='" + email + "' WHERE id = '" + req.user.id + "'  "), (err, response) => {
-							if (err) {
-								res.status(500).json({
-									status: false,
-									message: 'There was a problem with the query.'
-								});
-							}
-						}
-					} else res.status(401).json({ 'error': 'the password do not match' });
-				}
-			})
-		} else if (password != null) {
-			//Si le password est remplis
-			db.query("SELECT password FROM users WHERE id = '" + req.params.id + "'", (response) => {
-				if (response.length > 0) {
-					return res.status(401).json({ 'error': 'password not avaible' });
-				} else {
-					if (password === confPassword) {
-						//Si la confirmation du mot de passe est valide on met a jours le login de l'utilisateurs et on hash
-						const salt = bcrypt.genSalt()
-						const hash = bcrypt.hash(password, salt);
-						res.status(200).json({
-							status: true,
-							message: 'Password updated'
-						});
-						db.query("UPDATE users set password='" + hash + "' WHERE id = '" + req.user.id + "'  "), (err) => {
-							if (err) {
 
-								res.status(500).json({
-									status: false,
-									message: 'There was a problem with the query.'
-								});
-							}
-						}
-					} else res.status(401).json({ 'error': 'the password do not match' });
-				}
-			})
-		} else res.status(401).json({ 'error': 'Empty field' });
-	} catch (error) {
-		return res.status(400).send(error)
+	const { login, email,password, confPassword } = req.body;
+
+	if (!login.length  || !password.length  || !email.length) {
+		return res.status(400).json({ message : 'missing params' });
 	}
+
+	const sql2 = "SELECT id FROM users WHERE NOT id = '"+req.user.id+"' AND (email = '"+req.body.email+"' OR login = '"+req.body.login+"')"
+	db.query(sql2, async (response, data) => {
+		
+		if (data.length == 0) {                                    
+				console.log('first')
+			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;                                                 //minimum 8char, 1maj, 1minuscule ett 1 chiffre
+			const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if (password == confPassword){
+
+				const salt = await  bcrypt.genSalt()
+				const hash =  await  bcrypt.hash(password, salt);
+
+				const sqlUpdate = "UPDATE users SET `login` = '" + req.body.login + "', `password`= '" + hash + "', `email`= '" + req.body.email + "' WHERE id = '"+ req.user.id +"' ";
+
+				if (!passwordRegex.test(req.body.password)) {
+					return res.status(400).json({ message: 'Erreur, le mot de passe doit contenir au minimum 8 charactères, 1 majuscule et 1 minuscule' })
+				}
+
+				if (!emailRegex.test(req.body.email)) {
+					return res.status(400).json({ message: 'Erreur, email invalide' })
+				}
+
+				db.query(sqlUpdate, [req.params.id], (err, data) => {
+					return res.status(200).json({ message: "Utilisateur modifié avec succès" });
+				})
+			}
+		}
+		else {
+			return res.status(401).json({ message : "Error, an account is already linked to this email or login" });
+		}
+	})
 }
 
 module.exports = {
@@ -281,5 +247,6 @@ module.exports = {
 	addUserToRoom,
 	getUserDetails,
 	updateUser,
-	refreshToken
+	refreshToken,
+	getAllFromUsers
 }

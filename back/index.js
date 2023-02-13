@@ -6,6 +6,14 @@ const app = express();
 const {signIn} = require("./src/middlewares/auth");
 const {isAdmin} = require("./src/middlewares/isAdmin");
 
+const cors = require('cors');
+const corsOptions ={
+    origin:'http://localhost:19006', 
+    origin:'http://localhost',
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 // Parse request bodies as JSON
 app.use(bodyParser.json());
