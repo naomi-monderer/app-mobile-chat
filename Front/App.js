@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { Button, View, Text } from 'react-native';
+import { NavigationContainer, TabActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Register from './src/screen/RegisterScreen';
 import TabBar from './src/navigation/TabBar';
 import Messages from './src/screen/Messages';
+import Connexion from './src/screen/Connexion';
 
 // import Screen Components
 import HomeScreen from './src/screen/HomeScreen';
@@ -21,6 +23,17 @@ import LogoutButton from './src/components/LogoutButton';
 //   );
 //  }
 
+function HomeScreen() {
+  return (
+    // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    //   <Text>Home Screen</Text>
+    // </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Connexion" component={Connexion} />
+    </Tab.Navigator>
+  );
+}
+
 const Stack = createNativeStackNavigator();
 // const Tab = createBottomTabNavigator();
 
@@ -29,17 +42,16 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="HomeScreen" component={HomeScreen} /> 
-         <Stack.Screen name="ChatScreen"   component={ChatScreen} options ={{title:'nom room'}} />
+        <Stack.Screen name="ChatScreen"   component={ChatScreen} options ={{title:'nom room'}} />
 
         {/* <Stack.Screen name="HomeScreen" component={LogoutButton} /> */}
         {/* <Stack.Screen name="Connexion" component={Connexion} /> */}
         
         {/* <Stack.Screen name='Register' component={Register} /> */}
         {/* <Stack.Screen name='Message' component={Messages} /> */}
-
-       
+        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+        <Stack.Screen name="Connexion" component={Connexion} />
       </Stack.Navigator>
-  
     </NavigationContainer>
   );
 }
