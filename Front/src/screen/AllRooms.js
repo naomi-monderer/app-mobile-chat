@@ -4,7 +4,7 @@ import BlocRoom from '../components/BlocRoom';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
-const baseUrl = "http://10.10.65.62:3000"
+const baseUrl = "http://10.10.20.167:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 // const baseUrl = "http://localhost:3000"
 
@@ -62,7 +62,7 @@ export default function AllRooms() {
 			arrayRooms.push(idRoom)
 			setMoreRooms(arrayRooms)
 		}
-		console.log(moreRooms)
+		console.log('moreRooms', moreRooms)
 
 	return (
 		<View style={styles.bg}>
