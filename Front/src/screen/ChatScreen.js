@@ -9,10 +9,7 @@ export default function ChatScreen(props) {
 	console.log(route.params.id_room,'hohzeo')
 
 	return (
-
-
-
-
+ 
 		<KeyboardAvoidingView
 			style = {styles.container}
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
