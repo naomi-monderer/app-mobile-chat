@@ -45,7 +45,7 @@ function App() {
         <Stack.Screen name="ChatScreen"   component={ChatScreen} options ={{title:'nom room'}} />
 
         {/* <Stack.Screen name="HomeScreen" component={LogoutButton} /> */}
-        {/* <Stack.Screen name="Connexion" component={Connexion} /> */}
+
         
         {/* <Stack.Screen name='Register' component={Register} /> */}
         {/* <Stack.Screen name='Message' component={Messages} /> */}
