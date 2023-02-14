@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 export default function BlocRoom({room, essai, tab}) {
 	const essaie = () => {
 		essai(room.id)
+		console.log(room.id)
 	}
 
 	return (
@@ -19,7 +20,7 @@ export default function BlocRoom({room, essai, tab}) {
 					source={{uri: 'https://64.media.tumblr.com/6b9e50e7237cf04fd44b6f56ce75e848/04f19f3b5d21afac-b3/s400x600/0ca003534bb919ad9c1b6c94181a23aa1aa70077.pnj'}}
 					/>
 				</View>
-				<Text style={styles.name}>{room.name}</Text>
+				<Text style={styles.name}>toto</Text>
 			</TouchableOpacity>
 	)
 }

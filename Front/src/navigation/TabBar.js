@@ -1,23 +1,33 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ROUTES from '../constant/routes';
 import Contact from '../screen/Contact'
 import AllRooms from '../screen/AllRooms'
+import ChatScreen from'../screen/ChatScreen'
 import Profil from '../screen/Profil'
 import Messages from '../screen/Messages'
 import { View,Image,Text,StyleSheet } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 
-
-
-
-
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const ContactStack = () => {
+const ContactStack = ({navigation, route}) => {
+
+	// React.useEffect(() => {
+	// 	const routeName = getFocusedRouteNameFromRoute(route);
+		
+	// 		navigation.setOptions({tabBarVisible: true});
+		
+	// }, [navigation, route]);
+
+	// if(route.name == ROUTES.MESSAGES)
+	// {
+
+	// }
 	return (
 		<Stack.Navigator>
 			<Stack.Screen 
@@ -27,7 +37,7 @@ const ContactStack = () => {
 			/>
 			<Stack.Screen 
 				name={ROUTES.MESSAGES} 
-				component={Messages} 
+				component={ChatScreen} 
 				options={({route}) => ({title: route.params?.room_name})} 
 			/>
 		</Stack.Navigator>
@@ -83,7 +93,7 @@ export default function TabBar() {
 							}}
 						/>
 						<Text style={{color: focused ? '#B2FFDF' : '#ADADAD', fontSize: 10}}>
-							post
+							rooms
 						</Text>
 					</View>
 					)
@@ -103,7 +113,7 @@ export default function TabBar() {
 								}}
 							/>
 							<Text style={{color: focused ? '#C5AAFF' : '#ADADAD', fontSize: 10}}>
-							rooms
+							message
 							</Text>
 					</View>
 					),

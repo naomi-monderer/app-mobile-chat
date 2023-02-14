@@ -11,12 +11,14 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
 
 const Messages = (props) => {
 
+	let isUser;
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedMessageIndex, setSelectedMessageIndex] = useState();
 	const [messages, setMessages] = useState([]);
@@ -63,15 +65,9 @@ const Messages = (props) => {
 
 							console.log('DATA-MESSAGES: ', res.data);
 							
-							// console.log('DATA-MESSAGES-0: ', );
-							// res.data[0].login;
-							// console.log('DATA-MESSAGES: ', data.data);
-							// console.log('pl: ', payload)
 						}).catch(error => {
 							if(error.response) {
-								console.log('error response data', error.response.data);
-                				console.log('error response status', error.response.status);
-                				console.log('error response headers', error.response.headers);
+						
 							} else if (error.request) {
 								console.log('error request', error.request);
 							}
@@ -128,7 +124,7 @@ const Messages = (props) => {
 	return (
 		<>
 			<View>
-				<Text style={styles.currentHour}>{dateTime}</Text>
+				<Text style={styles.currentHour}>toto</Text>
 			</View>
 			{messages?.map((msg, index) => {
 
