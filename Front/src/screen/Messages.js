@@ -124,7 +124,7 @@ const Messages = (props) => {
 	return (
 		<>
 			<View>
-				<Text style={styles.currentHour}>toto</Text>
+				<Text style={styles.currentHour}>{dateTime}</Text>
 			</View>
 			{messages?.map((msg, index) => {
 

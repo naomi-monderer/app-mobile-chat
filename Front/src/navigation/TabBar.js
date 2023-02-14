@@ -17,17 +17,6 @@ const Stack = createStackNavigator();
 
 const ContactStack = ({navigation, route}) => {
 
-	// React.useEffect(() => {
-	// 	const routeName = getFocusedRouteNameFromRoute(route);
-		
-	// 		navigation.setOptions({tabBarVisible: true});
-		
-	// }, [navigation, route]);
-
-	// if(route.name == ROUTES.MESSAGES)
-	// {
-
-	// }
 	return (
 		<Stack.Navigator>
 			<Stack.Screen 
