@@ -7,7 +7,7 @@ async function register(data) {
 
     const res = await axios({
         method: 'post',
-        url: `http://10.10.20.120:3000/auth/register`,
+        url: `http://10.10.23.53:3000/auth/register`,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -20,7 +20,7 @@ async function register(data) {
 async function login (data) {
     const res = await axios({
         method: 'post',
-        url: `http://10.10.20.120:3000/auth`,
+        url: `http://10.10.23.53:3000/auth`,
         headers: {
             'Content-Type': 'application/json'
         },

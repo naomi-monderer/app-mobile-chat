@@ -53,9 +53,10 @@ export default function TabBar() {
 		tabBarStyle:{
 			height:70,
 			position: 'absolute',
-			bottom: 10,
-			left: 10,
-			right: 10,
+			
+			bottom: 20,
+			left: 20,
+			right: 20,
 			elevation: 0,
 			backgroundColor: '#000000',
 			borderRadius: 15,
@@ -63,6 +64,7 @@ export default function TabBar() {
 			...styles.shadow
 		},
 		tabBarItemStyle:{
+			paddingTop:20,
 			margin:5,
 			borderRadius:10,
 		}, 
@@ -77,8 +79,8 @@ export default function TabBar() {
 							source={require('../../assets/icons/chuu-purpl.png')}
 							resizeMode='contain'
 							style={{
-								width: 35,
-								height: 35,
+								width: 42,
+								height: 42,
 								tintColor: focused ? '#B2FFDF' : '#ADADAD'
 							}}
 						/>
@@ -97,8 +99,8 @@ export default function TabBar() {
 								source={require('../../assets/icons/message-icon.png')}
 								resizeMode="contain"
 								style={{
-									width: 35,
-									height: 35,
+									width: 45,
+									height: 45,
 									tintColor: focused ? '#C5AAFF' : '#ADADAD'
 								}}
 							/>
@@ -118,8 +120,8 @@ export default function TabBar() {
 							source={require('../../assets/icons/profil-icon.png')}
 							resizeMode='contain'
 							style={{
-								width: 30,
-								height: 30,
+								width: 40,
+								height: 40,
 								tintColor: focused ? '#FFE589' : '#ADADAD'
 							}}
 						/>
