@@ -63,6 +63,15 @@ export default function Contact({navigation}) {
 		}, [underline]);
 
 
+		useEffect(()=>{
+			
+			// axios pour delete en base for real 
+
+		});
+
+
+
+
 	return (
 		<SafeAreaView style={styles.background}>
 			<View style={styles.tabs}>
