@@ -1,10 +1,19 @@
 import React from 'react';
+import axios from 'axios';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { API } from '../constant/constant';
+import jwt_decode from "jwt-decode";
+// import { getUserInfos, logOut} from "../api/auth";
 
-const ActionList = ({ handleModifyProfile, handleSignOut, handleDeleteAccount }) => {
+const ActionList = ({ handleModifyProfile, logOut, handleDeleteAccount }) => {
+
+  
+
+    
   const data = [
     { id: '1', title: 'Modify Profile', onPress: handleModifyProfile },
-    { id: '2', title: 'Sign Out', onPress: handleSignOut },
+    { id: '2', title: 'Sign Out', onPress: logOut  },
     { id: '3', title: 'Delete Account', onPress: handleDeleteAccount },
   ];
 
@@ -13,7 +22,7 @@ const ActionList = ({ handleModifyProfile, handleSignOut, handleDeleteAccount })
       <FlatList
         data={data}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={item.onPress} style={styles.item}>
+          <TouchableOpacity onPress={item.onPress}  style={styles.item}>
             <Text style={styles.itemText}>{item.title}</Text>
           </TouchableOpacity>
         )}

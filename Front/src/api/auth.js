@@ -1,13 +1,13 @@
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
 
+import jwt_decode from "jwt-decode";
 import * as SecureStore from 'expo-secure-store';
 
 async function register(data) {
 
     const res = await axios({
         method: 'post',
-        url: `http://10.10.23.53:3000/auth/register`,
+        url: `http://10.10.28.99:3000/auth/register`,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -20,27 +20,30 @@ async function register(data) {
 async function login (data) {
     const res = await axios({
         method: 'post',
-        url: `http://10.10.23.53:3000/auth`,
+        url: `http://10.10.28.99:3000/auth`,
         headers: {
             'Content-Type': 'application/json'
         },
         data: JSON.stringify(data),
     });
 
+    const token = res.data.token;
+    console.log(token,'je suis log!')
+
     return res;
 }
 
-// async function logOut (callback) {
-//     SecureStore.deleteItemAsync('token').then(() => {
-//         SecureStore.deleteItemAsync('authtoken').then(() => {
-//             SecureStore.deleteItemAsync('user_id').then(() => {
-//                 SecureStore.deleteItemAsync('username').then(res => {
-//                     callback(res);
-//                 })
-//             })
-//         });
-//     });
-// }
+async function logOut (callback) {
+    SecureStore.deleteItemAsync('token').then(() => {
+        SecureStore.deleteItemAsync('authtoken').then(() => {
+            SecureStore.deleteItemAsync('user_id').then(() => {
+                SecureStore.deleteItemAsync('username').then(res => {
+                    callback(res);
+                })
+            })
+        });
+    });
+}
 
 async function checkLoggedIn(callback) {
 
@@ -80,6 +83,7 @@ async function saveCredentials (token, authtoken, user_id, username, callback) {
 async function getUserInfos (callback) {
     SecureStore.getItemAsync('user_id').then(id => {
         SecureStore.getItemAsync('username').then(username => {
+            console.log("user_id:", id, "username:", username);
             callback({
                 id: id,
                 username: username

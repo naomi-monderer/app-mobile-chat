@@ -48,7 +48,6 @@ const Avatar = ({ source, size }) => {
               value={require("../../assets/avatars/avatar_blonde.png")}
             />
              
-            
             <Picker.Item
               label="Avatar 2"
               value={require("../../assets/avatars/avatar_boucles.png")}
