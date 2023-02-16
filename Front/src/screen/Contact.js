@@ -6,9 +6,9 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 // import Messages from '../screen/Messages'
 
-const baseUrl = "http://10.10.20.167:3000"
+// const baseUrl = "http://10.10.20.167:3000"
 // const baseUrl = "http://192.168.0.49:3000"
-// const baseUrl = "http://localhost:3000"
+const baseUrl = "http://localhost:3000"
 
 export default function Contact({navigation}) {
 	const [underline, setUnderline] = useState(1)
@@ -22,6 +22,7 @@ export default function Contact({navigation}) {
 	if (underline === 2) uri = "/rooms/contact"
 
 	useEffect(() => {
+
 		SecureStore.getItemAsync('token1').then((token) => {
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
 				axios({
@@ -34,6 +35,7 @@ export default function Contact({navigation}) {
 						}
 					}).then((response) => {
 						setContacts(response.data)
+						// console.log('axios: ', response.data);
 					})
 					.catch(error => {
 						if (error.response.status === 417) {
@@ -47,6 +49,7 @@ export default function Contact({navigation}) {
 								}
 							}).then((response) => {
 								setContacts(response.data)
+								console.log('contact: ',response.data);
 							})
 							.catch(error => console.log(error))
 						}
@@ -58,6 +61,15 @@ export default function Contact({navigation}) {
 				})
 			})
 		}, [underline]);
+
+
+		useEffect(()=>{
+			
+			// axios pour delete en base for real 
+
+		});
+
+
 
 
 	return (

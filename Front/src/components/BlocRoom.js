@@ -2,8 +2,11 @@ import * as React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 export default function BlocRoom({room, essai, tab}) {
+
+	console.log
 	const essaie = () => {
 		essai(room.id)
+		console.log(room.id)
 	}
 
 	return (

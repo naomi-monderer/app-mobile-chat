@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
     foot: {
         padding: 10,
-        paddingBottom: 20,
+        paddingBottom: 15,
         display: 'flex',
         alignItems: 'center',
         maxHeight: 170,

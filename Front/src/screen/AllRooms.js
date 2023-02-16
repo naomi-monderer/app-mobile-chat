@@ -4,9 +4,10 @@ import BlocRoom from '../components/BlocRoom';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
-const baseUrl = "http://10.10.20.120:3000"
-// const baseUrl = "http://192.168.0.49:3000"
-// const baseUrl = "http://localhost:3000"
+// const baseUrl = "http://10.10.20.167:3000";
+
+// // const baseUrl = "http://192.168.0.49:3000"
+const baseUrl = "http://localhost:3000"
 
 let arrayRooms = [];
 export default function AllRooms() {
@@ -22,6 +23,7 @@ export default function AllRooms() {
 	if (underline === 2) uri = "/rooms"
 
 	useEffect(() => {
+	
 		SecureStore.getItemAsync('token1').then((token) => {
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
 				axios({
@@ -34,6 +36,7 @@ export default function AllRooms() {
 						}
 					}).then((response) => {
 						setRooms(response.data)
+            			console.log(response.data);
 					})
 					.catch(error => {
 						if (error.response.status === 417) {
@@ -47,6 +50,7 @@ export default function AllRooms() {
 								}
 							}).then((response) => {
 								setRooms(response.data)
+                console.log('setRooms: ',response.data);
 							})
 							.catch(error => console.log(error))
 						}
@@ -61,8 +65,10 @@ export default function AllRooms() {
 		const essai = (idRoom)=>{
 			arrayRooms.push(idRoom)
 			setMoreRooms(arrayRooms)
+			console.log('essai: ',arrayRooms)
 		}
-		console.log('moreRooms', moreRooms)
+
+		// console.log('moreRooms', moreRooms)
 
 	return (
 		<View style={styles.bg}>

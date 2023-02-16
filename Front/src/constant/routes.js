@@ -7,4 +7,5 @@ export default {
     CONTACT: 'Feed',
     MESSAGES: 'Chat',
     PROFILE: 'My Profile',
+    
 };
