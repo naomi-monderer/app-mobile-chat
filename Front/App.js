@@ -9,6 +9,7 @@ const tabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function App() {
+
   return (
     <NavigationContainer>
       <AuthNavigator />

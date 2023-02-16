@@ -3,13 +3,23 @@ import { useRoute } from '@react-navigation/native';
 import { View, TextInput, Text, Button, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import InputText from '../components/InputText';
 import Messages from './Messages';
+import {io} from 'socket.io-client';
+
+// const { io } = require("socket.io-client");
+const socket = io("http://10.10.28.96:3000")
+
+// const SERVER_ADRESS = "http://10.10.28.96:3000";
+// const socket = io(SERVER_ADRESS);
+// // netmask 10.10.255.255
+
+
+
+
+
 
 export default function ChatScreen({ navigation, route }, props) {
 
 	console.log("ID_ROOM ?", route.params?.id_room)
-	console.log("ID_ROOM ", route.params.id_room)
-	// const route = useRoute();
-
 	useEffect(() => {
 		console.log(route)
 		navigation.getParent().setOptions({ tabBarStyle: { display: 'none' } });
