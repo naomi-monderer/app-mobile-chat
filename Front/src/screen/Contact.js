@@ -35,7 +35,7 @@ export default function Contact({navigation}) {
 						}
 					}).then((response) => {
 						setContacts(response.data)
-						// console.log('axios: ', response.data);
+						
 					})
 					.catch(error => {
 						if (error.response.status === 417) {

@@ -36,7 +36,7 @@ export default function AllRooms() {
 						}
 					}).then((response) => {
 						setRooms(response.data)
-            			console.log(response.data);
+            			console.log('allRooms',response.data);
 					})
 					.catch(error => {
 						if (error.response.status === 417) {

@@ -11,7 +11,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 
 
@@ -37,12 +37,9 @@ const Messages = (props) => {
 		SecureStore.getItemAsync('token1').then((payload) => {
 			payload = jwt_decode(payload);
 			callback(payload);
-		})
+		});
 
 	}
-
-	// props.idRoom ? `${API}/chat/get/` + props.idRoom : `${API}/chat/messages`
-
 
 	function getMessages(callback) {
 
@@ -88,6 +85,7 @@ const Messages = (props) => {
 		})
 		getMessages(data => {
 			setMessages(data);
+			console.log('getMessages: ',setMessages);
 		})
 
 	}, []);
