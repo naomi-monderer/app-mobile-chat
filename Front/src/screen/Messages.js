@@ -36,6 +36,7 @@ const Messages = (props) => {
 
 		SecureStore.getItemAsync('token1').then((payload) => {
 			payload = jwt_decode(payload);
+			console.log('payload',payload)
 			callback(payload);
 		})
 

@@ -30,7 +30,7 @@ const ProfilePage = ({   handleModifyProfile,
     });
   }, []);
 
-  console.log(userInfo);
+  console.log('type defonction', typeof getUserInfos());
 
   async function login(username, password) {
     try {
@@ -53,9 +53,9 @@ const ProfilePage = ({   handleModifyProfile,
     // await logOut(() => {
     //   navigation.navigate('Login');
     // });
-    const jwt = await SecureStore.getItemAsync('refreshtoken');
-    const decoded = jwt_decode(jwt);
-    console.log(decoded);
+    // const jwt = await SecureStore.getItemAsync('refreshtoken');
+    // const decoded = jwt_decode(jwt);
+    // console.log(decoded);
   }
 
   return (
@@ -76,7 +76,7 @@ const ProfilePage = ({   handleModifyProfile,
       </View>
       <ActionList
         handleModifyProfile={handleModifyProfile}
-        logOut={handleSignOut}
+        logOut={getUserInfos}
         handleDeleteAccount={handleDeleteAccount}
       />
     </View>
