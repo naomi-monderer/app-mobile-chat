@@ -41,9 +41,8 @@ const UpdateUser = () => {
                     const userId = decoded.id;
 
                     if(password != passwordConfirm){
-                       return alert('passwords are not the same')
+                        return alert('passwords are not the same')
                     }
-
                     axios({
                         method: 'post',
                         url:`${API}/users/update`,

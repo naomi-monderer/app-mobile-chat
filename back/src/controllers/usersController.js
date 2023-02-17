@@ -68,7 +68,7 @@ const registerUsers = async (req, res) => {
 			})
 		}
 	} catch (error) {
-		console.log(error);
+
 		res.status(500).send(error);
 	}
 }
@@ -99,8 +99,8 @@ const authUsers = (req, res) => {
 				email: results[0].email,
 				id: results[0].id.toString(),
 				id_role: results[0].id_role,
-				id_rooms: rooms
-			}, mySecret, {
+				id_rooms: rooms	
+			}, mySecret,{
 				expiresIn: "30d",
 			});
 
@@ -142,9 +142,20 @@ const refreshToken = (id, callback) => {
 		if (results.length > 0) {
 			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
-			const token = jwt.sign({
-				id: results[0].id,
-			}, mySecret)
+			const token = jwt.sign({ 
+				message: "refresh Token info",
+				iat: ~~(Date.now() / 1000),
+				type: 'token',
+				email:results[0].email,
+				login:results[0].login,
+				id_rooms: rooms,
+				id:results[0].id.toString(),
+				id_role:results[0].id_role,},
+				mySecret, 
+				{
+				expiresIn: "1m",
+				}
+				);
 			//je place un callback en paramètre 
 			callback(token)
 		}
@@ -209,7 +220,7 @@ const updateUser = (req, res) => {
 	db.query(sql2, async (response, data) => {
 		
 		if (data.length == 0) {                                    
-				console.log('first')
+
 			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;                                                 //minimum 8char, 1maj, 1minuscule ett 1 chiffre
 			const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if (password == confPassword){

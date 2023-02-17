@@ -1,19 +1,23 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-export default function BlocRoom({room, essai, tab}) {
+export default function BlocRoom({name, room, id, pressRoom, specialClass, touchable, tab}) {
+	const blocRoomPress = () => {
+		pressRoom({'id':room.id, 'name':name})
+	}
 
-	console.log
-	const essaie = () => {
-		essai(room.id)
-		console.log(room.id)
+	//if touchable c'est en haut donc un style différent 
+
+	const deleteRoom = () => {
+		pressRoom(id)
 	}
 
 	return (
 		//ajouter dans le press qu'on peut aller dans les messages de la room également si c'est notre room
 			<TouchableOpacity 
 				style={styles.container}
-				onPress={() => {essaie()} }
+				onPress={() => {touchable ? blocRoomPress() : deleteRoom()} }
+				disabled={touchable && specialClass}
 			>
 				{/* Image */}
 				<View style={styles.tinyIcon}>
@@ -22,14 +26,16 @@ export default function BlocRoom({room, essai, tab}) {
 					source={{uri: 'https://64.media.tumblr.com/6b9e50e7237cf04fd44b6f56ce75e848/04f19f3b5d21afac-b3/s400x600/0ca003534bb919ad9c1b6c94181a23aa1aa70077.pnj'}}
 					/>
 				</View>
-				<Text style={styles.name}>{room.name}</Text>
+				<Text style={styles.name}>{name}</Text>
 			</TouchableOpacity>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
-		alignItems: 'center'
+		alignItems: 'center',
+		zIndex: 3,
+		elevation: 3,
 	},
 	tinyIcon: {
 		width: 85,

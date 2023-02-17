@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 // import Messages from '../screen/Messages'
 
-// const baseUrl = "http://10.10.20.167:3000"
+// const baseUrl = "http://10.10.1.33:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 const baseUrl = "http://localhost:3000"
 
