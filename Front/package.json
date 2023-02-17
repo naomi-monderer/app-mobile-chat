@@ -9,9 +9,9 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo/ngrok": "^2.5.0",
-    "@expo/webpack-config": "^0.17.2",
     "@react-native-picker/picker": "^2.4.8",
+    "@expo/ngrok": "^2.5.0",
+    "@expo/webpack-config": "^18.0.1",
     "@react-navigation/bottom-tabs": "^6.5.3",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.8",
@@ -31,7 +31,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.9",
-    "socket.io": "^4.6.0",
+    "react-navigation-stack": "^2.10.4",
     "socket.io-client": "^4.6.0"
   },
   "devDependencies": {
