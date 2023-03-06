@@ -77,10 +77,10 @@ export default function AllRooms() {
 		<View style={styles.bg}>
 			<View style={styles.tabs}>
 				<TouchableOpacity onPress={() => underlined(1)}>
-					<Text style={underline === 1 ? styles.selected : styles.notSelected}>My Chuu-Rooms</Text>
+					<Text style={underline === 1 ? styles.selected : styles.notSelected}>My chuu rooms</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => underlined(2)}>
-					<Text style={underline === 2 ? styles.selected : styles.notSelected}>More Chuu-Rooms</Text>
+					<Text style={underline === 2 ? styles.selected : styles.notSelected}>More Chuu rooms</Text>
 				</TouchableOpacity>
 			</View>
 			<View style={styles.container}>

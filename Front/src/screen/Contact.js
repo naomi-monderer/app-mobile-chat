@@ -76,10 +76,10 @@ export default function Contact({navigation}) {
 		<SafeAreaView style={styles.background}>
 			<View style={styles.tabs}>
 				<TouchableOpacity onPress={() => underlined(1)}>
-					<Text style={underline === 1 ? styles.selected : styles.notSelected}> MAIN CHUU </Text>
+					<Text style={underline === 1 ? styles.selected : styles.notSelected}> Main chuu </Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => underlined(2)}>
-					<Text style={underline === 2 ? styles.selected : styles.notSelected}>MY CHUU-ROOMS</Text>
+					<Text style={underline === 2 ? styles.selected : styles.notSelected}>My chuu </Text>
 				</TouchableOpacity>
 			</View>
 			<View>
