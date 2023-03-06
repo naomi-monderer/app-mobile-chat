@@ -5,8 +5,8 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ImageBackgr
 import * as SecureStore from 'expo-secure-store';
 import ROUTES from '../constant/routes';
 import jwt_decode from "jwt-decode";
-
-const baseUrl = "http://10.10.1.184:3000"
+import { API } from '../constant/constant';
+// const baseUrl = "http://10.10.1.184:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 // const baseUrl = "http://localhost:3000"
 
@@ -30,7 +30,7 @@ export default function Login({ navigation }) {
 
 	const connect = () => {
 		if (login !== '' && password !== '') {
-			axios.post(baseUrl + '/users/auth', {
+			axios.post(API + '/users/auth', {
 				login: login,
 				password: password
 			})

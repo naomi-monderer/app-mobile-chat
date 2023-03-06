@@ -4,6 +4,7 @@ import ContactMenu from "../components/ContactMenu"
 import ROUTES from '../constant/routes';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
+import { API } from '../constant/constant';
 // import Messages from '../screen/Messages'
 
 // const baseUrl = "http://10.10.20.167:3000"
@@ -27,7 +28,7 @@ export default function Contact({navigation}) {
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
 				axios({
 						method: 'get',
-						url:`${baseUrl + uri}`,
+						url:`${API + uri}`,
 						headers: {
 							'Content-Type' : 'application/json',
 							token1: token,
@@ -41,7 +42,7 @@ export default function Contact({navigation}) {
 						if (error.response.status === 417) {
 							axios({
 								method: 'get',
-								url:`${baseUrl + uri}`,
+								url:`${API + uri}`,
 								headers: {
 									'Content-Type' : 'application/json',
 									token1: token,

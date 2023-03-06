@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import BlocRoom from '../components/BlocRoom';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
+import { API } from '../constant/constant';
 
 // const baseUrl = "http://10.10.20.167:3000";
 
 // // const baseUrl = "http://192.168.0.49:3000"
-const baseUrl = "http://10.10.1.184:3000"
+// const baseUrl = "http://10.10.1.184:3000"
 
 let arrayRooms = [];
 export default function AllRooms() {
@@ -30,7 +31,7 @@ export default function AllRooms() {
 				console.log("TOKEN2", refresh);
 				axios({
 					method: 'GET',
-					url: `${baseUrl + uri}`,
+					url: `${API + uri}`,
 					headers: {
 						'Content-Type': 'application/json',
 						token1: token,
