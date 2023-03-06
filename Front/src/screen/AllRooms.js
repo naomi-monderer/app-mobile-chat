@@ -7,7 +7,7 @@ import axios from 'axios';
 // const baseUrl = "http://10.10.20.167:3000";
 
 // // const baseUrl = "http://192.168.0.49:3000"
-const baseUrl = "http://localhost:3000"
+const baseUrl = "http://10.10.1.184:3000"
 
 let arrayRooms = [];
 export default function AllRooms() {
@@ -23,52 +23,55 @@ export default function AllRooms() {
 	if (underline === 2) uri = "/rooms"
 
 	useEffect(() => {
-	
+
 		SecureStore.getItemAsync('token1').then((token) => {
+			console.log("TOKEN1")
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
+				console.log("TOKEN2", refresh);
 				axios({
-						method: 'get',
-						url:`${baseUrl + uri}`,
-						headers: {
-							'Content-Type' : 'application/json',
-							token1: token,
-							refreshtoken: refresh
-						}
-					}).then((response) => {
-						setRooms(response.data)
-            			console.log('allRooms',response.data);
-					})
-					.catch(error => {
-						if (error.response.status === 417) {
-							axios({
-								method: 'get',
-								url:`${baseUrl + uri}`,
-								headers: {
-									'Content-Type' : 'application/json',
-									token1: token,
-									refreshtoken: error.response.data
-								}
-							}).then((response) => {
-								setRooms(response.data)
-                console.log('setRooms: ',response.data);
-							})
-							.catch(error => console.log(error))
-						}
-						else {
-							console.log(error)
-						}
-					})
+					method: 'GET',
+					url: `${baseUrl + uri}`,
+					headers: {
+						'Content-Type': 'application/json',
+						token1: token,
+						refreshtoken: refresh
+					}
+				}).then((response) => {
+					setRooms(response.data)
+					console.log('allRooms', response.data);
 				})
+					.catch(error => {
+						console.log(error.response.data)
+						// if (error.response.status === 417) {
+						// 	axios({
+						// 		method: 'get',
+						// 		url: `${baseUrl + uri}`,
+						// 		headers: {
+						// 			'Content-Type': 'application/json',
+						// 			token1: token,
+						// 			refreshtoken: error.response.data
+						// 		}
+						// 	}).then((response) => {
+						// 		setRooms(response.data)
+						// 		console.log('setRooms: ', response.data);
+						// 	})
+						// 		.catch(error => console.log(error))
+						// }
+						// else {
+						// 	console.log(error)
+						// }
+					})
 			})
-		}, [underline]);
+		})
+	}, [underline]);
 
-		const essai = (idRoom)=>{
-			arrayRooms.push(idRoom)
-			setMoreRooms(arrayRooms)
-			console.log('essai: ',arrayRooms)
-		}
+	const essai = (idRoom) => {
+		arrayRooms.push(idRoom)
+		setMoreRooms(arrayRooms)
+		console.log('essai: ', arrayRooms)
+	}
 
-		// console.log('moreRooms', moreRooms)
+	// console.log('moreRooms', moreRooms)
 
 	return (
 		<View style={styles.bg}>
@@ -83,16 +86,16 @@ export default function AllRooms() {
 			<View style={styles.container}>
 				{
 					rooms.length >= 1 ?
-					rooms.map((room) =>
-						<BlocRoom 
-							key={room.id}
-							room={room}
-							tab={underline}
-							essai={essai}
-						/>
-					)
-					:
-					<Text>No rooms.</Text>
+						rooms.map((room) =>
+							<BlocRoom
+								key={room.id}
+								room={room}
+								tab={underline}
+								essai={essai}
+							/>
+						)
+						:
+						<Text>No rooms.</Text>
 				}
 			</View>
 		</View>

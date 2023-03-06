@@ -5,21 +5,14 @@ import InputText from '../components/InputText';
 import Messages from './Messages';
 import { io } from 'socket.io-client';
 
-
-
-
-
-
-
 export default function ChatScreen({ navigation, route }, props) {
 
-	// console.log("ID_ROOM ?", route.params?.id_room)
 	useEffect(() => {
 
-		const socket = io("http://10.10.3.9:3000");
+		const socket = io("http://localhost:3000"); 
 		socket.emit('joinIn', route.params.id_room)
 		socket.on('newMessage', message => alert(message));
-
+		console.log("ChatScreen, id_room: ", route.params?.id_room)
 		navigation.getParent().setOptions({ tabBarStyle: { display: 'none' } });
 		return () => {
 			navigation.getParent().setOptions({
@@ -45,7 +38,6 @@ export default function ChatScreen({ navigation, route }, props) {
 
 	return (
 
-
 		<KeyboardAvoidingView
 			style={styles.container}
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -55,7 +47,7 @@ export default function ChatScreen({ navigation, route }, props) {
 			<ImageBackground
 				source={require('../assets/chuu-chat.png')}
 				style={{ width: '100%', height: '100%' }}
-			>	
+			>
 				<ScrollView
 					ref={scrollViewRef}
 					onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
@@ -73,7 +65,7 @@ export default function ChatScreen({ navigation, route }, props) {
 					//4. je recupère via le props de mon parent mon attribu onChangeText et je lui passe le contenu de l'input  
 					onChangeText={props.text}
 				/>
-				</TouchableWithoutFeedback>
+			</TouchableWithoutFeedback>
 		</KeyboardAvoidingView>
 	)
 }

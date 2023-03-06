@@ -1,4 +1,5 @@
 const db = require('../../database');
+const io = require('../../index');
 var express = require('express');
 
 
@@ -25,17 +26,17 @@ const postMessageinChat = (req, res) => {
 	// const datetimeFormatSQL = new Date().toISOString().replace('T', ' ').slice(0, 19);
 	// const datetime = new Date().toISOString().slice(0, 19);
 
-	const datetimeFormatSQL = new Date().toISOString().replace('T', ' ').toLocaleString({
+	const datetime = new Date().toISOString().replace('T', ' ').toLocaleString({
 		timeZone: "Europe/Paris",
 	  }).slice(0, 19);
 
+	  console.log('postmessageinchat')
+	//   const nDate = new Date().toLocaleString('en-US', {
+	// 	timeZone: 'Europe/Paris'
+	//   });
 
-	  const nDate = new Date().toLocaleString('en-US', {
-		timeZone: 'Europe/Paris'
-	  });
-
-	  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX SQL', datetimeFormatSQL);
-	  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX nDate', nDate);
+	//   console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX SQL', datetimeFormatSQL);
+	//   console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX nDate', nDate);
 
 	
 	// const formattedDate = date.toLocaleTimeString("en-US", {
@@ -57,7 +58,10 @@ const postMessageinChat = (req, res) => {
 
 			db.query(sql, function (err) {
 				if (err) throw err;
-				else res.status(200).send('message inserted');
+				// io.to((parseInt(req.params.roomId))).emit('newMessage', 'coucou')
+				// console.log(parseInt(req.params.roomId));
+				// console.log(4);
+			    res.status(200).send('message inserted');
 			});
 		}
 		else res.status(405).send('You are not allowed to post on this chat. Please subscribe to this chat.')
@@ -72,6 +76,7 @@ const deleteMessage = (req, res) => {
 		if (err) throw err;
 		else {
 			if (req.user.id === data[0].id_user.toString()) {
+
 				const sql = `DELETE FROM messages WHERE id = ${req.params.messageId} AND id_user = ${req.user.id}`
 
 				db.query(sql, function (err) {
@@ -117,6 +122,7 @@ const specificChat = (req, res) => {
 		db.query(sql, function (err, data) {
 			if (err) throw err;
 			else res.send(data);
+			console.log(" function specific chat");
 		})
 	} else res.status(400).send('You do not have access to the room');
 }
@@ -127,6 +133,7 @@ const getMessagesinGlobalChat = (req, res) => {
 	db.query(sql, function (err, data) {
 		if (err) throw err;
 		else res.status(200).send(data);
+		console.log('getMessagesinGlobalChat');
 	});
 }
 

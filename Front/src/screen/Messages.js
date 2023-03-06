@@ -48,7 +48,7 @@ const Messages = (props) => {
 				if (res) {
 					var payload = jwt_decode(rest);
 					console.log('payload',payload)
-					console.log('idROom',props.idRoom)
+					console.log('Messages.js idRoom: ',props.idRoom)
 					axios.get(`${API}/chat/get/${props.idRoom}`,
 						{
 							headers: {
@@ -63,6 +63,7 @@ const Messages = (props) => {
 							console.log('DATA-MESSAGES: ', res.data);
 							
 						}).catch(error => {
+							console.log('messages: ', error);
 							if(error.response) {
 						
 							} else if (error.request) {

@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 // import {Login, Register} from '../screen';
 import Login from '../screen/Login';
 import Register from '../screen/Register';
+import Profil from '../screen/Profil';
 // import Home from '../screen/Home';
 // import ChatScreen from '../screen/ChatScreen';
 // import AllRooms from '../screen/AllRooms';
@@ -20,6 +21,7 @@ export default function AuthNavigator() {
 			}
 		}} initialRouteName={ROUTES.LOGIN}>
 			<Stack.Screen name={ROUTES.LOGIN} component={Login} />
+			<Stack.Screen name={ROUTES.PROFILE} component={Profil}/>
 			<Stack.Screen name={ROUTES.REGISTER} component={Register} />
 			<Stack.Screen name={ROUTES.HOME} component={TabBar} options={{headerShown: false}} />
 

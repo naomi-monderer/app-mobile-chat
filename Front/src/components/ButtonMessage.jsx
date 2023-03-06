@@ -9,8 +9,9 @@ export default function ButtonMessage(props) {
 
     const handleSubmit = () => {
 
+
         SecureStore.getItemAsync('token1').then((rest) => {
-            console.log('rest: '+ rest);
+            // console.log('rest: '+ rest);
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if (res) {
                     var decoded = jwt_decode(rest);
@@ -33,7 +34,8 @@ export default function ButtonMessage(props) {
                             props.setText('');
                             console.log('res: ' + res)
                         }).catch(e => {
-                            console.error(e);
+                            // console.error(e);
+                            console.log('handleSubmit:', e)
                         })
                     }
                 }
