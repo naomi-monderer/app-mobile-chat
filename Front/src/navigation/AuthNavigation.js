@@ -1,5 +1,7 @@
-import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { createStackNavigator } from '@react-navigation/stack';
 // import {Login, Register} from '../screen';
 import Login from '../screen/Login';
 import Register from '../screen/Register';
@@ -14,25 +16,43 @@ import TabBar from './TabBar';
 const Stack = createStackNavigator();
 
 export default function AuthNavigator() {
-	return (
-		<Stack.Navigator screenOptions={{
-			headerStyle: {
-				backgroundColor: '#C5AAFF'
+	const [loggedIn, setLoggedIn] = React.useState(null);
+
+	useEffect(() => {
+		const checkAuth = async () => {
+			const signedIn = await SecureStore.getItemAsync('token1');
+			if (signedIn != null) {
+				setLoggedIn(true);
+			} else {
+				setLoggedIn(false);
 			}
-		}} initialRouteName={ROUTES.LOGIN}>
+		};
+
+		checkAuth();
+	}, []);
+
+	if (loggedIn === null) {
+		return null;
+	}
+	return (
+		<Stack.Navigator
+			screenOptions={{
+				headerStyle: {
+					backgroundColor: '#C5AAFF',
+				},
+			}}
+			initialRouteName={loggedIn ? ROUTES.HOME : ROUTES.LOGIN}>
+			<Stack.Screen
+				name={ROUTES.HOME}
+				component={TabBar}
+				options={{ headerShown: false }}
+			/>
 			<Stack.Screen name={ROUTES.LOGIN} component={Login} />
-			<Stack.Screen name={ROUTES.PROFILE} component={Profil}/>
+			<Stack.Screen name={ROUTES.PROFILE} component={Profil} />
 			<Stack.Screen name={ROUTES.REGISTER} component={Register} />
-			<Stack.Screen name={ROUTES.HOME} component={TabBar} options={{headerShown: false}} />
-
-
 		</Stack.Navigator>
-);
+	);
 }
 
-
-{/* 
-        	<Stack.Screen name={ROUTES.MESSAGES} component={ChatScreen} options ={{title:'nom room'}} />
-			<Stack.Screen name={ROUTES.CHATROOMS} component={AllRooms} options ={{title:'nom room'}} /> */}
 
 

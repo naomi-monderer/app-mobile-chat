@@ -76,10 +76,10 @@ const registerUsers = async (req, res) => {
 const authUsers = (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;
-	console.log("----------")
-	console.log(login)
-	console.log(password)
-	console.log("----------")
+	// console.log("----------")
+	// console.log(login)
+	// console.log(password)
+	// console.log("----------")
 
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
 		if (results.length > 0) {

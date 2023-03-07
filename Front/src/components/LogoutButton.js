@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 
-export default function LogoutButton () {
+export default function LogoutButton() {
     const logout = () => {
         SecureStore.getItemAsync('token1').then((res) => {
-            if(res) {
+            if (res) {
                 SecureStore.deleteItemAsync('token1').then(() => {
                     SecureStore.deleteItemAsync('refreshtoken')
                 })
@@ -17,12 +17,12 @@ export default function LogoutButton () {
 
     return (
         <View>
-            <TouchableOpacity 
-                onPress={() => logout() } 
+            <TouchableOpacity
+                onPress={() => logout()}
                 style={styles.button}
             >
-				<Text style={styles.buttonText}>Logout</Text>
-			</TouchableOpacity>
+                <Text style={styles.buttonText}>Logout</Text>
+            </TouchableOpacity>
         </View>
     )
 }

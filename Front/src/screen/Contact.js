@@ -9,7 +9,7 @@ import { API } from '../constant/constant';
 
 // const baseUrl = "http://10.10.20.167:3000"
 // const baseUrl = "http://192.168.0.49:3000"
-const baseUrl = "http://localhost:3000"
+// const baseUrl = "http://localhost:3000"
 
 export default function Contact({navigation}) {
 	const [underline, setUnderline] = useState(1)

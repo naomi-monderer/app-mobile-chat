@@ -1,31 +1,29 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ImageBackground, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground} from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import ROUTES from '../constant/routes';
 import jwt_decode from "jwt-decode";
 import { API } from '../constant/constant';
-// const baseUrl = "http://10.10.1.184:3000"
-// const baseUrl = "http://192.168.0.49:3000"
-// const baseUrl = "http://localhost:3000"
 
 export default function Login({ navigation }) {
 	const [login, setLogin] = useState('')
 	const [password, setPassword] = useState('')
 	const [rooms, setRooms] = useState([])
+	let first = true;
 
 	useEffect(() => {
-		SecureStore.getItemAsync('token1').then((res) => {
-			console.log(res)
-			if (res) {
-				const decoded = jwt_decode(res);
-				setRooms(decoded.id_rooms)
-				// navigation.navigate(ROUTES.HOME, {screen: ROUTES.CONTACT})
-			} else {
-				alert("No token found")
-			}
-		})
+		if (first) {
+			SecureStore.getItemAsync('token1').then((res) => {
+				if (res) {
+					const decoded = jwt_decode(res);
+					setRooms(decoded.id_rooms)
+					// console.log('DECOCDED LOGIN.js:', decoded);
+				} 
+				// first = false;
+			})
+		}
 	}, [rooms])
 
 	const connect = () => {
@@ -39,9 +37,10 @@ export default function Login({ navigation }) {
 					setPassword('');
 					const token = response.data.token;
 					const refresh = response.data.refresh;
-					console.log(token);
-					console.log(refresh);
+					console.log('Login.js -> token : ',token);
+					console.log('Login.js -> refresh: ',refresh);
 					SecureStore.setItemAsync('token1', token).then(() => {
+					
 						SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
 							navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
 						})

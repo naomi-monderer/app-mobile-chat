@@ -26,7 +26,7 @@ export default function AllRooms() {
 	useEffect(() => {
 
 		SecureStore.getItemAsync('token1').then((token) => {
-			console.log("TOKEN1")
+			console.log("TOKEN1 :", token )
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
 				console.log("TOKEN2", refresh);
 				axios({
