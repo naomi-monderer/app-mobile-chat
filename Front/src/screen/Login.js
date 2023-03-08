@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground} f
 import * as SecureStore from 'expo-secure-store';
 import ROUTES from '../constant/routes';
 import jwt_decode from "jwt-decode";
-import { API } from '../constant/constant';
+import  {API}  from '../constant/constant';
 
 export default function Login({ navigation }) {
 	const [login, setLogin] = useState('')
@@ -19,10 +19,12 @@ export default function Login({ navigation }) {
 				if (res) {
 					const decoded = jwt_decode(res);
 					setRooms(decoded.id_rooms)
-					// console.log('DECOCDED LOGIN.js:', decoded);
+					// const decodedIdRooms = decoded.id_rooms;
+					console.log('DECOCDED LOGIN.js:', decoded);
 				} 
-				// first = false;
+				
 			})
+			first = false;
 		}
 	}, [rooms])
 
@@ -70,12 +72,25 @@ export default function Login({ navigation }) {
 	}
 
 	return (
+
+
+
+		  
 		<ImageBackground
 			source={require("../assets/connexion.png")}
 			resizeMode="cover"
-			style={{ width: '100%', height: '100%', backgroundColor: '#C5AAFF' }}
+			style={{ width: '100%', height: '100%', 
+					backgroundColor: '#C5AAFF' ,
+					
+				
+
+				}}
 		>
+
+
+
 			<View style={styles.container}>
+				
 				<Text style={styles.title}>
 					Sign in
 				</Text>
@@ -112,9 +127,12 @@ export default function Login({ navigation }) {
 					>
 						New to Chuu ? Sign Up here !
 					</Text>
+			
 				</View>
 			</View>
+	
 		</ImageBackground>
+		
 	)
 }
 

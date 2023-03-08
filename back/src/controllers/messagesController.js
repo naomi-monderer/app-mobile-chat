@@ -21,7 +21,7 @@ const postMessage = (req, res) => {
 const postMessageinChat = (req, res) => {
 	const datetime = new Date().toISOString().replace('T', ' ').toLocaleString({
 		timeZone: "Europe/Paris",
-	  }).slice(0, 19);	
+	}).slice(0, 19);
 	const data = req.body;
 	if (data.content && req.user.id_role !== 0) {
 		if (Object.keys(req.params).length !== 0 && req.user.id_rooms.includes(req.params.roomId)) {
@@ -29,10 +29,21 @@ const postMessageinChat = (req, res) => {
 
 			db.query(sql, function (err) {
 				if (err) throw err;
-				// io.to((parseInt(req.params.roomId))).emit('newMessage', 'coucou')
-				// console.log(parseInt(req.params.roomId));
+				console.log("data:", req.user.login);
+				const msg = {
+					content: data.content,
+					created_at: "2023-01-12T17:32:11.000Z",
+					updated_at: "2023-01-12T17:32:11.000Z",
+					id: data.id,
+					login: req.user.login
+				};
+
+
+				io.to((parseInt(req.params.roomId))).emit('newMessage', msg)
+				// console.log('req.params.roomId', parseInt(req.params.roomId));
 				// console.log(4);
-			    res.status(200).send('message inserted');
+
+				res.status(200).send('message inserted');
 			});
 		}
 		else res.status(405).send('You are not allowed to post on this chat. Please subscribe to this chat.')

@@ -9,9 +9,11 @@ export default function ChatScreen({ navigation, route }, props) {
 
 	useEffect(() => {
 
-		const socket = io("http://localhost:3000"); 
+		const socket = io("http://localhost:3000");
 		socket.emit('joinIn', route.params.id_room)
-		socket.on('newMessage', message => alert(message));
+
+		socket.on('newMessage', message => console.log("cool", message));
+
 		console.log("ChatScreen, id_room: ", route.params?.id_room)
 		navigation.getParent().setOptions({ tabBarStyle: { display: 'none' } });
 		return () => {
