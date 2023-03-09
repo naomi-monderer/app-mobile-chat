@@ -2,9 +2,34 @@ const express = require('express');
 const jwt = require("jsonwebtoken");
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const app = express();
+
 const {signIn} = require("./src/middlewares/auth");
 const {isAdmin} = require("./src/middlewares/isAdmin");
+
+const app = express();
+const http = require('http')
+const server = http.createServer(app)
+const io = require('socket.io')(server)
+const port = 3000;
+
+module.exports = io;
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+    socket.on('joinIn', (id_room) => {
+      socket.join(id_room);
+    })
+
+  });
+
+
+  server.listen(port, () => {
+    console.log(`Socket.IO server running at http://localhost:${port}`);
+});
+
 
 const cors = require('cors');
 const corsOptions ={
@@ -44,6 +69,4 @@ app.use('/chat', chat);
 app.use('/rooms', rooms);
 
 // Start servera
-app.listen(3000, () => {
-	console.log('API server listening on port 3000');
-});
+

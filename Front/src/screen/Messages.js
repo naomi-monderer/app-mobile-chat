@@ -1,94 +1,310 @@
-import * as React from 'react';
-import  {useState, useEffect, useCallback} from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-// import { GiftedChat, Bubble, Time} from 'react-native-gifted-chat';
-
-const Messages = ({navigation, route}) => {
-    console.log("ID_ROOM", route.params?.id_room)
-    const onPressButton = () => {
-        console.log('You tapped the button!');
-    };
-    const [dateTime, setDateTime] = useState(new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',  hour12: true }));
-
-    const styles = StyleSheet.create({
-        sendMessage: {
-            margin: 20,
-            width: '40%',
-            marginBottom:0,
-            alignSelf: 'flex-end',
-            backgroundColor: '#B2FFDF',
-            borderRadius: 20,
-        },
-        
-        container: {
-            flex: 1,
-        },
-        
-        receivedMessage:{
-            width: '40%',
-            margin: 20,
-            marginBottom:0,
-            alignSelf: 'flex-start',
-            borderRadius: 20,
-            backgroundColor: '#C5AAFF',
-        },
-
-        receivedHour:{
-            alignSelf: 'flex-end',
-            marginRight: 28,
-            paddingTop:0,
-            fontSize:10
-        },
-        sendedHour:{
-            alignSelf: 'flex-start',
-            marginLeft: 28,
-            paddingTop:0,
-            fontSize:10
-        },
-        currentHour:{
-
-            alignSelf: 'center',
-            paddingTop:0,
-            fontSize:12
-        }
-
-    });
-    
-    return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.receivedMessage}>
-                <Text style={{margin:15}}>
-                {
-                //inclure data ici
-                }
-                    gfrbehqbkhbfc,lkrf,rjferjfnzefnksdjnfsjknfksjncjsndcsndcjsdncsnduhufhouhouf
-                </Text>
-            </View>
-            <Text style={styles.sendedHour}>
-                {
-                //inclure data ici
-                }
-                    {dateTime}
-            </Text>
-            <Text style={styles.currentHour}>
-                    {dateTime}
-            </Text>
-            <View style={styles.sendMessage}>  
-                <Text style={{margin:15}}>
-                    blic bloc hfzieudhuidhu
-                </Text>
-            </View>
-                <Text style={styles.receivedHour}>
-                    {dateTime}
-                </Text>
-        </SafeAreaView>
-    );
+import * as React from "react";
+import axios from "axios";
+import * as SecureStore from 'expo-secure-store';
+import jwt_decode from 'jwt-decode'
+import { API } from '../constant/constant';
+import { useState, useEffect } from "react";
+import {
+	Text,
+	View,
+	StyleSheet,
+	TouchableOpacity,
+	ScrollView,
+} from "react-native";
 
 
-}
+
+
+
+const Messages = (props) => {
+
+	let isUser;
+	const [modalVisible, setModalVisible] = useState(false);
+	const [selectedMessageIndex, setSelectedMessageIndex] = useState();
+	const [messages, setMessages] = useState([]);
+	const [decoded, setDecoded] = useState([]);
+	const [selectedReaction, setSelectedReaction] = useState(null);
+	const [dateTime, setDateTime] = useState(
+		new Date().toLocaleString("en-US", {
+			hour: "numeric",
+			minute: "numeric",
+			hour12: true,
+		})
+	);
+
+	function getUserInfo(callback) {
+
+		SecureStore.getItemAsync('token1').then((payload) => {
+			payload = jwt_decode(payload);
+			callback(payload);
+		});
+
+	}
+
+	function getMessages(callback) {
+
+		SecureStore.getItemAsync('token1').then((rest) => {
+			SecureStore.getItemAsync('refreshtoken').then((res) => {
+				if (res) {
+					var payload = jwt_decode(rest);
+					console.log('payload',payload)
+					console.log('Messages.js idRoom: ',props.idRoom)
+					axios.get(`${API}/chat/get/${props.idRoom}`,
+						{
+							headers: {
+								'Content-Type': 'application/json',
+								token1: rest,
+								refreshtoken: res
+							}
+						}).then(res => {
+							// const data = res.data;
+							callback(res.data);
+
+							console.log('DATA-MESSAGES: ', res.data);
+							
+						}).catch(error => {
+							console.log('messages: ', error);
+							if(error.response) {
+						
+							} else if (error.request) {
+								console.log('error request', error.request);
+							}
+							else {
+								console.log('Error', error.message);
+							}
+						})
+				}
+			})
+		})
+
+	}
+	useEffect(() => {
+
+		getUserInfo(payload => {
+
+			setDecoded(payload);
+		})
+		getMessages(data => {
+			setMessages(data);
+			console.log('getMessages: ',setMessages);
+		})
+
+	}, []);
+
+
+	const handleLongPress = (index) => {
+		setModalVisible(true);
+		setSelectedMessageIndex(index);
+	};
+
+	const handleReaction = (reaction, index) => {
+		const newMessages = [...messages];
+		newMessages[index] = {
+			...newMessages[index],
+			reaction,
+		};
+		setMessages(newMessages);
+		setSelectedReaction(reaction);
+		setModalVisible(false);
+	};
+
+	const formattedDate = [];
+	if (messages?.length > 0) {
+		messages.forEach((msg) => {
+			formattedDate[msg.id] = new Date(msg.created_at).toLocaleTimeString("en-US", {
+				day:"numeric",
+				// mounth:"letter",
+				hour: "numeric",
+				minute: "numeric",
+				hour12: true,
+			});
+		});
+	}
+
+
+	return (
+		<>
+			<View>
+				<Text style={styles.currentHour}>{dateTime}</Text>
+			</View>
+			{messages?.map((msg, index) => {
+
+				return (
+					<View style={styles.container} key={index}>
+					
+						<View
+								style={styles.contentSendedHours}
+							>
+								{isUser = decoded.login == msg.login}
+								<Text style={styles.login, isUser ? styles.sendedHour : styles.receivedHour}>
+							
+								
+									{msg.login}   {formattedDate[msg.id]}
+								</Text>
+								{/* <Text style={isUser ? styles.sendedHour : styles.receivedHour} >
+								{formattedDate[msg.id]}
+								</Text> */}
+							</View>
+						{/* {console.log(decoded.login)}
+						{console.log(msg.login)}
+						{console.log('----------')} */}
+
+						{isUser = decoded.login == msg.login}
+						<TouchableOpacity style={isUser ? styles.sendedMessage : styles.receivedMessage} onLongPress={() => handleLongPress(index)}>
+							
+							<Text style={styles.content}>{msg.content}</Text>
+						</TouchableOpacity>
+
+						<View style={styles.display}>
+
+							
+
+							{msg.reaction ? (
+								<View style={{ position: 'absolute', bottom: 0, alignSelf: 'flex-start', paddingLeft: 67 }}>
+									<Text style={{ fontSize: 25, marginLeft: 80, }}>{msg.reaction}</Text>
+								</View>
+							) : null}
+							{/* <View style={styles.bottomModal}>
+								{selectedMessageIndex === index && modalVisible ? (
+									<TouchableOpacity style={styles.modalContainer}>
+										<TouchableOpacity onPress={() => handleReaction("💅🏽", index)}>
+											<Text style={{ fontSize: 20, }}>💅🏽</Text>
+										</TouchableOpacity>
+										<TouchableOpacity onPress={() => handleReaction("🫶", index)}>
+											<Text style={{ fontSize: 20, }}>🫶</Text>
+										</TouchableOpacity>
+										<TouchableOpacity onPress={() => handleReaction("🤮", index)}>
+											<Text style={{ fontSize: 20, }}>🤮</Text>
+										</TouchableOpacity>
+									</TouchableOpacity>
+								) : (
+									<Text></Text>
+								)}
+							</View> */}
+						</View>
+
+					</View>
+
+				)
+
+			}
+
+			)}
+		</>
+	);
+};
 
 export default Messages;
 
+const styles = StyleSheet.create({
+	display: {
+		flexDirection: 'row',
+		// backgroundColor:'green',
+		// width: 60,
+		// alignSelf:'flex-end'
+	},
+	contentSendedHours: {
+
+	},
+	sendedMessage: {
+		margin: 10,
+		width: 300,
+		padding: 10,
+		marginBottom: 0,
+		alignSelf: "flex-end",
+		backgroundColor: "#B2FFDF",
+		borderRadius: 20,
+	},
+	login: {
+		color: "#ECECEC",
+		marginLeft: 25,
+		marginBottom: 5,
+		fontWeight: "bold",
+		fontSize: 20,
 
 
+
+	},
+
+	container: {
+		flex: 1
+	},
+
+	receivedMessage: {
+		// height: 100,
+		width: 300,
+		marginBottom: 4,
+		marginLeft: 10,
+		alignSelf: "flex-start",
+		borderRadius: 20,
+		backgroundColor: "#C5AAFF",
+		position: "relative",
+		padding: 10,
+	},
+
+	content: {
+		padding: 1,
+		// backgroundColor:'yellow'
+	},
+
+	receivedHour: {
+		// alignSelf: "flex-start",
+		color:"#ECECEC",
+		marginLeft: 25,
+		paddingTop: 0,
+		paddingBottom:10,
+		fontSize: 15,
+	},
+
+	sendedHour: {
+		alignSelf: "center",
+		alignSelf: "flex-start",
+		// alignContent:"",
+		// display: "flex",
+		// flexDirection:"row",
+		// alignItems:"flex-end",
+		color: "red",
+		marginLeft: 28,
+		paddingTop: 0,
+		fontSize: 10,
+		width: '100%',
+		backgroundColor: 'blue'
+
+	},
+
+	bottomModal: {
+		flexDirection: "row",
+		zIndex: 1000,
+		width: "27%",
+		alignSelf: "flex-start",
+		flexWrap: "wrap",
+		// backgroundColor: "green",
+		// justifyContent: "space-between",
+	},
+
+	currentHour: {
+		alignSelf: "center",
+		padding: 10,
+		fontSize: 12,
+	},
+
+	modalContainer: {
+		alignItems: "flex-end",
+		width: "80%",
+		backgroundColor: "white",
+		marginLeft: 79,
+		padding: 10,
+		borderRadius: 10,
+		flexDirection: "row",
+	},
+
+	reactionsContainer: {
+		backgroundColor: "green",
+		marginRight: 10,
+		width: "20%",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		borderRadius: 20,
+	},
+});

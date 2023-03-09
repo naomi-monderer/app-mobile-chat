@@ -16,40 +16,47 @@ import TabBar from './TabBar';
 const Stack = createStackNavigator();
 
 export default function AuthNavigator() {
-    const [loggedIn, setLoggedIn] = React.useState(null);
+	const [loggedIn, setLoggedIn] = React.useState(null);
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            const signedIn = await SecureStore.getItemAsync('token1');
-            if (signedIn != null) {
-                setLoggedIn(true);
-            } else {
-                setLoggedIn(false);
-            }
-        };
+	useEffect(() => {
+		const checkAuth = async () => {
+			const signedIn = await SecureStore.getItemAsync('token1');
+			if (signedIn != null) {
+				setLoggedIn(true);
+			} else {
+				setLoggedIn(false);
+			}
+		};
 
-        checkAuth();
-    }, []);
+		checkAuth();
+	}, []);
 
-    if (loggedIn === null) {
-        return null;
-    }
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#C5AAFF',
-                },
-            }}
-            initialRouteName={loggedIn ? ROUTES.HOME : ROUTES.LOGIN}>
-            <Stack.Screen
-                name={ROUTES.HOME}
-                component={TabBar}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen name={ROUTES.LOGIN} component={Login} />
-            <Stack.Screen name={ROUTES.PROFILE} component={Profil} />
-            <Stack.Screen name={ROUTES.REGISTER} component={Register} />
-        </Stack.Navigator>
-    );
+	if (loggedIn === null) {
+		return null;
+	}
+	return (
+		<Stack.Navigator
+			screenOptions={{
+				headerStyle: {
+					backgroundColor: '#C5AAFF',
+				},
+			}}
+			initialRouteName={loggedIn ? ROUTES.HOME : ROUTES.LOGIN}>
+			<Stack.Screen
+				name={ROUTES.HOME}
+				component={TabBar}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen name={ROUTES.LOGIN} component={Login}  options={{ headerShown: false }}/>
+			<Stack.Screen name={ROUTES.PROFILE} component={Profil} />
+			<Stack.Screen name={ROUTES.REGISTER} component={Register} options={{
+				headerShadowVisible: false, // applied here
+    			headerBackTitleVisible: false,
+				headerTintColor: 'black'
+			}}/>
+		</Stack.Navigator>
+	);
 }
+
+
+

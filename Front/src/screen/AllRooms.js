@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "rea
 import BlocRoom from '../components/BlocRoom';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
+import { API } from '../constant/constant';
 
 const baseUrl = "http://10.10.2.228:3000"
 // const baseUrl = "http://192.168.0.49:3000"
@@ -27,41 +28,53 @@ export default function AllRooms() {
 	if (underline === 2) uri = "/rooms"
 
 	useEffect(() => {
+
 		SecureStore.getItemAsync('token1').then((token) => {
+			console.log("TOKEN1 :", token )
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
+				console.log("TOKEN2", refresh);
 				axios({
-						method: 'get',
-						url:`${baseUrl + uri}`,
-						headers: {
-							'Content-Type' : 'application/json',
-							token1: token,
-							refreshtoken: refresh
-						}
-					}).then((response) => {
-						setRooms(response.data)
-					})
-					.catch(error => {
-						if (error.response.status === 417) {
-							axios({
-								method: 'get',
-								url:`${baseUrl + uri}`,
-								headers: {
-									'Content-Type' : 'application/json',
-									token1: token,
-									refreshtoken: error.response.data
-								}
-							}).then((response) => {
-								setRooms(response.data)
-							})
-							.catch(error => console.log(error))
-						}
-						else {
-							console.log(error)
-						}
-					})
+					method: 'GET',
+					url: `${API + uri}`,
+					headers: {
+						'Content-Type': 'application/json',
+						token1: token,
+						refreshtoken: refresh
+					}
+				}).then((response) => {
+					setRooms(response.data)
+					console.log('allRooms', response.data);
 				})
+					.catch(error => {
+						console.log(error.response.data)
+						// if (error.response.status === 417) {
+						// 	axios({
+						// 		method: 'get',
+						// 		url: `${baseUrl + uri}`,
+						// 		headers: {
+						// 			'Content-Type': 'application/json',
+						// 			token1: token,
+						// 			refreshtoken: error.response.data
+						// 		}
+						// 	}).then((response) => {
+						// 		setRooms(response.data)
+						// 		console.log('setRooms: ', response.data);
+						// 	})
+						// 		.catch(error => console.log(error))
+						// }
+						// else {
+						// 	console.log(error)
+						// }
+					})
 			})
-		}, [underline]);
+		})
+	}, [underline]);
+
+	const essai = (idRoom) => {
+		arrayRooms.push(idRoom)
+		setMoreRooms(arrayRooms)
+		console.log('essai: ', arrayRooms)
+	}
 
 	useEffect(() => {
 		moreRooms.forEach((moreRoom) => {
@@ -173,10 +186,10 @@ export default function AllRooms() {
 		<ScrollView style={styles.bg}>
 			<View style={styles.tabs}>
 				<TouchableOpacity onPress={() => underlined(1)}>
-					<Text style={underline === 1 ? styles.selected : styles.notSelected}>My Chuu-Rooms</Text>
+					<Text style={underline === 1 ? styles.selected : styles.notSelected}>My chuu rooms</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => underlined(2)}>
-					<Text style={underline === 2 ? styles.selected : styles.notSelected}>More Chuu-Rooms</Text>
+					<Text style={underline === 2 ? styles.selected : styles.notSelected}>More Chuu rooms</Text>
 				</TouchableOpacity>
 			</View>
 			<View style={styles.container}>
