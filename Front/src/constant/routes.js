@@ -1,6 +1,6 @@
 export default {
     LOGIN: 'Login',
-    REGISTER: 'Register',
+    REGISTER: ' ',
     HOME: 'Home',
     CHATROOMS: 'Chuu-Rooms',
     FEED: 'Feed',

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity,SafeAreaView, StyleSheet, ImageBackground } from 'react-native';
 import axios from 'axios';
+import ROUTES from '../constant/routes';
 import { API } from '../constant/constant';
 
-const Register = () => {
+const Register = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -29,6 +30,10 @@ const Register = () => {
             })
             .then(response => {
                 console.log('response', response);
+                if(response){
+                    alert("Thanks for your subscription, you can sign in!")
+                }
+                
             })
             .catch(error => {
                 if(error.response.data){
@@ -47,8 +52,8 @@ const Register = () => {
         },
         input: {
             padding: 10,
-            marginLeft:50,
-            marginRight:50,
+            marginLeft:75,
+            marginRight:70,
             textAlign:'center',
             borderBottomColor: 'black',
             borderBottomWidth: 1,
@@ -56,7 +61,7 @@ const Register = () => {
         },
         label: {
             padding:10,
-            marginLeft:30,
+            marginLeft:70,
             textAlign:'left',
             fontSize: 16,
             lineHeight:19,
@@ -75,16 +80,23 @@ const Register = () => {
             marginTop:30,
             backgroundColor: '#000000',
             padding: 10,
-            margin:30,
+            margin:70,
             borderRadius: 10,
             alignItems: 'center',
-        }
+        },
+        buttonText: {
+            color: '#C5AAFF',
+            textAlign: 'center',
+            padding: 5,
+            fontWeight: '500',
+            fontSize: 18,
+        },
     });
 
     return (
         // <View style={styles.background}>
                 <ImageBackground
-                source={require('../assets/connexion.png')} 
+                source={require('../assets/inscription.png')} 
                 resizeMode="cover"
                 style={{width: '100%',
                         height: '100%',
@@ -123,10 +135,12 @@ const Register = () => {
                         secureTextEntry={true}
                     />
                 </View>
-
-                
                 <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                    <Text style={{color: 'white'}}>Submit</Text>
+                    <Text style={styles.buttonText}
+                    onPress={() => navigation.navigate(ROUTES.LOGIN)}
+                    >
+                        Register
+                    </Text>
                 </TouchableOpacity>
             </ImageBackground>
         // </View>

@@ -84,11 +84,12 @@ export default function Login({ navigation }) {
 		>
 
 			<View style={styles.container}>
-				
+				<View style={styles.boxTitle}>
 				<Text style={styles.title}>
 					Sign in
 				</Text>
-				<View>
+				</View>
+				<View style={styles.boxForm}>
 					<Text style={styles.label}>
 						Login
 					</Text>
@@ -121,10 +122,8 @@ export default function Login({ navigation }) {
 					>
 						New to Chuu ? Sign Up here !
 					</Text>
-			
 				</View>
 			</View>
-	
 		</ImageBackground>
 		
 	)
@@ -135,6 +134,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginTop: 52,
 		alignItems: 'center'
+	},
+	boxTitle: {
+		marginTop: 90,
+	},
+	boxForm: {
+		marginTop: 60,
+
 	},
 	title: {
 		fontSize: 40,
@@ -159,9 +165,9 @@ const styles = StyleSheet.create({
 	buttonText: {
 		color: '#C5AAFF',
 		textAlign: 'center',
-		padding: 10,
+		padding: 15,
 		fontWeight: '500',
-		fontSize: 15,
+		fontSize: 18,
 	},
 	toRegister: {
 		marginTop: 20,

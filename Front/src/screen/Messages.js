@@ -112,6 +112,8 @@ const Messages = (props) => {
 	if (messages?.length > 0) {
 		messages.forEach((msg) => {
 			formattedDate[msg.id] = new Date(msg.created_at).toLocaleTimeString("en-US", {
+				day:"numeric",
+				// mounth:"letter",
 				hour: "numeric",
 				minute: "numeric",
 				hour12: true,
@@ -129,30 +131,40 @@ const Messages = (props) => {
 
 				return (
 					<View style={styles.container} key={index}>
+					
+						<View
+								style={styles.contentSendedHours}
+							>
+								{isUser = decoded.login == msg.login}
+								<Text style={styles.login, isUser ? styles.sendedHour : styles.receivedHour}>
+							
+								
+									{msg.login}   {formattedDate[msg.id]}
+								</Text>
+								{/* <Text style={isUser ? styles.sendedHour : styles.receivedHour} >
+								{formattedDate[msg.id]}
+								</Text> */}
+							</View>
 						{/* {console.log(decoded.login)}
 						{console.log(msg.login)}
 						{console.log('----------')} */}
 
 						{isUser = decoded.login == msg.login}
 						<TouchableOpacity style={isUser ? styles.sendedMessage : styles.receivedMessage} onLongPress={() => handleLongPress(index)}>
+							
 							<Text style={styles.content}>{msg.content}</Text>
 						</TouchableOpacity>
 
 						<View style={styles.display}>
 
-							<View
-								style={styles.contentSendedHours}
-							>
-								{isUser = decoded.login == msg.login}
-								<Text style={isUser ? styles.sendedHour : styles.receivedHour}>{formattedDate[msg.id]}</Text>
-							</View>
+							
 
 							{msg.reaction ? (
 								<View style={{ position: 'absolute', bottom: 0, alignSelf: 'flex-start', paddingLeft: 67 }}>
 									<Text style={{ fontSize: 25, marginLeft: 80, }}>{msg.reaction}</Text>
 								</View>
 							) : null}
-							<View style={styles.bottomModal}>
+							{/* <View style={styles.bottomModal}>
 								{selectedMessageIndex === index && modalVisible ? (
 									<TouchableOpacity style={styles.modalContainer}>
 										<TouchableOpacity onPress={() => handleReaction("💅🏽", index)}>
@@ -168,7 +180,7 @@ const Messages = (props) => {
 								) : (
 									<Text></Text>
 								)}
-							</View>
+							</View> */}
 						</View>
 
 					</View>
@@ -203,6 +215,16 @@ const styles = StyleSheet.create({
 		backgroundColor: "#B2FFDF",
 		borderRadius: 20,
 	},
+	login: {
+		color: "#ECECEC",
+		marginLeft: 25,
+		marginBottom: 5,
+		fontWeight: "bold",
+		fontSize: 20,
+
+
+
+	},
 
 	container: {
 		flex: 1
@@ -217,7 +239,7 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		backgroundColor: "#C5AAFF",
 		position: "relative",
-		padding: 10
+		padding: 10,
 	},
 
 	content: {
@@ -227,9 +249,11 @@ const styles = StyleSheet.create({
 
 	receivedHour: {
 		// alignSelf: "flex-start",
+		color:"#ECECEC",
 		marginLeft: 25,
 		paddingTop: 0,
-		fontSize: 10,
+		paddingBottom:10,
+		fontSize: 15,
 	},
 
 	sendedHour: {
