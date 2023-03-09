@@ -42,9 +42,6 @@ const Register = () => {
     }
 
     const styles = StyleSheet.create({
-        background: {
-            backgroundColor: '#C5AAFF'
-        },
         container: {
             marginTop: 40,
         },
@@ -85,11 +82,14 @@ const Register = () => {
     });
 
     return (
-        <View style={styles.background}>
-            <SafeAreaView>
+        // <View style={styles.background}>
                 <ImageBackground
-                source={require('../asset/connexion.png')} 
-                style={{width: '100%', height: '100%'}}
+                source={require('../assets/connexion.png')} 
+                resizeMode="cover"
+                style={{width: '100%',
+                        height: '100%',
+                        backgroundColor: '#C5AAFF'
+                    }}
                 >
                 <Text style={styles.title} >Sign Up</Text>
                 <View style={styles.container}>
@@ -129,9 +129,7 @@ const Register = () => {
                     <Text style={{color: 'white'}}>Submit</Text>
                 </TouchableOpacity>
             </ImageBackground>
-
-            </SafeAreaView>
-        </View>
+        // </View>
 
     );
 

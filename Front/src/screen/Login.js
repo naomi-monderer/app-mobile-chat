@@ -72,22 +72,16 @@ export default function Login({ navigation }) {
 	}
 
 	return (
-
-
-
-		  
+  
 		<ImageBackground
 			source={require("../assets/connexion.png")}
 			resizeMode="cover"
-			style={{ width: '100%', height: '100%', 
-					backgroundColor: '#C5AAFF' ,
-					
-				
-
-				}}
+			style={{ 
+				width: '100%', 
+				height: '100%', 
+				backgroundColor: '#C5AAFF',
+			}}
 		>
-
-
 
 			<View style={styles.container}>
 				
