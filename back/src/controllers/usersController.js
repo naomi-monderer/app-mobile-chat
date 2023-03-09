@@ -249,6 +249,11 @@ const updateUser = (req, res) => {
 	})
 }
 
+const supressAccount = (req, res)=>{
+	console.log(req,'nvll function !!! ')
+
+}
+
 module.exports = {
 	registerUsers,
 	authUsers,
@@ -258,6 +263,7 @@ module.exports = {
 	addUserToRoom,
 	getUserDetails,
 	updateUser,
+	supressAccount,
 	refreshToken,
 	getAllFromUsers
 }
