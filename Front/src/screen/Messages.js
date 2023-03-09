@@ -11,7 +11,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 
 
@@ -37,12 +37,9 @@ const Messages = (props) => {
 		SecureStore.getItemAsync('token1').then((payload) => {
 			payload = jwt_decode(payload);
 			callback(payload);
-		})
+		});
 
 	}
-
-	// props.idRoom ? `${API}/chat/get/` + props.idRoom : `${API}/chat/messages`
-
 
 	function getMessages(callback) {
 
@@ -51,7 +48,7 @@ const Messages = (props) => {
 				if (res) {
 					var payload = jwt_decode(rest);
 					console.log('payload',payload)
-					console.log('idROom',props.idRoom)
+					console.log('Messages.js idRoom: ',props.idRoom)
 					axios.get(`${API}/chat/get/${props.idRoom}`,
 						{
 							headers: {
@@ -66,6 +63,7 @@ const Messages = (props) => {
 							console.log('DATA-MESSAGES: ', res.data);
 							
 						}).catch(error => {
+							console.log('messages: ', error);
 							if(error.response) {
 						
 							} else if (error.request) {
@@ -88,6 +86,7 @@ const Messages = (props) => {
 		})
 		getMessages(data => {
 			setMessages(data);
+			console.log('getMessages: ',setMessages);
 		})
 
 	}, []);

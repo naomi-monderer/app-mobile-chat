@@ -81,6 +81,8 @@ const ProfilePage = ({   handleModifyProfile,
         logOut={handleSignOut}
         handleDeleteAccount={handleDeleteAccount}
       />
+  
+      <LogoutButton />
     </View>
   );
 };

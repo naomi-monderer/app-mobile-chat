@@ -4,11 +4,12 @@ import ContactMenu from "../components/ContactMenu"
 import ROUTES from '../constant/routes';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
+import { API } from '../constant/constant';
 // import Messages from '../screen/Messages'
 
 // const baseUrl = "http://10.10.1.33:3000"
 // const baseUrl = "http://192.168.0.49:3000"
-const baseUrl = "http://localhost:3000"
+// const baseUrl = "http://localhost:3000"
 
 export default function Contact({navigation}) {
 	const [underline, setUnderline] = useState(1)
@@ -27,7 +28,7 @@ export default function Contact({navigation}) {
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
 				axios({
 						method: 'get',
-						url:`${baseUrl + uri}`,
+						url:`${API + uri}`,
 						headers: {
 							'Content-Type' : 'application/json',
 							token1: token,
@@ -35,13 +36,13 @@ export default function Contact({navigation}) {
 						}
 					}).then((response) => {
 						setContacts(response.data)
-						// console.log('axios: ', response.data);
+						
 					})
 					.catch(error => {
 						if (error.response.status === 417) {
 							axios({
 								method: 'get',
-								url:`${baseUrl + uri}`,
+								url:`${API + uri}`,
 								headers: {
 									'Content-Type' : 'application/json',
 									token1: token,
@@ -76,10 +77,10 @@ export default function Contact({navigation}) {
 		<SafeAreaView style={styles.background}>
 			<View style={styles.tabs}>
 				<TouchableOpacity onPress={() => underlined(1)}>
-					<Text style={underline === 1 ? styles.selected : styles.notSelected}> MAIN CHUU </Text>
+					<Text style={underline === 1 ? styles.selected : styles.notSelected}> Main chuu </Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => underlined(2)}>
-					<Text style={underline === 2 ? styles.selected : styles.notSelected}>MY CHUU-ROOMS</Text>
+					<Text style={underline === 2 ? styles.selected : styles.notSelected}>My chuu </Text>
 				</TouchableOpacity>
 			</View>
 			<View>

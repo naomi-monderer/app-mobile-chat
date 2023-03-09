@@ -41,64 +41,64 @@ const Register = () => {
 		}
 	}
 
-	const styles = StyleSheet.create({
-		background: {
-			backgroundColor: '#C5AAFF'
-		},
-		container: {
-			marginTop: 40,
-		},
-		input: {
-			padding: 10,
-			marginLeft:50,
-			marginRight:50,
-			textAlign:'center',
-			borderBottomColor: 'black',
-			borderBottomWidth: 1,
-			borderBottomStyle: 'solid'
-		},
-		label: {
-			padding:10,
-			marginLeft:30,
-			textAlign:'left',
-			fontSize: 16,
-			lineHeight:19,
-			fontWeight:'500',
-			color:'#000000',
-		},
-		title: {
-			padding:20,
-			textAlign: 'center',
-			fontWeight:'600',
-			fontSize:40,
-			lineHeight:46,
-			color:'#000000',
-		},
-		button: {
-			marginTop:30,
-			backgroundColor: '#000000',
-			padding: 10,
-			margin:30,
-			borderRadius: 10,
-			alignItems: 'center',
-		}
-	});
+    const styles = StyleSheet.create({
+        container: {
+            marginTop: 40,
+        },
+        input: {
+            padding: 10,
+            marginLeft:50,
+            marginRight:50,
+            textAlign:'center',
+            borderBottomColor: 'black',
+            borderBottomWidth: 1,
+            borderBottomStyle: 'solid'
+        },
+        label: {
+            padding:10,
+            marginLeft:30,
+            textAlign:'left',
+            fontSize: 16,
+            lineHeight:19,
+            fontWeight:'500',
+            color:'#000000',
+        },
+        title: {
+            padding:20,
+            textAlign: 'center',
+            fontWeight:'600',
+            fontSize:40,
+            lineHeight:46,
+            color:'#000000',
+        },
+        button: {
+            marginTop:30,
+            backgroundColor: '#000000',
+            padding: 10,
+            margin:30,
+            borderRadius: 10,
+            alignItems: 'center',
+        }
+    });
 
-	return (
-		<View style={styles.background}>
-			<SafeAreaView>
-				<ImageBackground
-				source={require('../asset/connexion.png')} 
-				style={{width: '100%', height: '100%'}}
-				>
-				<Text style={styles.title} >Sign Up</Text>
-				<View style={styles.container}>
-					<Text style={styles.label}>Login:</Text>
-					<TextInput
-						style={styles.input}
-						value={login}
-						onChangeText={text => setLogin(text)}
-					/>
+    return (
+        // <View style={styles.background}>
+                <ImageBackground
+                source={require('../assets/connexion.png')} 
+                resizeMode="cover"
+                style={{width: '100%',
+                        height: '100%',
+                        backgroundColor: '#C5AAFF'
+                    }}
+                >
+                <Text style={styles.title} >Sign Up</Text>
+                <View style={styles.container}>
+                    <Text style={styles.label}>Login:</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={login}
+                        onChangeText={text => setLogin(text)}
+                    />
 
 					<Text style={styles.label}>Email:</Text>
 					<TextInput
@@ -124,14 +124,12 @@ const Register = () => {
 					/>
 				</View>
 
-				
-				<TouchableOpacity style={styles.button} onPress={handleSubmit}>
-					<Text style={{color: 'white'}}>Submit</Text>
-				</TouchableOpacity>
-			</ImageBackground>
-
-			</SafeAreaView>
-		</View>
+                
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={{color: 'white'}}>Submit</Text>
+                </TouchableOpacity>
+            </ImageBackground>
+        // </View>
 
 	);
 

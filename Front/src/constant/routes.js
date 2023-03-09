@@ -8,4 +8,5 @@ export default {
     MESSAGES: 'Chat',
     PROFILE: 'My Profile',
     
+    
 };

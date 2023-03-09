@@ -76,6 +76,10 @@ const registerUsers = async (req, res) => {
 const authUsers = (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;
+	// console.log("----------")
+	// console.log(login)
+	// console.log(password)
+	// console.log("----------")
 
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
 		if (results.length > 0) {
@@ -210,25 +214,25 @@ const getUserDetails = (req, res) => {
 
 const updateUser = (req, res) => {
 
-	const { login, email,password, confPassword } = req.body;
+	const { login, email, password, confPassword } = req.body;
 
-	if (!login.length  || !password.length  || !email.length) {
-		return res.status(400).json({ message : 'missing params' });
+	if (!login.length || !password.length || !email.length) {
+		return res.status(400).json({ message: 'missing params' });
 	}
 
-	const sql2 = "SELECT id FROM users WHERE NOT id = '"+req.user.id+"' AND (email = '"+req.body.email+"' OR login = '"+req.body.login+"')"
+	const sql2 = "SELECT id FROM users WHERE NOT id = '" + req.user.id + "' AND (email = '" + req.body.email + "' OR login = '" + req.body.login + "')"
 	db.query(sql2, async (response, data) => {
-		
-		if (data.length == 0) {                                    
 
+		if (data.length == 0) {
+			console.log('first')
 			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;                                                 //minimum 8char, 1maj, 1minuscule ett 1 chiffre
 			const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			if (password == confPassword){
+			if (password == confPassword) {
 
-				const salt = await  bcrypt.genSalt()
-				const hash =  await  bcrypt.hash(password, salt);
+				const salt = await bcrypt.genSalt()
+				const hash = await bcrypt.hash(password, salt);
 
-				const sqlUpdate = "UPDATE users SET `login` = '" + req.body.login + "', `password`= '" + hash + "', `email`= '" + req.body.email + "' WHERE id = '"+ req.user.id +"' ";
+				const sqlUpdate = "UPDATE users SET `login` = '" + req.body.login + "', `password`= '" + hash + "', `email`= '" + req.body.email + "' WHERE id = '" + req.user.id + "' ";
 
 				if (!passwordRegex.test(req.body.password)) {
 					return res.status(400).json({ message: 'Erreur, le mot de passe doit contenir au minimum 8 charactères, 1 majuscule et 1 minuscule' })
@@ -244,7 +248,7 @@ const updateUser = (req, res) => {
 			}
 		}
 		else {
-			return res.status(401).json({ message : "Error, an account is already linked to this email or login" });
+			return res.status(401).json({ message: "Error, an account is already linked to this email or login" });
 		}
 	})
 }

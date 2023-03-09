@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { View, TextInput, Text, Button, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { View, TextInput, Text, Button, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, SafeAreaView, ImageBackground } from 'react-native';
 import InputText from '../components/InputText';
 import Messages from './Messages';
-import {io} from 'socket.io-client';
-
-// const { io } = require("socket.io-client");
-const socket = io("http://10.10.28.96:3000")
-
-// const SERVER_ADRESS = "http://10.10.28.96:3000";
-// const socket = io(SERVER_ADRESS);
-// // netmask 10.10.255.255
-
-
+import { io } from 'socket.io-client';
 
 export default function ChatScreen({ navigation, route }, props) {
 
-	console.log("ID_ROOM ?", route.params?.id_room)
 	useEffect(() => {
-		console.log(route)
+
+		const socket = io("http://localhost:3000");
+		socket.emit('joinIn', route.params.id_room)
+
+		socket.on('newMessage', message => console.log("cool", message));
+
+		console.log("ChatScreen, id_room: ", route.params?.id_room)
 		navigation.getParent().setOptions({ tabBarStyle: { display: 'none' } });
 		return () => {
-
 			navigation.getParent().setOptions({
 				tabBarStyle: {
 					height: 70,
@@ -37,7 +32,11 @@ export default function ChatScreen({ navigation, route }, props) {
 				}
 			});
 		}
+
+
 	}, [])
+
+	const scrollViewRef = useRef();
 
 	return (
 
@@ -47,15 +46,20 @@ export default function ChatScreen({ navigation, route }, props) {
 			enabled
 			keyboardVerticalOffset={85}
 		>
-			<ScrollView style={{ position: 'relative', flex: 1 }}>
-				<Messages idRoom={route.params.id_room} />
-
-			</ScrollView>
-
+			<ImageBackground
+				source={require('../assets/chuu-chat.png')}
+				style={{ width: '100%', height: '100%' }}
+			>
+				<ScrollView
+					ref={scrollViewRef}
+					onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+					style={{ position: 'relative', flex: 1 }}>
+					<Messages style={{ height: '40%' }} idRoom={route.params.id_room} />
+				</ScrollView>
+			</ImageBackground>
 			<TouchableWithoutFeedback onPress={() => {
 				Keyboard.dismiss();
 			}}>
-
 				<InputText
 					idRoom={route.params.id_room}
 					// idRoom = {id_room}
@@ -63,7 +67,6 @@ export default function ChatScreen({ navigation, route }, props) {
 					//4. je recupère via le props de mon parent mon attribu onChangeText et je lui passe le contenu de l'input  
 					onChangeText={props.text}
 				/>
-
 			</TouchableWithoutFeedback>
 		</KeyboardAvoidingView>
 	)
@@ -76,3 +79,4 @@ const styles = StyleSheet.create({
 		backgroundColor: '#080713',
 	},
 })
+

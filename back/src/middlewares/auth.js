@@ -8,7 +8,7 @@ const app = express();
 
 
 exports.signIn = (req, res, next) => {
-	// console.log('req', req.headers)
+	
 	//je reçois deux tokens du controllers, l'un durant 30 jrs de validité l'autre 1minute
 	
 	const authToken = req.headers.token// ICI
@@ -20,31 +20,50 @@ exports.signIn = (req, res, next) => {
 	try {
 
 		const mySecret = "mysecret";
-		const decoded = jwt.verify(authToken, mySecret);
-		try{
-			
+		const decoded1 = jwt.verify(tokenToUse, mySecret);
+		req.user = decoded1;
+		const decoded2 = jwt.decode(tokenRefresh)
+		var now = new Date().getTime() / 1000;
+		console.log('decoded1: ', decoded1);
+		// console.log("------------------")
+		// console.log(now)
+		// console.log(decoded2.exp)
+		// console.log(now > decoded2.exp)
+		// console.log("-------------------")
+		try {
+
 			//verification avec la date actuelle, si l'expiration 
-			const payload = jwt.verify(refreshtoken, mySecret)
+			const decoded2 = jwt.verify(tokenRefresh, mySecret)
 			var now = new Date().getTime() / 1000;
-			if (now > payload.exp) { 
-				/* expired */ 
+
+			//mettrev decoded2.iat et pas .exp
+			if (now > decoded2.exp) {
+				/* expired */
 				//le token est disponible ds le scope grace au callback ds refreshToken du usersController 
-				return refreshToken(decoded.id, token => {
+				return refreshToken(decoded1.id, token => {
+
+					console.log('first')
 					res.status(417).send(token)
 				});
 			}
-			req.user = payload;
+
 			next();
-			
-		}catch(err){
-			return  refreshToken(decoded.id, token => {
+
+		} catch (err) {
+			console.log('deuxieme:', err)
+			return refreshToken(decoded1.id, token => {
+				console.log('2eme')
 				res.status(417).send(token)
 			})
 		}
-	
-			
-		} catch (err) {
-			
-			return res.status(401).json({message: err});
-		}
+
+
+	} catch (err) {
+		console.log('auth.js : ', err);
+		return res.status(401).send(err);
+	}
 };
+
+
+
+

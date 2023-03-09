@@ -9,32 +9,34 @@ export default function ButtonMessage(props) {
 
     const handleSubmit = () => {
 
+
         SecureStore.getItemAsync('token1').then((rest) => {
-            console.log('rest: '+ rest);
+            // console.log('rest: '+ rest);
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if (res) {
                     var decoded = jwt_decode(rest);
-                    
 
                     if (props.text) {
-                        axios.post(`${API}/chat/${props.idRoom}`, 
-                        JSON.stringify({
-                            content: props.text,
-                        }),
-                        {
-                            headers: {
-                                'Content-Type' : 'application/json',
-                                token1 : rest,
-                                refreshtoken : res
-                            }
-                        }).then(res => {
-                            // 5. Une fois mon message bien reçu à la bdd,
-                            //    je set le contenu de l'input à 'vide' pour clear l'input.
-                            props.setText('');
-                            console.log('res: ' + res)
-                        }).catch(e => {
-                            console.error(e);
-                        })
+                        axios.post(`${API}/chat/${props.idRoom}`,
+                            JSON.stringify({
+                                content: props.text,
+                            }),
+                            {
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    token1: rest,
+                                    refreshtoken: res
+                                }
+                            }).then(res => {
+                                // 5. Une fois mon message bien reçu à la bdd,
+                                //    je set le contenu de l'input à 'vide' pour clear l'input.
+                                props.setText('');
+                                // console.log('props: ', props)
+                                // console.log(res)
+                            }).catch(e => {
+                                // console.error(e);
+                                console.log('handleSubmit:', e)
+                            })
                     }
                 }
             })
@@ -77,8 +79,8 @@ const styles = StyleSheet.create({
         right: 20,
         top: 15,
         zIndex: 3,
-        borderColor:'#EFE2E2',
-        borderWidth:0.5,
+        borderColor: '#EFE2E2',
+        borderWidth: 0.5,
     },
     img: {
         height: 20,

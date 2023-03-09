@@ -1,49 +1,43 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const bodyParser = require("body-parser");
-const mysql = require("mysql");
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+
+const {signIn} = require("./src/middlewares/auth");
+const {isAdmin} = require("./src/middlewares/isAdmin");
+
 const app = express();
-const { signIn } = require("./src/middlewares/auth");
-const { isAdmin } = require("./src/middlewares/isAdmin");
+const http = require('http')
+const server = http.createServer(app)
+const io = require('socket.io')(server)
+const port = 3000;
 
-const cors = require("cors");
-const corsOptions = {
-  // allowedHeaders: ['Content-Type', 'Authorization'],
-  // origin:'http://localhost:8889',
-  origin: "http://localhost",
-  origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-  // headers: {
-  // 'Access-Control-Allow-Methods': '*',
-  // 'Access-Control-Allow-Headers': '*',
-  // 'Access-Control-Allow-Credentials': 'true',
-  // }
-};
-// const corsOptions = {
-//     origin:'*',
-//     credentials:true,            //access-control-allow-credentials:true
-//     optionSuccessStatus:200,
-//     origin: 'http://localhost',
-//     credentials: true,
-//     optionsSuccessStatus: 200,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATH'],
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//     exposedHeaders: ['Authorization'],
-//     headers: 'Access-Control-Allow-Headers, Content-Type, Authorization',
-// };
+module.exports = io;
 
-// const corsOptions = {
-//   origin: 'http://localhost',
-//   credentials: true,
-//   optionsSuccessStatus: 200,
-// //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-//   exposedHeaders: ['Authorization'],
-// //   headers: 'Access-Control-Allow-Headers, Content-Type, Authorization',
-// //   'Access-Control-Allow-Methods': '*',
-// };
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+    socket.on('joinIn', (id_room) => {
+      socket.join(id_room);
+    })
 
+  });
+
+
+  server.listen(port, () => {
+    console.log(`Socket.IO server running at http://localhost:${port}`);
+});
+
+
+const cors = require('cors');
+const corsOptions ={
+    origin:'http://localhost:19006', 
+    origin:'http://localhost',
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
 app.use(cors(corsOptions));
 
 // Parse request bodies as JSON
@@ -78,7 +72,8 @@ app.use("/chat", chat);
 //Rooms route
 app.use("/rooms", rooms);
 
-// Start servera
-app.listen(3000, () => {
-  console.log("API server listening on port 3000");
-});
+// // Start servera
+// app.listen(3000, () => {
+//   console.log("API server listening on port 3000");
+// });
+
