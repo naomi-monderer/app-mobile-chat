@@ -30,9 +30,9 @@ export default function AllRooms() {
 	useEffect(() => {
 
 		SecureStore.getItemAsync('token1').then((token) => {
-			console.log("TOKEN1 :", token )
+			// console.log("TOKEN1 :", token )
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
-				console.log("TOKEN2", refresh);
+				// console.log("TOKEN2", refresh);
 				axios({
 					method: 'GET',
 					url: `${API + uri}`,
@@ -43,7 +43,7 @@ export default function AllRooms() {
 					}
 				}).then((response) => {
 					setRooms(response.data)
-					console.log('allRooms', response.data);
+					// console.log('allRooms', response.data);
 				})
 					.catch(error => {
 						console.log(error.response.data)
@@ -73,7 +73,7 @@ export default function AllRooms() {
 	const essai = (idRoom) => {
 		arrayRooms.push(idRoom)
 		setMoreRooms(arrayRooms)
-		console.log('essai: ', arrayRooms)
+		// console.log('essai: ', arrayRooms)
 	}
 
 	useEffect(() => {
@@ -85,7 +85,7 @@ export default function AllRooms() {
 	const setNewRooms = (object) =>{
 		setMoreRooms([...moreRooms, object])
 
-		console.log (rooms.find(({ id }) => id === object.id))
+		// console.log (rooms.find(({ id }) => id === object.id))
 	}
 
 	const deleteRoom = (id) => {
@@ -181,7 +181,7 @@ export default function AllRooms() {
 	// }, [rooms, moreRooms])
 
 
-	console.log('moreRooms end', moreRooms)
+	// console.log('moreRooms end', moreRooms)
 	return (
 		<ScrollView style={styles.bg}>
 			<View style={styles.tabs}>

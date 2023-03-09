@@ -15,18 +15,18 @@ export default function Login({ navigation }) {
 	let first = true;
 
 
-	useEffect(() => {
-	    if (first) {
-	        SecureStore.getItemAsync('token1').then((res) => {
-	        	if (res) {
-	            	const decoded = jwt_decode(res);
-	                setRooms(decoded.id_rooms)
-	                // navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
-	            } 
-	        })
-			first = false;
-	    }
-	}, [rooms])
+	// useEffect(() => {
+	//     if (first) {
+	//         SecureStore.getItemAsync('token1').then((res) => {
+	//         	if (res) {
+	//             	const decoded = jwt_decode(res);
+	//                 setRooms(decoded.id_rooms)
+	//                 // navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
+	//             } 
+	//         })
+	// 		first = false;
+	//     }
+	// }, [rooms])
 
 	const connect = () => {
 		if (login !== '' && password !== '') {
@@ -40,9 +40,9 @@ export default function Login({ navigation }) {
 					const token = response.data.token;
 					const refresh = response.data.refresh;
 					SecureStore.setItemAsync('token1', token).then(() => {
-					
 						SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
-							navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
+							console.log('co')
+							// navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
 						})
 					})
 				})
