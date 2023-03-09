@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
 	//         	if (res) {
 	//             	const decoded = jwt_decode(res);
 	//                 setRooms(decoded.id_rooms)
-	//                 // navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
+	//                 navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
 	//             } 
 	//         })
 	// 		first = false;
@@ -41,8 +41,8 @@ export default function Login({ navigation }) {
 					const refresh = response.data.refresh;
 					SecureStore.setItemAsync('token1', token).then(() => {
 						SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
-							// console.log('co')
-							navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
+							console.log('co')
+							// navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
 						})
 					})
 				})
