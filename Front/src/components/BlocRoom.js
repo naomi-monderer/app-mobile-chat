@@ -1,23 +1,23 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-export default function BlocRoom({name, room, id, pressRoom, specialClass, touchable, tab}) {
+export default function BlocRoom({name, room, id, pressRoom, deletePress, specialClass, touchable, tb, disabled, moreRooms}) {
+
 	const blocRoomPress = () => {
+		// console.log('room id', room.id)
 		pressRoom({'id':room.id, 'name':name})
 	}
 
-	//if touchable c'est en haut donc un style différent 
-
 	const deleteRoom = () => {
-		pressRoom(id)
+		deletePress(id)
 	}
 
 	return (
 		//ajouter dans le press qu'on peut aller dans les messages de la room également si c'est notre room
 			<TouchableOpacity 
 				style={styles.container}
-				onPress={() => {touchable ? blocRoomPress() : deleteRoom()} }
-				disabled={touchable && specialClass}
+				onPress={() => {deletePress ? deleteRoom() : blocRoomPress()} }
+				// disabled={}
 			>
 				{/* Image */}
 				<View style={styles.tinyIcon}>
@@ -48,10 +48,23 @@ const styles = StyleSheet.create({
 		resizeMode: 'contain',
 		borderRadius: 50
 	},
+	notImg: {
+		width: '100%',
+		height: '100%',
+		resizeMode: 'contain',
+		borderRadius: 50,
+		tintColor: 'gray',
+	},
 	name: {
 		textTransform: 'uppercase',
 		fontSize: 15,
 		fontWeight: '500',
 		color: 'white'
+	},
+	notName: {
+		textTransform: 'uppercase',
+		fontSize: 15,
+		fontWeight: '500',
+		color: 'grey'
 	}
 })

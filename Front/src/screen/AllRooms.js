@@ -4,17 +4,20 @@ import BlocRoom from '../components/BlocRoom';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
-const baseUrl = "http://10.10.1.33:3000"
+const baseUrl = "http://10.10.2.228:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 // const baseUrl = "http://localhost:3000"
 
-let arrayRooms = [];
+
 let idRooms = [];
+// let unavailable = false;
 export default function AllRooms() {
 	const [underline, setUnderline] = useState(2)
 	const [rooms, setRooms] = useState([]);
 	const [moreRooms, setMoreRooms] = useState([])
 	const [unavailable, setUnavailable] = useState(false)
+	// const [touchable, setTouchable] = useState(true)
+	const [disabled, setDisabled] = useState(false)
 
 	const underlined = (number) => {
 		setUnderline(number)
@@ -61,29 +64,27 @@ export default function AllRooms() {
 		}, [underline]);
 
 	useEffect(() => {
-		console.log('hello')
-		console.log(moreRooms)
 		moreRooms.forEach((moreRoom) => {
 			idRooms.push(moreRoom.id)
 		})
 	}, [moreRooms])
 
-	const setNewRooms = (object)=>{
-		arrayRooms.push(object)
-		setMoreRooms(arrayRooms)
+	const setNewRooms = (object) =>{
+		setMoreRooms([...moreRooms, object])
+
+		console.log (rooms.find(({ id }) => id === object.id))
 	}
-	
+
 	const deleteRoom = (id) => {
-		arrayRooms = arrayRooms.filter(arrayRoom => arrayRoom.id !== id)
 		idRooms = idRooms.filter(id_room => id_room !== id)
 		setMoreRooms(moreRooms.filter(moreRoom => moreRoom.id !== id))
 		setUnavailable(false)
+		// setTouchable(true)
 	}
 
 	const addRooms = () => {
 		SecureStore.getItemAsync('token1').then((token) => {
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
-				console.log(refresh)
 				axios({
 					method: 'post',
 					url: `${baseUrl}/participants/rooms-list/add`,
@@ -99,9 +100,7 @@ export default function AllRooms() {
 						console.log(response.data)
 					})
 					.catch(error => {
-						console.log('catch')
 						if (error.response.status === 417) {
-							console.log('417')
 							axios({
 								method: 'post',
 								url: `${baseUrl}/participants/rooms-list/add`,
@@ -117,7 +116,6 @@ export default function AllRooms() {
 								console.log(response.data)
 							})
 							.catch(function (error) {
-								console.log('error')
 								if (error.response) {
 									// The request was made and the server responded with a status code
 									// that falls out of the range of 2xx
@@ -136,7 +134,6 @@ export default function AllRooms() {
 							})
 						}
 						else {
-							console.log('refresh')
 							if (error.response) {
 								// The request was made and the server responded with a status code
 								// that falls out of the range of 2xx
@@ -158,21 +155,22 @@ export default function AllRooms() {
 			})
 	}
 
-	useEffect(() => {
-		if(moreRooms.length >= 1) {
-			rooms.forEach((room) => {
-				moreRooms.forEach((moreRoom) => {
-					if(room.id === moreRoom.id) {
-						setUnavailable(true)
-					}
-				})
-			});
-		}
-	}, [rooms, moreRooms])
+	// useEffect(() => {
+	// 	if(moreRooms.length >= 1) {
+	// 		rooms.forEach((room) => {
+	// 			moreRooms.forEach((moreRoom) => {
+	// 				if(room.id === moreRoom.id) {
+	// 					setUnavailable(true)
+	// 				}
+	// 			})
+	// 		});
+	// 	}
+	// }, [rooms, moreRooms])
 
 
+	console.log('moreRooms end', moreRooms)
 	return (
-		<View style={styles.bg}>
+		<ScrollView style={styles.bg}>
 			<View style={styles.tabs}>
 				<TouchableOpacity onPress={() => underlined(1)}>
 					<Text style={underline === 1 ? styles.selected : styles.notSelected}>My Chuu-Rooms</Text>
@@ -184,15 +182,18 @@ export default function AllRooms() {
 			<View style={styles.container}>
 				{
 					rooms.length >= 1 ?
-					rooms.map((room) =>
+					rooms.map((room) => 
 						<BlocRoom 
 							key={room.id}
 							name={room.name}
 							room={room}
 							tab={underline}
 							pressRoom={setNewRooms}
-							specialClass={unavailable}
-							touchable={true}
+							// specialClass={moreRooms.find(moreRoom => moreRoom.id === room.id) ? true : false}
+							// touchable={touchable}
+							tb = {false}
+							disabled = {disabled}
+							moreRooms = {moreRooms}
 						/>
 					)
 					:
@@ -202,29 +203,41 @@ export default function AllRooms() {
 
 			{
 				moreRooms.length >= 1 &&
+				<View
+					style={styles.pls}
+				>
 					<ScrollView 
 						style={styles.test}
+						horizontal={true}
 						// stickyHeaderIndices={[0]}
 					>
 						<View style={styles.help}>
 							{
-								moreRooms.map((moreRoom) => 
+								moreRooms.map((arrayRoom) => 
 									<BlocRoom
-										key={moreRoom.id}
-										id={moreRoom.id}
-										name={moreRoom.name}
-										pressRoom={deleteRoom}
+										key={arrayRoom.id}
+										id={arrayRoom.id}
+										name={arrayRoom.name}
+										deletePress={deleteRoom}
+										tb = {true}
 									/>
 								)
 							}
+							<TouchableOpacity 
+								onPress={() => addRooms()}
+								style={styles.btn}
+							>
+								<Text
+									style={{ textTransform: 'uppercase'}}
+								>
+									Add
+								</Text>
+							</TouchableOpacity>
 						</View>
-
-						<TouchableOpacity onPress={() => addRooms()}>
-							<Text>Add</Text>
-						</TouchableOpacity>
 					</ScrollView>
-			}
-		</View>
+				</View>
+			} 
+		</ScrollView>
 	)
 }
 
@@ -261,11 +274,25 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		backgroundColor: '#080713',
 	},
+	pls: {
+		marginTop: 100,
+	},
 	test: {
-		backgroundColor: 'red',
+		backgroundColor: '#110f1f',
+		flex: 5,
 	},
 	help: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingBottom: 5
+	},
+	btn: {
+		marginLeft: 40,
+		marginRight: 20,
+		backgroundColor: '#C5AAFF',
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		borderRadius: 10,
 	}
 })

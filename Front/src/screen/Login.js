@@ -1,3 +1,4 @@
+
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -5,29 +6,34 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ImageBackgr
 import * as SecureStore from 'expo-secure-store';
 import ROUTES from '../constant/routes';
 import jwt_decode from "jwt-decode";
-
-const baseUrl = "http://10.10.1.33:3000"
+import {API} from '../constant/constant';
+// const baseUrl = "http://10.10.1.184:3000"
 // const baseUrl = "http://192.168.0.49:3000"
 // const baseUrl = "http://localhost:3000"
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
 	const [login, setLogin] = useState('')
 	const [password, setPassword] = useState('')
 	const [rooms, setRooms] = useState([])
+	let first = true;
+
 
 	useEffect(() => {
-		SecureStore.getItemAsync('token1').then((res) => {
-			if(res) {
-				const decoded = jwt_decode(res);
-				setRooms(decoded.id_rooms)
-				// navigation.navigate(ROUTES.HOME, {screen: ROUTES.CONTACT})
-			}
-		})
+	    if (first) {
+	        SecureStore.getItemAsync('token1').then((res) => {
+	        	if (res) {
+	            	const decoded = jwt_decode(res);
+	                setRooms(decoded.id_rooms)
+	                // navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
+	            } 
+	        })
+			first = false;
+	    }
 	}, [rooms])
 
 	const connect = () => {
-		if(login !== '' && password !== '') {
-			axios.post(baseUrl + '/users/auth', {
+		if (login !== '' && password !== '') {
+			axios.post(API + '/users/auth', {
 				login: login,
 				password: password
 			})
@@ -37,7 +43,9 @@ export default function Login({navigation}) {
 				const token = response.data.token;
 				const refresh = response.data.refresh;
 				SecureStore.setItemAsync('token1', token).then(() => {
-					SecureStore.setItemAsync('refreshtoken', refresh)
+					SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
+						navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
+					})
 				})
 			})
 			.catch(function (error) {
@@ -65,9 +73,9 @@ export default function Login({navigation}) {
 
 	return (
 		<ImageBackground 
-		source={require("../assets/connexion.png")} 
-		resizeMode="cover" 
-		style={{width: '100%', height: '100%', backgroundColor: '#C5AAFF'}} 
+			source={require("../assets/connexion.png")} 
+			resizeMode="cover" 
+			style={{width: '100%', height: '100%', backgroundColor: '#C5AAFF'}} 
 		>
 			<View style={styles.container}>
 				<Text style={styles.title}>
@@ -90,12 +98,11 @@ export default function Login({navigation}) {
 						secureTextEntry={true}
 					/>
 					<TouchableOpacity 
-					onPress={() => connect() } 
-					style={styles.button}
+						onPress={() => connect() } 
+						style={styles.button}
 					>
 						<Text
 							style={styles.buttonText}
-							onPress={() => navigation.navigate(ROUTES.HOME, {screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS})}
 						>
 							Login
 						</Text>

@@ -77,6 +77,8 @@ const authUsers = (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;
 
+	console.log('login', login)
+
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
 		if (results.length > 0) {
 			bcrypt.compareSync(password, results[0].password, function (err, result) {
@@ -101,7 +103,7 @@ const authUsers = (req, res) => {
 				id_role: results[0].id_role,
 				id_rooms: rooms
 			}, mySecret,{
-				expiresIn: "30d",
+				expiresIn: "60d",
 				});
 
 			const refreshToken = jwt.sign({ 
@@ -118,6 +120,8 @@ const authUsers = (req, res) => {
 				expiresIn: "1m",
 				}
 				);
+
+				console.log(token)
 			
 			res.status(200).json({
 				status: true,
