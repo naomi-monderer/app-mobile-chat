@@ -45,7 +45,7 @@ const getRooms = (req, res) => {
 
 const addParticipant = (req, res) => {
 	if(req.user.id_role !== 0) {
-		const arrayRoomId = req.body.id.split(',')
+		const arrayRoomId = Object.values(req.body.id)
 		arrayRoomId.forEach(roomId => {
 			const sql = `INSERT INTO participants(id_room, id_user) VALUES (${roomId},${req.user.id})`
 			db.query(sql, function(error){

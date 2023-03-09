@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var {signIn} = require('../middlewares/auth');
+var { signIn } = require('../middlewares/auth');
 var {
 	getAllRooms, 
 	displayRoomsAndChat,
