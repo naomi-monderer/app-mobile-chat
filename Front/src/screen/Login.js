@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
 	//         	if (res) {
 	//             	const decoded = jwt_decode(res);
 	//                 setRooms(decoded.id_rooms)
-	//                 // navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
+	//                 navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
 	//             } 
 	//         })
 	// 		first = false;
