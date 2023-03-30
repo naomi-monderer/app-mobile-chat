@@ -21,13 +21,22 @@ io.on('connection', (socket) => {
     });
     socket.on('joinIn', (id_room) => {
       socket.join(id_room);
+      console.log('Idroom', typeof id_room)
     })
-
   });
+  // io.on('connection', (socket) => {
+  //   socket.on('chatmessage', ({login, idRoom, message}) =>{
+  //     console.log('message' + login + idRoom + message);
+  //     console.log("rooms", socket.rooms)
+  //     var keys = Object.keys(socket.rooms);
+  //     for (var i = 0; i < keys.length; i++) {
+  //       io.to(socket.rooms[keys[i]]).emit("chatmessage", message)
+  //     }
+  //   })
 
 
   server.listen(port, () => {
-    console.log(`Socket.IO server running at http://localhost:${port}`);
+    console.log(`Socket.IO server running at http://10.10.4.63:${port}`);
 });
 
 

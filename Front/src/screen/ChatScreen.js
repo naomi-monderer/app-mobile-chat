@@ -5,16 +5,15 @@ import InputText from '../components/InputText';
 import Messages from './Messages';
 import { io } from 'socket.io-client';
 
+
 export default function ChatScreen({ navigation, route }, props) {
+	const [socket, setSocket] = useState(io("http://localhost:3000"));
 
 	useEffect(() => {
-
-		const socket = io("http://localhost:3000");
 		socket.emit('joinIn', route.params.id_room)
 
-		socket.on('newMessage', message => console.log("cool", message));
-
 		console.log("ChatScreen, id_room: ", route.params?.id_room)
+
 		navigation.getParent().setOptions({ tabBarStyle: { display: 'none' } });
 		return () => {
 			navigation.getParent().setOptions({
@@ -28,16 +27,16 @@ export default function ChatScreen({ navigation, route }, props) {
 					backgroundColor: '#000000',
 					borderRadius: 15,
 					height: 90,
-					...styles.shadow
+					// ...styles.shadow
 				}
 			});
 		}
-
-
+		
+		
 	}, [])
-
+	
 	const scrollViewRef = useRef();
-
+	
 	return (
 
 		<KeyboardAvoidingView
@@ -54,7 +53,7 @@ export default function ChatScreen({ navigation, route }, props) {
 					ref={scrollViewRef}
 					onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
 					style={{ position: 'relative', flex: 1 }}>
-					<Messages style={{ height: '40%' }} idRoom={route.params.id_room} />
+					<Messages style={{ height: '40%' }} idRoom={route.params.id_room} socket={socket} />
 				</ScrollView>
 			</ImageBackground>
 			<TouchableWithoutFeedback onPress={() => {

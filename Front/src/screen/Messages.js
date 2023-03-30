@@ -11,13 +11,10 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
-
-
-
-
+import { io } from 'socket.io-client';
 
 const Messages = (props) => {
-
+	
 	let isUser;
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedMessageIndex, setSelectedMessageIndex] = useState();
@@ -32,23 +29,19 @@ const Messages = (props) => {
 		})
 	);
 
-	function getUserInfo(callback) {
 
+	function getUserInfo(callback) {
 		SecureStore.getItemAsync('token1').then((payload) => {
 			payload = jwt_decode(payload);
 			callback(payload);
 		});
-
 	}
 
 	function getMessages(callback) {
-
 		SecureStore.getItemAsync('token1').then((rest) => {
 			SecureStore.getItemAsync('refreshtoken').then((res) => {
 				if (res) {
 					var payload = jwt_decode(rest);
-					console.log('payload',payload)
-					console.log('Messages.js idRoom: ',props.idRoom)
 					axios.get(`${API}/chat/get/${props.idRoom}`,
 						{
 							headers: {
@@ -60,7 +53,7 @@ const Messages = (props) => {
 							// const data = res.data;
 							callback(res.data);
 
-							console.log('DATA-MESSAGES: ', res.data);
+							//console.log('DATA-MESSAGES: ', res.data);
 							
 						}).catch(error => {
 							console.log('messages: ', error);
@@ -76,20 +69,31 @@ const Messages = (props) => {
 				}
 			})
 		})
-
 	}
+
 	useEffect(() => {
-
+		props.socket.on('newMessage', message => setMessages(messages => [...messages, message]));
 		getUserInfo(payload => {
-
 			setDecoded(payload);
 		})
 		getMessages(data => {
 			setMessages(data);
 			console.log('getMessages: ',setMessages);
 		})
-
 	}, []);
+
+	const formattedDate = [];
+	if (messages?.length > 0) {
+		messages.forEach((msg) => {
+			formattedDate[msg.id] = new Date(msg.created_at).toLocaleTimeString("en-US", {
+				day:"numeric",
+				// mounth:"letter",
+				hour: "numeric",
+				minute: "numeric",
+				hour12: true,
+			});
+		});
+	}
 
 
 	const handleLongPress = (index) => {
@@ -108,18 +112,6 @@ const Messages = (props) => {
 		setModalVisible(false);
 	};
 
-	const formattedDate = [];
-	if (messages?.length > 0) {
-		messages.forEach((msg) => {
-			formattedDate[msg.id] = new Date(msg.created_at).toLocaleTimeString("en-US", {
-				day:"numeric",
-				// mounth:"letter",
-				hour: "numeric",
-				minute: "numeric",
-				hour12: true,
-			});
-		});
-	}
 
 
 	return (
@@ -221,9 +213,6 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 		fontWeight: "bold",
 		fontSize: 20,
-
-
-
 	},
 
 	container: {

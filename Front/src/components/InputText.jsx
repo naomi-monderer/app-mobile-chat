@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         paddingTop:11,
         paddingBottom: 21,
         height: '1px',
-        fontSize: '15px',
+        fontSize: 15,
         maxHeight: 160,
         color: '#373737',
     },
