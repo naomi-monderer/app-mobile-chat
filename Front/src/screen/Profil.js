@@ -49,7 +49,7 @@ const ProfilePage = ({   handleModifyProfile,
           SecureStore.deleteItemAsync('token1').then(() => {
             SecureStore.deleteItemAsync('refreshtoken')
           })
-          // navigation.navigate('UpdateUser')
+          navigation.navigate('UpdateUser')
         }
       })
     } catch (error) {
@@ -82,7 +82,7 @@ const ProfilePage = ({   handleModifyProfile,
         handleDeleteAccount={handleDeleteAccount}
       />
   
-      <LogoutButton />
+      {/* <LogoutButton /> */}
     </View>
   );
 };
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     padding: 26,
   },
   backgroung:{
-    backgroundColor:"#080713",
+    // backgroundColor:"#080713",
   }
 });
 

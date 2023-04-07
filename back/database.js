@@ -6,12 +6,7 @@ var connection = mysql.createConnection({
 	user: 'root',
 	password: 'root',
 	database: 'chat',
-	port    : '3306',
+	port    : '8889',
 });
-
-// connection.connect(function(error){
-// 	if(error) throw error;
-// 	else console.log('database connected');
-// });
 
 module.exports = connection

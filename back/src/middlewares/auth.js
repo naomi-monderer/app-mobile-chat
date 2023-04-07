@@ -20,20 +20,20 @@ exports.signIn = (req, res, next) => {
 	try {
 
 		const mySecret = "mysecret";
-		const decoded1 = jwt.verify(tokenToUse, mySecret);
+		const decoded1 = jwt.verify( authToken , mySecret);
 		req.user = decoded1;
-		const decoded2 = jwt.decode(tokenRefresh)
+		const decoded2 = jwt.decode(refreshtoken)
 		var now = new Date().getTime() / 1000;
 		console.log('decoded1: ', decoded1);
-		// console.log("------------------")
-		// console.log(now)
-		// console.log(decoded2.exp)
-		// console.log(now > decoded2.exp)
-		// console.log("-------------------")
+		console.log("------------------")
+		console.log(now)
+		console.log(decoded2.exp)
+		console.log(now > decoded2.exp)
+		console.log("-------------------")
 		try {
 
 			//verification avec la date actuelle, si l'expiration 
-			const decoded2 = jwt.verify(tokenRefresh, mySecret)
+			const decoded2 = jwt.verify(refreshtoken, mySecret)
 			var now = new Date().getTime() / 1000;
 
 			//mettrev decoded2.iat et pas .exp

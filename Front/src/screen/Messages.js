@@ -129,10 +129,6 @@ const Messages = (props) => {
 
 				return (
 					<View style={styles.container} key={index}>
-						{/* {console.log(decoded.login)}
-						{console.log(msg.login)}
-						{console.log('----------')} */}
-
 						{isUser = decoded.login == msg.login}
 						<TouchableOpacity style={isUser ? styles.sendedMessage : styles.receivedMessage} onLongPress={() => handleLongPress(index)}>
 							<Text style={styles.content}>{msg.content}</Text>
