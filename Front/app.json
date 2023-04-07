@@ -4,7 +4,7 @@
     "slug": "Front",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/icon3.png",
+    "icon": "./assets/icon2.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash2.png",
