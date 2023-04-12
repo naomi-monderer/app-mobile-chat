@@ -51,7 +51,7 @@ export default function ChatScreen({ navigation, route }, props) {
 			>
 				<ScrollView
 					ref={scrollViewRef}
-					// onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+					onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
 					style={{ position: 'relative', flex: 1 }}>
 					<Messages style={{ height: '40%' }} idRoom={route.params.id_room} socket={socket} />
 				</ScrollView>

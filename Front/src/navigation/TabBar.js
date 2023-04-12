@@ -46,7 +46,7 @@ const ContactStack = () => {
 );
 }
 
-const ChatRoomStack = () =>{
+const ChatRoomStack = () => {
 	return (
 		<Stack.Navigator>
 			<Stack.Screen
@@ -56,11 +56,28 @@ const ChatRoomStack = () =>{
 				options={{
 					headerStyle: {backgroundColor: '#C5AAFF'},
 					headerTintColor: 'white'}
-			}/>
+			}
+			/>
 		</Stack.Navigator>
 	)
 }
 
+const ProfilStack = () => {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+
+				name = {ROUTES.PROFILE}
+				component = {Profil}
+				options={{
+					headerStyle: {backgroundColor: '#C5AAFF'},
+					headerTintColor: 'white'}
+			}
+			/>
+		</Stack.Navigator>
+	)
+
+}
 export default function TabBar() {
 	const styles = StyleSheet.create({
 		shadow:{
@@ -113,7 +130,8 @@ export default function TabBar() {
 							rooms
 						</Text>
 					</View>
-					)
+					),
+					headerShown:false
 				}}  
 			/>
 
@@ -138,7 +156,7 @@ export default function TabBar() {
 				}} 
 			/>
 
-			<Tab.Screen name={ROUTES.PROFILE} component={Profil}  options={{ 
+			<Tab.Screen name={ROUTES.PROFILE} component={ProfilStack}  options={{ 
 					tabBarIcon: ({focused}) => (
 					<View style={{alignItems: 'center', justifyContent: 'center', }}>
 						<Image
@@ -154,7 +172,8 @@ export default function TabBar() {
 							profil
 						</Text>
 					</View>
-					)
+					),
+					headerShown:false
 				}}
 			/>
 
