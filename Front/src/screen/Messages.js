@@ -116,7 +116,7 @@ const Messages = (props) => {
 
 	return (
 		<>
-			<View>
+			<View style={styles.mainContainer}>
 				<Text style={styles.currentHour}>{dateTime}</Text>
 			</View>
 			{messages?.map((msg, index) => {
@@ -189,6 +189,9 @@ const Messages = (props) => {
 export default Messages;
 
 const styles = StyleSheet.create({
+	mainContainer:{
+			
+	},
 	display: {
 		flexDirection: 'row',
 		// backgroundColor:'green',
@@ -199,10 +202,10 @@ const styles = StyleSheet.create({
 
 	},
 	sendedMessage: {
-		margin: 10,
-		width: 300,
+		marginRight: 40,
+		maxWidth: 250,
 		padding: 10,
-		marginBottom: 0,
+		marginBottom: 5,
 		alignSelf: "flex-end",
 		backgroundColor: "#B2FFDF",
 		borderRadius: 20,
@@ -220,10 +223,9 @@ const styles = StyleSheet.create({
 	},
 
 	receivedMessage: {
-		// height: 100,
-		width: 300,
 		marginBottom: 4,
-		marginLeft: 10,
+		maxWidth: 250,
+		marginLeft: 40,
 		alignSelf: "flex-start",
 		borderRadius: 20,
 		backgroundColor: "#C5AAFF",
@@ -238,26 +240,21 @@ const styles = StyleSheet.create({
 
 	receivedHour: {
 		// alignSelf: "flex-start",
+		marginTop: 7,
 		color:"#ECECEC",
-		marginLeft: 25,
-		paddingTop: 0,
-		paddingBottom:10,
+		marginLeft: 40,
+		paddingBottom:5,
 		fontSize: 15,
 	},
 
 	sendedHour: {
 		alignSelf: "center",
-		alignSelf: "flex-start",
-		// alignContent:"",
-		// display: "flex",
-		// flexDirection:"row",
-		// alignItems:"flex-end",
-		color: "red",
-		marginLeft: 28,
-		paddingTop: 0,
-		fontSize: 10,
-		width: '100%',
-		backgroundColor: 'blue'
+		alignSelf: "flex-end",
+		color: "white",
+		marginTop: 7,
+		marginRight: 40,
+		paddingBottom: 5,
+		fontSize: 15,
 
 	},
 

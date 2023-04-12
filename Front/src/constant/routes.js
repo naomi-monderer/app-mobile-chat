@@ -2,10 +2,10 @@ export default {
     LOGIN: 'Login',
     REGISTER: ' ',
     HOME: 'Home',
-    CHATROOMS: 'Chuu-Rooms',
+    CHATROOMS: 'Bands',
     FEED: 'Feed',
-    CONTACT: 'Feed',
-    MESSAGES: 'Chat',
+    CONTACT: 'Pipes',
+    MESSAGES: ' ',
     PROFILE: 'My Profile',
     
     
