@@ -109,7 +109,7 @@ export default function Login({ navigation }) {
 					>
 						<Text
 							style={styles.buttonText}
-						// onPress={() => navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })}
+						onPress={() => navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })}
 						>
 							Login
 						</Text>
