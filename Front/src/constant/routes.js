@@ -3,8 +3,8 @@ export default {
     REGISTER: ' ',
     HOME: 'Home',
     CHATROOMS: 'Chuu-Rooms',
-    FEED: 'MainFeed',
-    CONTACT: 'SecondaryFeed',
+    FEED: 'Feed',
+    CONTACT: 'Feed',
     MESSAGES: 'Chat',
     PROFILE: 'My Profile',
     
