@@ -9,9 +9,9 @@ var connection = mysql.createConnection({
 	port    : '8889',
 });
 
-// connection.connect(function(error){
-// 	if(error) throw error;
-// 	else console.log('database connected');
-// });
+connection.connect(function(error){
+	if(error) throw error;
+	else console.log('database connected');
+});
 
 module.exports = connection
