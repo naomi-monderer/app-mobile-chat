@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
 
 
   server.listen(port, () => {
-    console.log(`Socket.IO server running at http://10.10.4.63:${port}`);
+    console.log(`Socket.IO server running at http://10.10.2.38:${port}`);
 });
 
 
@@ -44,6 +44,7 @@ const cors = require('cors');
 const corsOptions ={
     origin:'http://localhost:19006', 
     origin:'http://localhost',
+    origin:'http://localhost:8888',
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
