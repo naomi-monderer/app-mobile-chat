@@ -15,24 +15,69 @@ import {createStackNavigator} from '@react-navigation/stack';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const ContactStack = ({navigation, route}) => {
+const ContactStack = () => {
 
 	return (
 		<Stack.Navigator>
 			<Stack.Screen 
 				name={ROUTES.CONTACT} 
 				component={Contact} 
-				options={{headerShown:false}}	
+				options={{
+					headerStyle: {
+						backgroundColor: '#C5AAFF',
+					  },
+					headerTintColor: 'white'}
+			}
 			/>
 			<Stack.Screen 
 				name={ROUTES.MESSAGES} 
 				component={ChatScreen} 
-				options={({route}) => ({title: route.params?.room_name})} 
+				options={ 
+						({route}) => ({title: route.params?.room_name, 
+						headerTintColor: 'white',
+						headerStyle: { backgroundColor: '#C5AAFF' },
+						headerBackTitleVisible: false,
+						headerShadowVisible: false, // applied here
+
+						})} 
 			/>
 		</Stack.Navigator>
+
 );
 }
 
+const ChatRoomStack = () => {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+
+				name = {ROUTES.CHATROOMS}
+				component = {AllRooms}
+				options={{
+					headerStyle: {backgroundColor: '#C5AAFF'},
+					headerTintColor: 'white'}
+			}
+			/>
+		</Stack.Navigator>
+	)
+}
+
+const ProfilStack = () => {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+
+				name = {ROUTES.PROFILE}
+				component = {Profil}
+				options={{
+					headerStyle: {backgroundColor: '#C5AAFF'},
+					headerTintColor: 'white'}
+			}
+			/>
+		</Stack.Navigator>
+	)
+
+}
 export default function TabBar() {
 	const styles = StyleSheet.create({
 		shadow:{
@@ -52,12 +97,12 @@ export default function TabBar() {
 		tabBarStyle:{
 			height:70,
 			position: 'absolute',
-			bottom: 10,
-			left: 10,
-			right: 10,
+			// bottom: 10,
+			// left: 10,
+			// right: 10,
 			elevation: 0,
 			backgroundColor: '#000000',
-			borderRadius: 15,
+			// borderRadius: 15,
 			height: 90, 
 			...styles.shadow
 		},
@@ -69,7 +114,7 @@ export default function TabBar() {
 
 	return (
 		<Tab.Navigator {...{screenOptions}} >
-			<Tab.Screen name={ROUTES.CHATROOMS} component={AllRooms} options={{ 
+			<Tab.Screen name={ROUTES.CHATROOMS} component={ChatRoomStack} options={{ 
 					tabBarIcon: ({focused}) => (
 						<View style={{alignItems: 'center', justifyContent: 'center',}}>
 						<Image
@@ -85,11 +130,12 @@ export default function TabBar() {
 							rooms
 						</Text>
 					</View>
-					)
+					),
+					headerShown:false
 				}}  
 			/>
 
-			<Tab.Screen name={ROUTES.FEED} component={ContactStack} options={{ 
+			<Tab.Screen name={ROUTES.CONTACT} component={ContactStack} options={{ 
 					tabBarIcon: ({focused}) => (
 						<View style={{alignItems: 'center', justifyContent: 'center', }}>
 							<Image
@@ -110,7 +156,7 @@ export default function TabBar() {
 				}} 
 			/>
 
-			<Tab.Screen name={ROUTES.PROFILE} component={Profil}  options={{ 
+			<Tab.Screen name={ROUTES.PROFILE} component={ProfilStack}  options={{ 
 					tabBarIcon: ({focused}) => (
 					<View style={{alignItems: 'center', justifyContent: 'center', }}>
 						<Image
@@ -126,7 +172,8 @@ export default function TabBar() {
 							profil
 						</Text>
 					</View>
-					)
+					),
+					headerShown:false
 				}}
 			/>
 

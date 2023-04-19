@@ -20,14 +20,14 @@ export default function ChatScreen({ navigation, route }, props) {
 				tabBarStyle: {
 					height: 70,
 					position: 'absolute',
-					bottom: 10,
-					left: 10,
-					right: 10,
+					// bottom: 10,
+					// left: 10,
+					// right: 10,
 					elevation: 0,
 					backgroundColor: '#000000',
-					borderRadius: 15,
-					height: 90,
-					// ...styles.shadow
+					// borderRadius: 15,
+					height: 100,
+					...styles.shadow
 				}
 			});
 		}
@@ -73,7 +73,7 @@ export default function ChatScreen({ navigation, route }, props) {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 3,
+		// flex: 1,
 		justifyContent: 'flex-end',
 		backgroundColor: '#080713',
 	},
