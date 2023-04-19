@@ -10,7 +10,6 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
-	SafeAreaView
 } from "react-native";
 import { io } from 'socket.io-client';
 
@@ -22,6 +21,14 @@ const Messages = (props) => {
 	const [messages, setMessages] = useState([]);
 	const [decoded, setDecoded] = useState([]);
 	const [selectedReaction, setSelectedReaction] = useState(null);
+	const [dateTime, setDateTime] = useState(
+		new Date().toLocaleString("en-US", {
+			hour: "numeric",
+			minute: "numeric",
+			hour12: true,
+		})
+	);
+
 
 	function getUserInfo(callback) {
 		SecureStore.getItemAsync('token1').then((payload) => {
@@ -46,7 +53,7 @@ const Messages = (props) => {
 							// const data = res.data;
 							callback(res.data);
 
-							console.log('data-messages : ',res.data);
+							//console.log('DATA-MESSAGES: ', res.data);
 							
 						}).catch(error => {
 							console.log('messages: ', error);
@@ -76,29 +83,17 @@ const Messages = (props) => {
 	}, []);
 
 	const formattedDate = [];
-	const formattedHour = []
 	if (messages?.length > 0) {
 		messages.forEach((msg) => {
 			formattedDate[msg.id] = new Date(msg.created_at).toLocaleTimeString("en-US", {
 				day:"numeric",
-				month:"short",
+				// mounth:"letter",
 				hour: "numeric",
 				minute: "numeric",
+				hour12: true,
 			});
-		
-			console.log('crezatedAt',msg.created_at);
 		});
 	}
-
-	// if(messages?.length > 0){
-	// 	messages.forEach((msg) => {
-	// 		formattedHour[msg.id] = new Date(msg.created_at).toLocaleTimeString("en-US", {
-	// 			hour: "numeric",
-	// 			minute: "numeric",
-	// 			hour12: true,
-	// 		});
-	// 	})
-	// }
 
 
 	const handleLongPress = (index) => {
@@ -120,43 +115,47 @@ const Messages = (props) => {
 
 
 	return (
-		<SafeAreaView style={styles.mainContainer}>
-
+		<>
+			<View>
+				<Text style={styles.currentHour}>{dateTime}</Text>
+			</View>
 			{messages?.map((msg, index) => {
 
 				return (
-				
-				
 					<View style={styles.container} key={index}>
 					
-						<View style={styles.contentSendedHours} >
+						<View
+								style={styles.contentSendedHours}
+							>
 								{isUser = decoded.login == msg.login}
-								<Text style={styles.login, isUser ? styles.sendedUserName : styles.receivedUserName}>
-									{msg.login} 
-									{/* {console.log('formattedDate',formattedDate[msg.id])} {console.log('messageid', msg.id)} */}
+								<Text style={styles.login, isUser ? styles.sendedHour : styles.receivedHour}>
+							
+								
+									{msg.login}   {formattedDate[msg.id]}
 								</Text>
+								{/* <Text style={isUser ? styles.sendedHour : styles.receivedHour} >
+								{formattedDate[msg.id]}
+								</Text> */}
 							</View>
-							{isUser = decoded.login == msg.login}
+						{/* {console.log(decoded.login)}
+						{console.log(msg.login)}
+						{console.log('----------')} */}
+
+						{isUser = decoded.login == msg.login}
 						<TouchableOpacity style={isUser ? styles.sendedMessage : styles.receivedMessage} onLongPress={() => handleLongPress(index)}>
 							
 							<Text style={styles.content}>{msg.content}</Text>
 						</TouchableOpacity>
-						<View style={styles.contentSendedHours} >
-								{isUser = decoded.login == msg.login}
-								<Text style={styles.login, isUser ? styles.sendedHour : styles.receivedHour}>
-								 {formattedDate[msg.id]}
-								 {/* {console.log('formattedDate',formattedDate[msg.id])} {console.log('messageid', msg.id)} */}
-								</Text>
-							</View>
 
+						<View style={styles.display}>
 
+							
 
-						{/* <View style={styles.display}> */}
-							{/* {msg.reaction ? (
+							{msg.reaction ? (
 								<View style={{ position: 'absolute', bottom: 0, alignSelf: 'flex-start', paddingLeft: 67 }}>
 									<Text style={{ fontSize: 25, marginLeft: 80, }}>{msg.reaction}</Text>
 								</View>
-							) : null} */}
+							) : null}
 							{/* <View style={styles.bottomModal}>
 								{selectedMessageIndex === index && modalVisible ? (
 									<TouchableOpacity style={styles.modalContainer}>
@@ -174,24 +173,22 @@ const Messages = (props) => {
 									<Text></Text>
 								)}
 							</View> */}
-						{/* </View> */}
+						</View>
 
 					</View>
-				
 
 				)
 
 			}
 
 			)}
-		</SafeAreaView>
+		</>
 	);
 };
 
 export default Messages;
 
 const styles = StyleSheet.create({
-
 	display: {
 		flexDirection: 'row',
 		// backgroundColor:'green',
@@ -202,10 +199,10 @@ const styles = StyleSheet.create({
 
 	},
 	sendedMessage: {
-		marginRight: 40,
-		maxWidth: 250,
+		margin: 10,
+		width: 300,
 		padding: 10,
-		marginBottom: 5,
+		marginBottom: 0,
 		alignSelf: "flex-end",
 		backgroundColor: "#B2FFDF",
 		borderRadius: 20,
@@ -217,19 +214,16 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 20,
 	},
-	mainContainer: {
-		flex:1,
-		marginTop:100,
-		// height: "80%",
-	},
 
 	container: {
+		flex: 1
 	},
 
 	receivedMessage: {
+		// height: 100,
+		width: 300,
 		marginBottom: 4,
-		maxWidth: 250,
-		marginLeft: 40,
+		marginLeft: 10,
 		alignSelf: "flex-start",
 		borderRadius: 20,
 		backgroundColor: "#C5AAFF",
@@ -244,39 +238,26 @@ const styles = StyleSheet.create({
 
 	receivedHour: {
 		// alignSelf: "flex-start",
-		marginTop: 7,
-		color:"#E0DFDF",
-		marginLeft: 40,
-		paddingBottom:5,
+		color:"#ECECEC",
+		marginLeft: 25,
+		paddingTop: 0,
+		paddingBottom:10,
 		fontSize: 15,
 	},
 
 	sendedHour: {
 		alignSelf: "center",
-		alignSelf: "flex-end",
-		color: "#E0DFDF",
-		marginTop: 7,
-		marginRight: 40,
-		paddingBottom: 5,
-		fontSize: 15,
-
-	},
-	receivedUserName: {
-		marginTop: 7,
-		color:"white",
-		marginLeft: 40,
-		paddingBottom:5,
-		fontSize: 15,
-	},
-
-	sendedUserName: {
-		alignSelf: "center",
-		alignSelf: "flex-end",
-		color: "white",
-		marginTop: 7,
-		marginRight: 40,
-		paddingBottom: 5,
-		fontSize: 15,
+		alignSelf: "flex-start",
+		// alignContent:"",
+		// display: "flex",
+		// flexDirection:"row",
+		// alignItems:"flex-end",
+		color: "red",
+		marginLeft: 28,
+		paddingTop: 0,
+		fontSize: 10,
+		width: '100%',
+		backgroundColor: 'blue'
 
 	},
 
