@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { API } from '../constant/constant';
 
-const baseUrl = "http://10.10.2.228:3000"
+// const baseUrl = "http://10.10.2.228:3000"
 
 let idRooms = [];
 // let unavailable = false;
@@ -97,7 +97,7 @@ export default function AllRooms() {
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
 				axios({
 					method: 'post',
-					url: `${baseUrl}/participants/rooms-list/add`,
+					url: `${API}/participants/rooms-list/add`,
 					headers: {
 						'Content-Type': 'application/json',
 						token1: token,
@@ -113,7 +113,7 @@ export default function AllRooms() {
 						if (error.response.status === 417) {
 							axios({
 								method: 'post',
-								url: `${baseUrl}/participants/rooms-list/add`,
+								url: `${API}/participants/rooms-list/add`,
 								headers: {
 									'Content-Type': 'application/json',
 									token1: token,

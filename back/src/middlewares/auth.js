@@ -11,7 +11,7 @@ exports.signIn = (req, res, next) => {
 
 	// console.log('req: ', req.headers)
 	//je reçois deux tokens du controllers, l'un durant 30 jrs de validité l'autre 1minute
-	const tokenToUse = req.headers.token1
+	const tokenToUse = req.headers.token1;
 	const tokenRefresh = req.headers.refreshtoken;
 	try {
 

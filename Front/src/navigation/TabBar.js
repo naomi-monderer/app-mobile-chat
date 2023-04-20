@@ -26,7 +26,9 @@ const ContactStack = () => {
 					headerStyle: {
 						backgroundColor: '#C5AAFF',
 					  },
-					headerTintColor: 'white'}
+					headerTintColor: 'white',
+					headerLeft: ()=> null 
+				}
 			}
 			/>
 			<Stack.Screen 
@@ -37,7 +39,8 @@ const ContactStack = () => {
 						headerTintColor: 'white',
 						headerStyle: { backgroundColor: '#C5AAFF' },
 						headerBackTitleVisible: false,
-						headerShadowVisible: false, // applied here
+						headerShadowVisible: false,
+						 // applied here
 
 						})} 
 			/>
@@ -55,7 +58,12 @@ const ChatRoomStack = () => {
 				component = {AllRooms}
 				options={{
 					headerStyle: {backgroundColor: '#C5AAFF'},
-					headerTintColor: 'white'}
+					headerTintColor: 'white',
+					headerBackTitleVisible: false,
+					headerShadowVisible: false,
+					headerLeft: ()=> null 
+				}
+					
 			}
 			/>
 		</Stack.Navigator>
@@ -71,7 +79,11 @@ const ProfilStack = () => {
 				component = {Profil}
 				options={{
 					headerStyle: {backgroundColor: '#C5AAFF'},
-					headerTintColor: 'white'}
+					headerTintColor: 'white',
+					headerBackTitleVisible: false,
+					headerShadowVisible: false,
+					headerLeft: ()=> null 
+				}
 			}
 			/>
 		</Stack.Navigator>

@@ -16,8 +16,7 @@ const Register = ({navigation}) => {
         console.log('handleSubmit');
 		if (password !== passwordConfirm) {
 			alert('Passwords do not match');
-
-			return;
+            return;
 		}
         if (passwordRegex.test(password)) {
             console.log("Valid password");
@@ -93,7 +92,7 @@ const Register = ({navigation}) => {
                 </View>
                 <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                     <Text style={styles.buttonText}
-                  onPress={() => navigation.navigate(ROUTES.LOGIN)}
+                //   onPress={() => navigation.navigate(ROUTES.LOGIN)}
                     >
                         Register
                     </Text>
