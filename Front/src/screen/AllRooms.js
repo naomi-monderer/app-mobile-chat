@@ -97,7 +97,7 @@ export default function AllRooms() {
 			SecureStore.getItemAsync('refreshtoken').then((refresh) => {
 				axios({
 					method: 'post',
-					url: `${baseUrl}/participants/rooms-list/add`,
+					url: `${API}/participants/rooms-list/add`,
 					headers: {
 						'Content-Type': 'application/json',
 						token1: token,
@@ -113,7 +113,7 @@ export default function AllRooms() {
 						if (error.response.status === 417) {
 							axios({
 								method: 'post',
-								url: `${baseUrl}/participants/rooms-list/add`,
+								url: `${API}/participants/rooms-list/add`,
 								headers: {
 									'Content-Type': 'application/json',
 									token1: token,
