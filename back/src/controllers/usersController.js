@@ -84,8 +84,9 @@ const authUsers = (req, res) => {
 
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
 		console.log("results1: ",results)
-		console.log(results.length);
-		if (results.length > 0) {
+		console.log(results?.length);
+		//TODO regarder cette operateur conditionnel 
+		if (results?.length > 0) {
 			console.log('compare bcrypt:', bcrypt.compareSync(password, results[0].password))
 			if(bcrypt.compareSync(password, results[0].password)) {
 				const rooms = results[0].rooms.split(',')

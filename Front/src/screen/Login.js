@@ -14,19 +14,19 @@ export default function Login({ navigation }) {
 	const [rooms, setRooms] = useState([])
 	let first = true;
 
-	useEffect(() => {
-	    if (first) {
-	        SecureStore.getItemAsync('token1').then((res) => {
-	        	if (res) {
-	            	const decoded = jwt_decode(res);
-	                setRooms(decoded.id_rooms)
-	                navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
-					console.log(res);
-	            } 
-	        })
-			first = false;
-	    }
-	}, [rooms])
+	// useEffect(() => {
+	//     if (first) {
+	//         SecureStore.getItemAsync('token1').then((res) => {
+	//         	if (res) {
+	//             	const decoded = jwt_decode(res);
+	//                 setRooms(decoded.id_rooms)
+	//                 navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
+	// 				console.log(res);
+	//             } 
+	//         })
+	// 		first = false;
+	//     }
+	// }, [rooms])
 
 	const connect = () => {
 		if (login !== '' && password !== '') {
@@ -41,7 +41,7 @@ export default function Login({ navigation }) {
 					const refresh = response.data.refresh;
 					SecureStore.setItemAsync('token1', token).then(() => {
 						SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
-							// console.log('co')
+							console.log('co')
 							navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
 						})
 					})
