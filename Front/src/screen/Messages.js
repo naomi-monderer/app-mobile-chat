@@ -128,7 +128,7 @@ const Messages = (props) => {
 								style={styles.contentSendedHours}
 							>
 								{isUser = decoded.login == msg.login}
-								<Text style={styles.login, isUser ? styles.sendedHour : styles.receivedHour}>
+								<Text style={[styles.login, isUser ? styles.sendedHour : styles.receivedHour]}>
 							
 								
 									{msg.login}   {formattedDate[msg.id]}
