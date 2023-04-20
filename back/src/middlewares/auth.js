@@ -24,12 +24,12 @@ exports.signIn = (req, res, next) => {
 		req.user = decoded1;
 		const decoded2 = jwt.decode(refreshtoken)
 		var now = new Date().getTime() / 1000;
-		console.log('decoded1: ', decoded1);
-		console.log("------------------")
-		console.log(now)
-		console.log(decoded2.exp)
-		console.log(now > decoded2.exp)
-		console.log("-------------------")
+		// console.log('decoded1: ', decoded1);
+		// console.log("------------------")
+		// console.log(now)
+		// console.log(decoded2.exp)
+		// console.log(now > decoded2.exp)
+		// console.log("-------------------")
 		try {
 
 			//verification avec la date actuelle, si l'expiration 
@@ -42,7 +42,7 @@ exports.signIn = (req, res, next) => {
 				//le token est disponible ds le scope grace au callback ds refreshToken du usersController 
 				return refreshToken(decoded1.id, token => {
 
-					console.log('first')
+					// console.log('first')
 					res.status(417).send(token)
 				});
 			}
@@ -50,16 +50,16 @@ exports.signIn = (req, res, next) => {
 			next();
 
 		} catch (err) {
-			console.log('deuxieme:', err)
+			// console.log('deuxieme:', err)
 			return refreshToken(decoded1.id, token => {
-				console.log('2eme')
+				// console.log('2eme')
 				res.status(417).send(token)
 			})
 		}
 
 
 	} catch (err) {
-		console.log('auth.js : ', err);
+		// console.log('auth.js : ', err);
 		return res.status(401).send(err);
 	}
 };

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -14,18 +15,17 @@ export default function Login({ navigation }) {
 	let first = true;
 
 	useEffect(() => {
-		if (first) {
-			SecureStore.getItemAsync('token1').then((res) => {
-				if (res) {
-					const decoded = jwt_decode(res);
-					setRooms(decoded.id_rooms)
-					// const decodedIdRooms = decoded.id_rooms;
-					console.log('DECOCDED LOGIN.js:', decoded);
-				} 
-				
-			})
+	    if (first) {
+	        SecureStore.getItemAsync('token1').then((res) => {
+	        	if (res) {
+	            	const decoded = jwt_decode(res);
+	                setRooms(decoded.id_rooms)
+	                navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
+					console.log(res);
+	            } 
+	        })
 			first = false;
-		}
+	    }
 	}, [rooms])
 
 	const connect = () => {
@@ -39,11 +39,9 @@ export default function Login({ navigation }) {
 					setPassword('');
 					const token = response.data.token;
 					const refresh = response.data.refresh;
-					console.log('Login.js -> token : ',token);
-					console.log('Login.js -> refresh: ',refresh);
 					SecureStore.setItemAsync('token1', token).then(() => {
-					
 						SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
+							// console.log('co')
 							navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
 						})
 					})
@@ -84,11 +82,12 @@ export default function Login({ navigation }) {
 		>
 
 			<View style={styles.container}>
-				
+				<View style={styles.boxTitle}>
 				<Text style={styles.title}>
 					Sign in
 				</Text>
-				<View>
+				</View>
+				<View style={styles.boxForm}>
 					<Text style={styles.label}>
 						Login
 					</Text>
@@ -121,51 +120,56 @@ export default function Login({ navigation }) {
 					>
 						New to Chuu ? Sign Up here !
 					</Text>
-			
 				</View>
 			</View>
-	
 		</ImageBackground>
 		
 	)
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 52,
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: "600",
-    marginBottom: 15,
-  },
-  label: {
-    marginTop: 15,
-    fontSize: 15,
-    fontWeight: "500",
-  },
-  input: {
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
-    height: 40,
-  },
-  button: {
-    marginTop: 20,
-    backgroundColor: "black",
-    borderRadius: 12,
-  },
-  buttonText: {
-    color: "#C5AAFF",
-    textAlign: "center",
-    padding: 10,
-    fontWeight: "500",
-    fontSize: 15,
-  },
-  toRegister: {
-    marginTop: 20,
-    fontWeight: "600",
-    fontSize: 15,
-  },
-});
+	container: {
+		flex: 1,
+		marginTop: 52,
+		alignItems: 'center'
+	},
+	boxTitle: {
+		marginTop: 90,
+	},
+	boxForm: {
+		marginTop: 60,
+
+	},
+	title: {
+		fontSize: 40,
+		fontWeight: '600',
+		marginBottom: 15,
+	},
+	label: {
+		marginTop: 15,
+		fontSize: 15,
+		fontWeight: '500',
+	},
+	input: {
+		borderBottomColor: 'black',
+		borderBottomWidth: 1,
+		height: 40,
+	},
+	button: {
+		marginTop: 20,
+		backgroundColor: 'black',
+		borderRadius: 12
+	},
+	buttonText: {
+		color: '#C5AAFF',
+		textAlign: 'center',
+		padding: 15,
+		fontWeight: '500',
+		fontSize: 18,
+	},
+	toRegister: {
+		marginTop: 20,
+		fontWeight: '600',
+		fontSize: 15,
+	}
+})

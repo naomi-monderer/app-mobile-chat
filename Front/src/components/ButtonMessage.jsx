@@ -1,33 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
 import { API } from '../constant/constant';
 import * as SecureStore from 'expo-secure-store';
-import jwt_decode from 'jwt-decode'
+import jwt_decode from 'jwt-decode';
+import { io } from 'socket.io-client';
 
 export default function ButtonMessage(props) {
 
     const handleSubmit = () => {
-
-
         SecureStore.getItemAsync('token1').then((rest) => {
-            // console.log('rest: '+ rest);
             SecureStore.getItemAsync('refreshtoken').then((res) => {
                 if (res) {
                     var decoded = jwt_decode(rest);
-
                     if (props.text) {
+                        // console.log('props text', props.text);
                         axios.post(`${API}/chat/${props.idRoom}`,
-                            JSON.stringify({
-                                content: props.text,
-                            }),
-                            {
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    token1: rest,
-                                    refreshtoken: res
-                                }
-                            }).then(res => {
+                        JSON.stringify({
+                            content: props.text,
+                        }),
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                token1: rest,
+                                refreshtoken: res
+                            }
+                        }).then(res => {
+                                //socket.emit('chatmessage');
                                 // 5. Une fois mon message bien reçu à la bdd,
                                 //    je set le contenu de l'input à 'vide' pour clear l'input.
                                 props.setText('');

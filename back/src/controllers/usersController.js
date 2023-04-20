@@ -76,62 +76,60 @@ const registerUsers = async (req, res) => {
 const authUsers = (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;
-	// console.log("----------")
-	// console.log(login)
-	// console.log(password)
-	// console.log("----------")
+	console.log("----------")
+	console.log(login)
+	console.log(password)
+	console.log("----------")
+
 
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
+		console.log("results1: ",results)
+		console.log(results.length);
 		if (results.length > 0) {
-			bcrypt.compareSync(password, results[0].password, function (err, result) {
-				if (result) {
-					return res.send({ message: "Login Successful" });
-				}
-				else {
-					return res.status(400).send({ message: "Invalid Password" });
-				}
-			});
+			console.log('compare bcrypt:', bcrypt.compareSync(password, results[0].password))
+			if(bcrypt.compareSync(password, results[0].password)) {
+				const rooms = results[0].rooms.split(',')
 
-			const rooms = results[0].rooms.split(',')
-
-			const mySecret = "mysecret";
-
-			const token = jwt.sign({
-				login: login,
-				iat: ~~(Date.now() / 1000),
-				type: 'authtoken',
-				email: results[0].email,
-				id: results[0].id.toString(),
-				id_role: results[0].id_role,
-				id_rooms: rooms	
-			}, mySecret,{
-				expiresIn: "30d",
-			});
-
-			const refreshToken = jwt.sign({
-				message: "refresh Token info",
-				iat: ~~(Date.now() / 1000),
-				type: 'token',
-				email: results[0].email,
-				login: login,
-				id_rooms: rooms,
-				id: results[0].id.toString(),
-				id_role: results[0].id_role,
-			},
-				mySecret,
-				{
-					expiresIn: "10d",
-				}
-			);
-
-			res.status(200).json({
-				status: true,
-				token: token,
-				refresh: refreshToken,
-			});
-		} else {
-			res.status(400).send("You cannot login.")
-		}
+				const mySecret = "mysecret";
+	
+				const token = jwt.sign({
+					login: login,
+					iat: ~~(Date.now() / 1000),
+					type: 'authtoken',
+					email: results[0].email,
+					id: results[0].id.toString(),
+					id_role: results[0].id_role,
+					id_rooms: rooms
+				}, mySecret,{
+					expiresIn: "60d",
+					});
+	
+				const refreshToken = jwt.sign({
+					message: "refresh Token info",
+					iat: ~~(Date.now() / 1000),
+					type: 'token',
+					email: results[0].email,
+					login: login,
+					id_rooms: rooms,
+					id: results[0].id.toString(),
+					id_role: results[0].id_role,
+				},
+					mySecret,
+					{
+						expiresIn: "10d",
+					}
+				);
+	
+				res.status(200).json({
+					status: true,
+					token: token,
+					refresh: refreshToken,
+				});
+			}
+			else {
+				return res.status(400).send({ message: "The login or the password is invalid" });	
+			}
+			};
 	})
 }
 
