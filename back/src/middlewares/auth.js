@@ -24,10 +24,10 @@ exports.signIn = (req, res, next) => {
 		req.user = decoded1;
 		const decoded2 = jwt.decode(refreshtoken)
 		var now = new Date().getTime() / 1000;
-		// console.log('decoded1: ', decoded1);
+		console.log('decoded1: ', decoded1);
 		// console.log("------------------")
-		// console.log(now)
-		// console.log(decoded2.exp)
+		console.log(now)
+		console.log(decoded2)
 		// console.log(now > decoded2.exp)
 		// console.log("-------------------")
 		try {
@@ -50,7 +50,7 @@ exports.signIn = (req, res, next) => {
 			next();
 
 		} catch (err) {
-			// console.log('deuxieme:', err)
+			console.log('deuxieme:', err)
 			return refreshToken(decoded1.id, token => {
 				// console.log('2eme')
 				res.status(417).send(token)
