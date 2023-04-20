@@ -10,6 +10,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import Avatar from "../components/Avatar";
 import ActionList from "../components/ActionList";
+import LogoutButton from "../components/LogoutButton"; 
 // import { getUserInfos, logOut } from "../api/auth";
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
@@ -82,7 +83,7 @@ const ProfilePage = ({   handleModifyProfile,
         handleDeleteAccount={handleDeleteAccount}
       />
   
-      {/* <LogoutButton /> */}
+      <LogoutButton />
     </View>
   );
 };

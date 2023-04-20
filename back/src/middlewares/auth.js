@@ -8,62 +8,54 @@ const app = express();
 
 
 exports.signIn = (req, res, next) => {
-	
-	//je reçois deux tokens du controllers, l'un durant 30 jrs de validité l'autre 1minute
-	
-	const authToken = req.headers.token// ICI
 
-	const refreshtoken = req.headers.refreshtoken;
+    // console.log('req: ', req.headers)
+    //je reçois deux tokens du controllers, l'un durant 30 jrs de validité l'autre 1minute
+    const tokenToUse = req.headers.token1;
+    const tokenRefresh = req.headers.refreshtoken;
+    try {
 
-	
+        const mySecret = "mysecret";
+        const decoded1 = jwt.verify(tokenToUse, mySecret);
+        req.user = decoded1;
+        const decoded2 = jwt.decode(tokenRefresh)
+        var now = new Date().getTime() / 1000;
+        // console.log('decoded1: ', decoded1);
+        // console.log("------------------")
+        // console.log(now)
+        // console.log(decoded2.exp)
+        // console.log(now > decoded2.exp)
+        // console.log("-------------------")
+        try {
 
-	try {
+            //verification avec la date actuelle, si l'expiration 
+            const decoded2 = jwt.verify(tokenRefresh, mySecret)
+            var now = new Date().getTime() / 1000;
 
-		const mySecret = "mysecret";
-		const decoded1 = jwt.verify( authToken , mySecret);
-		req.user = decoded1;
-		const decoded2 = jwt.decode(refreshtoken)
-		var now = new Date().getTime() / 1000;
-		console.log('decoded1: ', decoded1);
-		// console.log("------------------")
-		console.log(now)
-		console.log(decoded2)
-		// console.log(now > decoded2.exp)
-		// console.log("-------------------")
-		try {
+            //mettrev decoded2.iat et pas .exp
+            if (now > decoded2.exp) {
+                /* expired */
+                //le token est disponible ds le scope grace au callback ds refreshToken du usersController 
+                return refreshToken(decoded1.id, token => {
 
-			//verification avec la date actuelle, si l'expiration 
-			const decoded2 = jwt.verify(refreshtoken, mySecret)
-			var now = new Date().getTime() / 1000;
+                    // console.log('first')
+                    res.status(417).send(token)
+                });
+            }
 
-			//mettrev decoded2.iat et pas .exp
-			if (now > decoded2.exp) {
-				/* expired */
-				//le token est disponible ds le scope grace au callback ds refreshToken du usersController 
-				return refreshToken(decoded1.id, token => {
+            next();
 
-					// console.log('first')
-					res.status(417).send(token)
-				});
-			}
-
-			next();
-
-		} catch (err) {
-			console.log('deuxieme:', err)
-			return refreshToken(decoded1.id, token => {
-				// console.log('2eme')
-				res.status(417).send(token)
-			})
-		}
+        } catch (err) {
+            // console.log('deuxieme:', err)
+            return refreshToken(decoded1.id, token => {
+                // console.log('2eme')
+                res.status(417).send(token)
+            })
+        }
 
 
-	} catch (err) {
-		// console.log('auth.js : ', err);
-		return res.status(401).send(err);
-	}
+    } catch (err) {
+        // console.log('auth.js : ', err);
+        return res.status(401).send(err);
+    }
 };
-
-
-
-

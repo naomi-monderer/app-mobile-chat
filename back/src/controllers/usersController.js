@@ -89,7 +89,7 @@ const authUsers = (req, res) => {
 			console.log('compare bcrypt:', bcrypt.compareSync(password, results[0].password))
 			if(bcrypt.compareSync(password, results[0].password)) {
 				const rooms = results[0].rooms?.split(',')
-
+					console.log(rooms,"rooms")
 				const mySecret = "mysecret";
 	
 				const token = jwt.sign({
