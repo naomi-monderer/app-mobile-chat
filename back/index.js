@@ -42,7 +42,8 @@ io.on('connection', (socket) => {
 
 const cors = require('cors');
 const corsOptions ={
-    origin:'http://localhost:19006', 
+    origin:'http://localhost:19006',
+    origin:'http://10.10.9.171:19006',
     origin:'http://localhost',
     origin:'http://localhost:8881',
     credentials:true,            //access-control-allow-credentials:true
