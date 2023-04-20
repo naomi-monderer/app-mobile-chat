@@ -8,4 +8,5 @@ exports.isAdmin = (req, res, next) => {
 	}else {
 		return res.status(400).json({ message: "You are not an administrator" });
 	}
-}
+  }
+  
