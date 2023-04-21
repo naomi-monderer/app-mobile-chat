@@ -199,8 +199,15 @@ const getUserDetails = (req, res) => {
 	})
 }
 
-const updateUser = (req, res) => {
+const getUserRole = (req, res) => {
+	const sql = `SELECT users.id_role FROM users WHERE login = '${req.params.login}'`
+	db.query(sql, function (error, data) {
+		if (error) throw error;
+		else res.send(data);
+	})
+}
 
+const updateUser = (req, res) => {
 	const { login, email, password, confPassword } = req.body;
 
 	if (!login.length || !password.length || !email.length) {
@@ -248,6 +255,7 @@ module.exports = {
 	authUsers,
 	addUserToRoom,
 	getUserDetails,
+	getUserRole,
 	updateUser,
 	refreshToken,
 	getAllFromUsers
