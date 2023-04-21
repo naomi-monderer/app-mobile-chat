@@ -7,12 +7,14 @@ import * as SecureStore from 'expo-secure-store';
 export default function LogoutButton() {
     const logout = () => {
         SecureStore.getItemAsync('token1').then((res) => {
+            console.log()
             if (res) {
                 SecureStore.deleteItemAsync('token1').then(() => {
                     SecureStore.deleteItemAsync('refreshtoken')
                 })
             }
         })
+        console.log("je suis bien logOut")
     }
 
     return (

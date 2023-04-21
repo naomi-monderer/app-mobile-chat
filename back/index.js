@@ -20,6 +20,9 @@ io.on('connection', (socket) => {
       console.log('user disconnected');
     });
     socket.on('joinIn', (id_room) => {
+      if (!id_room) {
+        id_room = 0; // RAJOUT DE CETTE CONDITION 
+      }
       socket.join(id_room);
       console.log('Idroom', typeof id_room)
     })

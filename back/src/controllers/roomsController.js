@@ -2,12 +2,14 @@ const db = require('../../database');
 var express = require('express');
 
 const getAllRooms = (req, res) => {
-	const sql = `SELECT * FROM rooms WHERE id NOT IN (${req.user.id_rooms})` 
-	db.query(sql, function(error, data){
-		if (error) throw error;
-		else res.status(200).send(data);
-	})
-}
+	let id_rooms = req.user.id_rooms || 0; // j'utilise 0 si la room n'est pas definie 
+	const sql = `SELECT * FROM rooms WHERE id NOT IN (${id_rooms})`;
+	db.query(sql, function (error, data) {
+	  if (error) throw error;
+	  else res.status(200).send(data);
+	});
+  };
+  
 
 const deleteRoomForUser = (req,res) => {
 	const sql = `DELETE FROM participants WHERE id_user =${req.user.id} AND id_room =${req.room.id}`
