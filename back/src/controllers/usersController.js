@@ -68,7 +68,7 @@ const registerUsers = async (req, res) => {
 			})
 		}
 	} catch (error) {
-		console.log(error);
+
 		res.status(500).send(error);
 	}
 }
@@ -90,7 +90,6 @@ const authUsers = (req, res) => {
 			console.log('compare bcrypt:', bcrypt.compareSync(password, results[0].password))
 			if(bcrypt.compareSync(password, results[0].password)) {
 				const rooms = results[0].rooms?.split(',')
-
 				const mySecret = "mysecret";
 	
 				const token = jwt.sign({
@@ -145,9 +144,20 @@ const refreshToken = (id, callback) => {
 		if (results.length > 0) {
 			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
-			const token = jwt.sign({
-				id: results[0].id,
-			}, mySecret)
+			const token = jwt.sign({ 
+				message: "refresh Token info",
+				iat: ~~(Date.now() / 1000),
+				type: 'token',
+				email:results[0].email,
+				login:results[0].login,
+				id_rooms: rooms,
+				id:results[0].id.toString(),
+				id_role:results[0].id_role,},
+				mySecret, 
+				{
+				expiresIn: "1m",
+				}
+				);
 			//je place un callback en paramètre 
 			callback(token)
 		}
@@ -241,6 +251,11 @@ const updateUser = (req, res) => {
 	})
 }
 
+const supressAccount = (req, res)=>{
+	console.log(req,'nvll function !!! ')
+
+}
+
 module.exports = {
 	registerUsers,
 	authUsers,
@@ -250,6 +265,7 @@ module.exports = {
 	addUserToRoom,
 	getUserDetails,
 	updateUser,
+	supressAccount,
 	refreshToken,
 	getAllFromUsers
 }
