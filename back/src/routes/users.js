@@ -11,6 +11,7 @@ var {
 	addUserToRoom,
 	getUsers,
 	getUserDetails,
+	getUserRole,
 	updateUser,
 	refreshToken,
 	getAllFromUsers
@@ -31,6 +32,8 @@ router.post('/auth', authUsers)
 
 //[BACK/03-get-all-users]: Une route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
 router.get('/', getUsers);
+
+router.get('/role/:login', getUserRole);
 
 // Une route qui retourne toutes les infos de tous les utilisateurs
 router.get('/all', getAllFromUsers);
