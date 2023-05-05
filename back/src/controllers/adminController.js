@@ -49,6 +49,8 @@ const adminUpdateRoom = (req, res) =>{
 	})
 }
 
+//admin delete rooms? 
+
 // permet à l'admin de modifier le rôle et le login d'un user.
 const adminUpdateUser = (req, res) => {
 	const sql = 'UPDATE users SET login = ? WHERE id = ?'
@@ -63,6 +65,9 @@ const adminUpdateUser = (req, res) => {
 const adminUpdateRole = (req, res) => {
 	const id_role = parseInt(req.body.id_role)
 	const userId = parseInt(req.params.id)
+	// if(id_role > 2 || id_role < 1){
+			
+	// }
 	const sql = 'UPDATE users SET id_role = ? WHERE id = ?'
 	db.query(sql, [id_role, userId] , function(error, data){
 		if(error) throw error;

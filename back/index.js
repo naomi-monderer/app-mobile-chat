@@ -36,15 +36,15 @@ io.on('connection', (socket) => {
 
 
   server.listen(port, () => {
-    console.log(`Socket.IO server running at http://10.10.2.38:${port}`);
+    console.log(`Socket.IO server running on port :${port}`);
 });
 
 
 const cors = require('cors');
 const corsOptions ={
-    origin:'http://localhost:8881',
-    origin:'http://localhost:3000',
-    origin:'http://localhost:8888',
+    origin:['http://localhost:3000','http://localhost:8888','http://localhost:8881'],
+    // origin:'http://localhost:3000',
+    // origin:'http://localhost:8888',
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
@@ -59,6 +59,7 @@ var admin = require('./src/routes/admin');
 var participants = require('./src/routes/participants')
 var chat = require('./src/routes/messages');
 var rooms = require('./src/routes/rooms');
+
 
 //Users route
 app.use('/users', users);

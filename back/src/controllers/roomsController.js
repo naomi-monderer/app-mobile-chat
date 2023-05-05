@@ -2,6 +2,14 @@ const db = require('../../database');
 var express = require('express');
 
 const getAllRooms = (req, res) => {
+	const sql = 'SELECT * FROM rooms';
+	db.query(sql, function(error,data){
+		console.log('req +++++' + req.query);
+		if(error)throw error;
+		else res.status(200).send(data);
+	})}
+
+const getAllRoomsByUser = (req, res) => {
 	const sql = `SELECT * FROM rooms WHERE id NOT IN (${req.user.id_rooms})` 
 	db.query(sql, function(error, data){
 		if (error) throw error;
@@ -34,9 +42,10 @@ const displayMainChat = (req, res) => {
 	})
 }
 
-module.exports = { 
-	getAllRooms,
+module.exports = {
 	deleteRoomForUser,
 	displayRoomsAndChat,
-	displayMainChat
+	displayMainChat,
+	getAllRoomsByUser,
+	getAllRooms
 }
