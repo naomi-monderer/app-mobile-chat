@@ -45,7 +45,7 @@ const adminUpdateRoom = (req, res) =>{
 	const sql = 'UPDATE rooms SET name = ? WHERE id = ?'
 	db.query(sql, [req.body.name, req.params.id],function(error){
 		if (error) throw error;
-		else res.status(200).send("Room's name updated !");
+		else res.status(200).send({message: "Room's name updated !", status: 200});
 	})
 }
 
