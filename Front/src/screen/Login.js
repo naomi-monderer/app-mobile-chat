@@ -1,73 +1,81 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground} from "react-native";
 import * as SecureStore from 'expo-secure-store';
-import ROUTES from '../constant/routes';
 import jwt_decode from "jwt-decode";
-import  {API}  from '../constant/constant';
+import { API } from '../constant/constant';
+import ROUTES from '../constant/routes';
 
 export default function Login({ navigation }) {
-	const [login, setLogin] = useState('')
-	const [password, setPassword] = useState('')
-	const [rooms, setRooms] = useState([])
-	let first = true;
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [rooms, setRooms] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-	// useEffect(() => {
-	//     if (first) {
-	//         SecureStore.getItemAsync('token1').then((res) => {
-	//         	if (res) {
-	//             	const decoded = jwt_decode(res);
-	//                 setRooms(decoded.id_rooms)
-	//                 navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
-	// 				console.log(res);
-	//             } 
-	//         })
-	// 		first = false;
-	//     }
-	// }, [rooms])
+    useEffect(() => {
+        const loadUser = async () => {
+            const token = await SecureStore.getItemAsync('token1');
+            const refreshToken = await SecureStore.getItemAsync('refreshtoken');
+            if (token && refreshToken) {
+                const decodedToken = jwt_decode(token);
+                if (decodedToken.exp > Date.now() / 1000) {
+                    setRooms(decodedToken.id_rooms);
+                    navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS });
+                } else {
+                    try {
+                        const response = await axios.post(`${API}/users/refresh`, {
+                            refreshToken: refreshToken
+                        });
+                        const newToken = response.data.token1;
+                        const newRefreshToken = response.data.refreshtoken;
+                        await SecureStore.setItemAsync('token1', newToken);
+                        await SecureStore.setItemAsync('refreshtoken', newRefreshToken);
+                        navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS });
+                    } catch (error) {
+                        handleAxiosError(error);
+                    }
+                }
+            }
+        };
+        loadUser();
+    }, []);
 
-	const connect = () => {
-		if (login !== '' && password !== '') {
-			axios.post(API + '/users/auth', {
-				login: login,
-				password: password
-			})
-				.then(function (response) {
-					setLogin('');
-					setPassword('');
-					const token = response.data.token;
-					const refresh = response.data.refresh;
-					SecureStore.setItemAsync('token1', token).then(() => {
-						SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
-							console.log('co')
-							navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
-						})
-					})
-				})
-				.catch(function (error) {
-					if (error.response) {
-						// The request was made and the server responded with a status code
-						// that falls out of the range of 2xx
-						console.log('error response data', error.response.data);
-						console.log('error response status', error.response.status);
-						console.log('error response headers', error.response.headers);
-					} else if (error.request) {
-						// The request was made but no response was received
-						// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-						// http.ClientRequest in node.js
-						console.log('error request', error.request);
-					} else {
-						// Something happened in setting up the request that triggered an Error
-						console.log('Error', error.message);
-					}
-				});
-		}
-		else {
-			alert('Please enter a valid login and password.')
-		}
-	}
+    const handleAxiosError = (error) => {
+        if (error.response) {
+            console.log('error response data', error.response.data);
+            console.log('error response status', error.response.status);
+            console.log('error response headers', error.response.headers);
+        } else if (error.request) {
+            console.log('error request', error.request);
+        } else {
+            console.log('Error', error.message);
+            alert('An error occurred. Please try again later.');
+        }
+    };
+
+    const connect = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.post(`${API}/users/auth`, {
+                login: login,
+                password: password
+            });
+            const token = response.data.token;
+            const refreshToken = response.data.refreshToken;
+            await SecureStore.setItemAsync('token1', token);
+            await SecureStore.setItemAsync('refreshtoken', refreshToken);
+            const decodedToken = jwt_decode(token);
+            setRooms(decodedToken.id_rooms);
+            navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS });
+        } catch (error) {
+			console.log('Error logging in:', error);
+            handleAxiosError(error);
+        } finally {
+            setLoading(false);
+            setLogin('');
+            setPassword('');
+        }
+    };
 
 	return (
   
@@ -109,7 +117,7 @@ export default function Login({ navigation }) {
 					>
 						<Text
 							style={styles.buttonText}
-							onPress={() => navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })}
+						// onPress={() => navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })}
 						>
 							Login
 						</Text>

@@ -5,22 +5,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AuthNavigator from "./src/navigation/AuthNavigation";
 import axios from "axios";
+import * as SecureStore from 'expo-secure-store';
 import Api from "./src/Auth/Api";
 
 const tabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function App() {
-  useEffect(() => {
-    const api = new Api();
-
-    api.get({
-      route: "/teeeest",
-      success: (data) => {
-        console.log("Test", data.data);
-      },
-    });
-  }, []);
 
   return (
     <NavigationContainer>

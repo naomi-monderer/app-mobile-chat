@@ -155,7 +155,7 @@ const refreshToken = (id, callback) => {
 				id_role:results[0].id_role,},
 				mySecret, 
 				{
-				expiresIn: "1m",
+				expiresIn: "10m",
 				}
 				);
 			//je place un callback en paramètre 
