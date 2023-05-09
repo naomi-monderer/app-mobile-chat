@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import Avatar from "../components/Avatar";
 import ActionList from "../components/ActionList";
 import LogoutButton from "../components/LogoutButton"; 
+import UpdateUser from "./UpdateUser";
 // import { getUserInfos, logOut } from "../api/auth";
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
@@ -38,7 +39,7 @@ const ProfilePage = ({   handleModifyProfile,
       console.log(payload, 'data de profil info');
       setUserInfo(payload);
     });
-  }, [ getUserInfo]);
+  }, [] );
 
   console.log(userInfo, 'user info');
 
@@ -58,7 +59,22 @@ const ProfilePage = ({   handleModifyProfile,
     }
   }
 
-
+  function ProfileStackNavigator() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="ProfilePage"
+          component={ProfilePage}
+          options={{ title: "Profile" }}
+        />
+        <Stack.Screen
+          name="UpdateUser"
+          component={UpdateUser}
+          options={{ title: "Update Profile" }}
+        />
+      </Stack.Navigator>
+    );
+  }
 
   return (
 
@@ -79,7 +95,7 @@ const ProfilePage = ({   handleModifyProfile,
     
       <ActionList
         handleModifyProfile={()=> navigation.navigate('UpdateUser')}
-        logOut={handleSignOut}
+        logOut={()=>handleSignOut}
         handleDeleteAccount={handleDeleteAccount}
       />
   
