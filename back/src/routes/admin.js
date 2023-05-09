@@ -15,7 +15,7 @@ var {
 router.get('/supress', supressMessagesFromGreneral)
 
 // route supression d'un message d'une room spécifique BACK/16
-router.get('/delete/:roomId/:id', deleteMessageFromRoom);
+router.delete('/chat/:roomId/:id', deleteMessageFromRoom);
 
 // Une route qui  update le nom d'une room BACK/???
 router.patch('/rooms/:id/update', adminUpdateRoom);
