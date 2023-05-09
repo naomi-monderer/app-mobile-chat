@@ -2,7 +2,7 @@ const db = require('../../database');
 var express = require('express');
 
 const getAllRooms = (req, res) => {
-	const sql = 'SELECT * FROM rooms';
+	const sql = 'SELECT * FROM rooms ORDER BY id DESC';
 	db.query(sql, function(error,data){
 		console.log('req +++++' + req.query);
 		if(error)throw error;
