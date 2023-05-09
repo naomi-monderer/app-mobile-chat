@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 
 const cors = require('cors');
 const corsOptions ={
-    origin:['http://localhost:3000','http://localhost:8888','http://localhost:8881'],
+    origin:['http://localhost:3000','http://localhost:8888','http://localhost:8881', 'http://localhost'],
     // origin:'http://localhost:3000',
     // origin:'http://localhost:8888',
     credentials:true,            //access-control-allow-credentials:true

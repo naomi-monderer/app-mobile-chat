@@ -3,7 +3,7 @@ var express = require('express');
 
 exports.isAdmin = (req, res, next) => {
 	console.log(req.body)
-	console.log('req', req.body.id_role_admin)
+	console.log('req id role admin', req.body.id_role_admin)
 
     if (parseInt(req.body.id_role_admin) === 2) {
     	return next();

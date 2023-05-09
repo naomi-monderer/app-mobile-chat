@@ -49,7 +49,20 @@ const adminUpdateRoom = (req, res) =>{
 	})
 }
 
-//admin delete rooms? 
+const adminDeleteRoom = (req, res) =>{
+
+	const sql = 'DELETE FROM participants WHERE id_room = ?'
+	db.query(sql, [req.params.id] , function(error){
+		if(error) throw error;
+		else {
+			const sql2 = `DELETE FROM rooms WHERE id = ?`
+			db.query(sql2,[req.params.id], function(error){
+				if(error) throw error;
+				else res.status(200).send({message: "Room deleted !", status: 200});
+			})
+		}
+	})
+}
 
 // permet à l'admin de modifier le rôle et le login d'un user.
 const adminUpdateUser = (req, res) => {
@@ -101,6 +114,7 @@ module.exports = {
 	adminUpdateRole, 
 	supressMessagesFromGreneral,
 	addNewRoom,
-	deleteMessageFromRoom
+	deleteMessageFromRoom,
+	adminDeleteRoom
 }
 
