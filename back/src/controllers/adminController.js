@@ -30,7 +30,7 @@ const deleteMessageFromRoom = (req, res) => {
 
 		if(results.length > 0){
 			db.query(`DELETE FROM messages WHERE id = '${id_message}'`)
-			res.status(200).send("the message number: " + id_message +  " is now supressed")
+			res.status(200).send({message: "the message number: " + id_message +  " is now supressed"})
 		}
 		else {
 			res.status(400).json({
