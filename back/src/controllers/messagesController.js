@@ -63,7 +63,7 @@ const deleteMessage = (req, res) => {
 
 				db.query(sql, function (err) {
 					if (err) throw err;
-					else res.status(200).send("Message deleted.")
+					else res.status(200).send({message: "Message deleted."})
 				});
 			}
 			else {
@@ -100,11 +100,11 @@ const updateMessage = (req, res) => {
 
 const specificChat = (req, res) => {
 	if (req.user.id_rooms.includes(req.params.roomId)) {
+
 		const sql = `SELECT messages.id as id_message, content, created_at, login FROM messages INNER JOIN users ON messages.id_user = users.id WHERE id_room = ${req.params.roomId} ORDER BY created_at ASC`
 		db.query(sql, function (err, data) {
 			if (err) throw err;
 			else res.send(data);
-			console.log(" function specific chat");
 		})
 	} else res.status(400).send('You do not have access to the room');
 }
