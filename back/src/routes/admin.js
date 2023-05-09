@@ -27,7 +27,7 @@ router.delete('/rooms/:id', adminDeleteRoom);
 router.patch('/users/:id/update', adminUpdateUser);
 
 // Une route qui update le role d'un user BACK/???
-router.patch('/users/:id/update/role', adminUpdateRole);
+router.put('/users/:id/update/role', adminUpdateRole);
 
 // route créer une room BACK/28
 router.post('/add-room', addNewRoom)

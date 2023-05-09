@@ -2,6 +2,7 @@ const db = require('../../database');
 var express = require('express');
 
 const getAllRooms = (req, res) => {
+
 	const sql = 'SELECT * FROM rooms ORDER BY id DESC';
 	db.query(sql, function(error,data){
 		console.log('req +++++' + req.query);
@@ -16,6 +17,9 @@ const getAllRoomsByUser = (req, res) => {
 		else res.status(200).send(data);
 	})
 }
+
+
+
 
 const deleteRoomForUser = (req,res) => {
 	const sql = `DELETE FROM participants WHERE id_user =${req.user.id} AND id_room =${req.room.id}`

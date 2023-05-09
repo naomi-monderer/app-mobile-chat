@@ -191,9 +191,7 @@ export default Messages;
 const styles = StyleSheet.create({
 	display: {
 		flexDirection: 'row',
-		// backgroundColor:'green',
-		// width: 60,
-		// alignSelf:'flex-end'
+
 	},
 	contentSendedHours: {
 
