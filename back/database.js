@@ -5,7 +5,7 @@ connection = mysql.createConnection({
     user: 'root',
     password: 'root',
     database: 'chat',
-    port: '3306',
+    port: '8889',
 });
 
 
