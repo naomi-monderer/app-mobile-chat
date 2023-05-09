@@ -10,6 +10,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
+	SafeAreaView
 } from "react-native";
 import { io } from 'socket.io-client';
 
@@ -83,15 +84,17 @@ const Messages = (props) => {
 	}, []);
 
 	const formattedDate = [];
+	const formattedHour = []
 	if (messages?.length > 0) {
 		messages.forEach((msg) => {
 			formattedDate[msg.id] = new Date(msg.created_at).toLocaleTimeString("en-US", {
 				day:"numeric",
-				// mounth:"letter",
+				month:"short",
 				hour: "numeric",
 				minute: "numeric",
-				hour12: true,
 			});
+
+			console.log('crezatedAt',msg.created_at);
 		});
 	}
 
@@ -115,18 +118,16 @@ const Messages = (props) => {
 
 
 	return (
-		<>
-			<View>
-				<Text style={styles.currentHour}>{dateTime}</Text>
-			</View>
+		<SafeAreaView style={styles.mainContainer}>
+
 			{messages?.map((msg, index) => {
 
 				return (
+
+
 					<View style={styles.container} key={index}>
 					
-						<View
-								style={styles.contentSendedHours}
-							>
+						<View style={styles.contentSendedHours} >
 								{isUser = decoded.login == msg.login}
 								<Text style={[styles.login, isUser ? styles.sendedHour : styles.receivedHour]}>
 							
@@ -137,25 +138,27 @@ const Messages = (props) => {
 								{formattedDate[msg.id]}
 								</Text> */}
 							</View>
-						{/* {console.log(decoded.login)}
-						{console.log(msg.login)}
-						{console.log('----------')} */}
-
-						{isUser = decoded.login == msg.login}
+							{isUser = decoded.login == msg.login}
 						<TouchableOpacity style={isUser ? styles.sendedMessage : styles.receivedMessage} onLongPress={() => handleLongPress(index)}>
 							
 							<Text style={styles.content}>{msg.content}</Text>
 						</TouchableOpacity>
+						<View style={styles.contentSendedHours} >
+								{isUser = decoded.login == msg.login}
+								<Text style={[styles.login, isUser ? styles.sendedHour : styles.receivedHour]}>
+								 {formattedDate[msg.id]}
+								 {/* {console.log('formattedDate',formattedDate[msg.id])} {console.log('messageid', msg.id)} */}
+								</Text>
+							</View>
 
-						<View style={styles.display}>
 
-							
 
-							{msg.reaction ? (
+						{/* <View style={styles.display}> */}
+							{/* {msg.reaction ? (
 								<View style={{ position: 'absolute', bottom: 0, alignSelf: 'flex-start', paddingLeft: 67 }}>
 									<Text style={{ fontSize: 25, marginLeft: 80, }}>{msg.reaction}</Text>
 								</View>
-							) : null}
+							) : null} */}
 							{/* <View style={styles.bottomModal}>
 								{selectedMessageIndex === index && modalVisible ? (
 									<TouchableOpacity style={styles.modalContainer}>
@@ -173,22 +176,24 @@ const Messages = (props) => {
 									<Text></Text>
 								)}
 							</View> */}
-						</View>
+						{/* </View> */}
 
 					</View>
+
 
 				)
 
 			}
 
 			)}
-		</>
+		</SafeAreaView>
 	);
 };
 
 export default Messages;
 
 const styles = StyleSheet.create({
+
 	display: {
 		flexDirection: 'row',
 
@@ -197,10 +202,10 @@ const styles = StyleSheet.create({
 
 	},
 	sendedMessage: {
-		margin: 10,
-		width: 300,
+		marginRight: 40,
+		maxWidth: 250,
 		padding: 10,
-		marginBottom: 0,
+		marginBottom: 5,
 		alignSelf: "flex-end",
 		backgroundColor: "#B2FFDF",
 		borderRadius: 20,
@@ -212,16 +217,19 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 20,
 	},
+	mainContainer: {
+		flex:1,
+		marginTop:100,
+		// height: "80%",
+	},
 
 	container: {
-		flex: 1
 	},
 
 	receivedMessage: {
-		// height: 100,
-		width: 300,
 		marginBottom: 4,
-		marginLeft: 10,
+		maxWidth: 250,
+		marginLeft: 40,
 		alignSelf: "flex-start",
 		borderRadius: 20,
 		backgroundColor: "#C5AAFF",
@@ -236,26 +244,37 @@ const styles = StyleSheet.create({
 
 	receivedHour: {
 		// alignSelf: "flex-start",
-		color:"#ECECEC",
-		marginLeft: 25,
-		paddingTop: 0,
-		paddingBottom:10,
+		marginTop: 7,
+		color:"#E0DFDF",
+		marginLeft: 40,
+		paddingBottom:5,
 		fontSize: 15,
 	},
 
 	sendedHour: {
-		alignSelf: "center",
-		alignSelf: "flex-start",
-		// alignContent:"",
-		// display: "flex",
-		// flexDirection:"row",
-		// alignItems:"flex-end",
-		color: "red",
-		marginLeft: 28,
-		paddingTop: 0,
-		fontSize: 10,
-		width: '100%',
-		backgroundColor: 'blue'
+		alignSelf: "flex-end",
+		color: "#E0DFDF",
+		marginTop: 7,
+		marginRight: 40,
+		paddingBottom: 5,
+		fontSize: 15,
+
+	},
+	receivedUserName: {
+		marginTop: 7,
+		color:"white",
+		marginLeft: 40,
+		paddingBottom:5,
+		fontSize: 15,
+	},
+
+	sendedUserName: {
+		alignSelf: "flex-end",
+		color: "white",
+		marginTop: 7,
+		marginRight: 40,
+		paddingBottom: 5,
+		fontSize: 15,
 
 	},
 
