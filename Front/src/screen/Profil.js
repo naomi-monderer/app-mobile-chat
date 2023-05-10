@@ -1,7 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import Avatar from "../components/Avatar";
 import ActionList from "../components/ActionList";
@@ -9,42 +7,55 @@ import LogoutButton from "../components/LogoutButton";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
-
-import useUserData from "../api/useUserData";
-
+import { API } from "../constant/constant";
 
 function Profil() {
-  
   const navigation = useNavigation();
-  const [token, setToken] = useState(null);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    SecureStore.getItemAsync('token1').then(setToken).catch(console.log);
+    SecureStore.getItemAsync("token1")
+      .then((token) => {
+        const decodedToken = jwt_decode(token);
+        setUserData(decodedToken);
+        const url = `${API}/users/details/${decodedToken?.id}`;
+        
+        axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+            console.log(response.data);
+            setUserData(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-
-  const userDatId = useUserData(token);
-  const userData = jwt_decode(token);
-
-  console.log(userData);
-
 
   const handleSignOut = async () => {
     try {
-      SecureStore.getItemAsync('token1').then((res) => {
+      SecureStore.getItemAsync("token1").then((res) => {
         if (res) {
-          SecureStore.deleteItemAsync('token1').then(() => {
-            SecureStore.deleteItemAsync('refreshtoken')
-          })
-          navigation.navigate('UpdateUser')
+          SecureStore.deleteItemAsync("token1").then(() => {
+            SecureStore.deleteItemAsync("refreshtoken");
+          });
+          navigation.navigate("UpdateUser");
         }
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
-    <View style={styles.backgroung}>
+    <View style={styles.background}>
       <View style={styles.container}>
         <Avatar
           source={require("../../assets/avatars/avatar_boucles.png")}
@@ -55,9 +66,9 @@ function Profil() {
           <View style={styles.listItemInnerContentView}>
             {userData && (
               <>
-                <Text style={styles.TextStyles}>Login: {userData.login}</Text>
-                <Text style={styles.TextStyles}>Email: {userData.email}</Text>
-                <Text style={styles.TextStyles}>
+                <Text style={styles.textStyles}>Login: {userData.login}</Text>
+                <Text style={styles.textStyles}>Email: {userData.email}</Text>
+                <Text style={styles.textStyles}>
                   Rooms: {userData.id_rooms}
                 </Text>
               </>
@@ -82,8 +93,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 26,
   },
-  backgroung: {
+  background: {
     // backgroundColor:"#080713",
+  },
+  textStyles: {
+    // define your text styles here
   },
 });
 
