@@ -9,40 +9,24 @@ import LogoutButton from "../components/LogoutButton";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
-import { API } from "../constant/constant";
+
+import useUserData from "../api/useUserData";
+
 
 function Profil() {
-  const [userData, setUserData] = useState({});
+  
   const navigation = useNavigation();
-
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    SecureStore.getItemAsync("token1")
-      .then((token) => {
-        const decoded = jwt_decode(token);
-
-        setUserData(decoded);
-        console.log(userData, "ljneirhfiqlrj");
-        const url = `${API}/users/details/${userData?.id}`;
-
-        axios
-          .get(url, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            console.log(response.data);
-            setUserData(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    SecureStore.getItemAsync('token1').then(setToken).catch(console.log);
   }, []);
+
+  const userDatId = useUserData(token);
+  const userData = jwt_decode(token);
+
+  console.log(userData);
+
 
   const handleSignOut = async () => {
     try {
