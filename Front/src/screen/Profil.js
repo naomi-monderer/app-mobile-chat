@@ -13,6 +13,8 @@ import { API } from "../constant/constant";
 
 function Profil() {
   const [userData, setUserData] = useState({});
+  const navigation = useNavigation();
+
 
   useEffect(() => {
     SecureStore.getItemAsync("token1")
@@ -42,6 +44,21 @@ function Profil() {
       });
   }, []);
 
+  const handleSignOut = async () => {
+    try {
+      SecureStore.getItemAsync('token1').then((res) => {
+        if (res) {
+          SecureStore.deleteItemAsync('token1').then(() => {
+            SecureStore.deleteItemAsync('refreshtoken')
+          })
+          navigation.navigate('UpdateUser')
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <View style={styles.backgroung}>
       <View style={styles.container}>
@@ -61,15 +78,14 @@ function Profil() {
                 </Text>
               </>
             )}
-            ;
           </View>
         </TouchableOpacity>
       </View>
 
       <ActionList
         // handleModifyProfile={()=> navigation.navigate('UpdateUser')}
-        logOut={handleSignOut}
-        handleDeleteAccount={handleDeleteAccount}
+        // logOut={handleSignOut}
+        // handleDeleteAccount={handleDeleteAccount}
       />
 
       <LogoutButton />
