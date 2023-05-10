@@ -14,6 +14,7 @@ var {
 	getUserRole,
 	updateUser,
 	refreshToken,
+	updateAvatar,
 	getAllFromUsers
 } = require('../controllers/usersController')
 
@@ -47,5 +48,9 @@ router.get('/details/:userId', signIn, getUserDetails);
 
 //[BACK/08-update-user]: Une route qui permet de mettre à jour les informations des utilisateurs
 router.post('/update', signIn, updateUser);
+
+//[FRONT/20-add-new-profil] patch avatar pic for the current user
+router.patch('/:userId/avatar', signIn, updateAvatar);
+
 
 module.exports = router;

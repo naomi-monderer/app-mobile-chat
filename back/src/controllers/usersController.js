@@ -153,6 +153,21 @@ const refreshToken = (id, callback) => {
 	})
 }
 
+const updateAvatar = (req, res) => {
+	const userId = req.params.userId;
+	const newAvatarUrl = req.body.avatarUrl;
+	const sql = `UPDATE users SET avatar_url = '${newAvatarUrl}' WHERE id = ${userId}`;
+	db.query(sql, (error, results) => {
+		if (error) {
+		  console.error(error);
+		  res.status(500).send('Error updating user avatar URL');
+		} else {
+		  res.status(200).send('User avatar URL updated successfully');
+		}
+	  });
+}
+
+
 const getUsers = (req, res) => {
 	const sql = 'SELECT `login` FROM users'
 	db.query(sql, function (error, data) {
@@ -192,7 +207,7 @@ const addUserToRoom = (req, res) => {
 }
 
 const getUserDetails = (req, res) => {
-	const sql = `SELECT users.login, users.email, GROUP_CONCAT(rooms.name) AS rooms_name FROM users, rooms WHERE users.id = ${req.params.userId}`
+	const sql = `SELECT users.login, users.email, users.avatar_url, GROUP_CONCAT(rooms.name) AS rooms_name FROM users, rooms WHERE users.id = ${req.params.userId}`
 	db.query(sql, function (error, data) {
 		if (error) throw error;
 		else res.send(data);
@@ -257,6 +272,7 @@ module.exports = {
 	getUserDetails,
 	getUserRole,
 	updateUser,
+	updateAvatar,
 	refreshToken,
 	getAllFromUsers
 }
