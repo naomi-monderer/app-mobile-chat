@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screen/Login';
 import Register from '../screen/Register';
 import Profil from '../screen/Profil';
+import UpdateUser from '../screen/UpdateUser';
 // import Home from '../screen/Home';
 // import ChatScreen from '../screen/ChatScreen';
 // import AllRooms from '../screen/AllRooms';
@@ -49,6 +50,7 @@ export default function AuthNavigator() {
 			/>
 			<Stack.Screen name={ROUTES.LOGIN} component={Login}  options={{ headerShown: false }}/>
 			<Stack.Screen name={ROUTES.PROFILE} component={Profil} />
+			<Stack.Screen name="UpdateUser" component={UpdateUser} />
 			<Stack.Screen name={ROUTES.REGISTER} component={Register} options={{
 				headerShadowVisible: false, // applied here
     			headerBackTitleVisible: false,

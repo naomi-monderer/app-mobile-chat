@@ -6,32 +6,23 @@ import { API } from '../constant/constant';
 import jwt_decode from "jwt-decode";
 // import { getUserInfos, logOut} from "../api/auth";
 
-const ActionList = ({ handleModifyProfile, logOut, handleDeleteAccount }) => {
-
+const ActionList = ({ actions }) => {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={actions}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={item.handleModifyProfile} style={styles.item}>
+              <Text style={styles.itemText}>{item.title}</Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+        />
+      </View>
+    );
+  };
   
-
-    
-  const data = [
-    { id: '1', title: 'Modify Profile', onPress: handleModifyProfile },
-    { id: '2', title: 'Sign Out', onPress: logOut  },
-    { id: '3', title: 'Delete Account', onPress: handleDeleteAccount },
-  ];
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={item.onPress}  style={styles.item}>
-            <Text style={styles.itemText}>{item.title}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={item => item.id}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-      />
-    </View>
-  );
-};
 
 const styles = {
   container: {

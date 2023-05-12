@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-const Avatar = ({ source, size }) => {
+const Avatar = ({ source, size, avatar_url }) => {
   const [avatarSource, setAvatarSource] = useState(source);
   const [pickerVisible, setPickerVisible] = useState(false);
 
@@ -25,6 +25,10 @@ const Avatar = ({ source, size }) => {
     setAvatarSource(selectedAvatar);
     setPickerVisible(false);
   };
+
+  useEffect(() => {
+    setAvatarSource(avatar_url); 
+  }, [avatar_url]);
 
   return (
     <View>

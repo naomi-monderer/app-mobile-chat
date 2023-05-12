@@ -154,18 +154,23 @@ const refreshToken = (id, callback) => {
 }
 
 const updateAvatar = (req, res) => {
-	const userId = req.params.userId;
-	const newAvatarUrl = req.body.avatarUrl;
-	const sql = `UPDATE users SET avatar_url = '${newAvatarUrl}' WHERE id = ${userId}`;
-	db.query(sql, (error, results) => {
-		if (error) {
-		  console.error(error);
-		  res.status(500).send('Error updating user avatar URL');
-		} else {
-		  res.status(200).send('User avatar URL updated successfully');
-		}
-	  });
-}
+	console.log(req.params)
+	const userId = req.params.id;
+	const newAvatarUrl = req.body.avatar_url;
+	
+	const sql = 'UPDATE users SET avatar_url = ? WHERE id = ?';
+	const values = [newAvatarUrl, userId];
+	
+	db.query(sql, values, (error, results) => {
+	  if (error) {
+		console.error(error);
+		res.status(500).send('Error updating user avatar URL');
+	  } else {
+		res.status(200).send('User avatar URL updated successfully');
+	  }
+	});	
+  };
+  
 
 
 const getUsers = (req, res) => {
