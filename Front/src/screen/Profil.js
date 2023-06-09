@@ -9,6 +9,7 @@ import jwt_decode from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
 import { API } from "../constant/constant";
 import UpdateUser from "./UpdateUser";
+import Login from "./Login";
 
 function Profil() {
   const navigation = useNavigation();
@@ -16,12 +17,6 @@ function Profil() {
   const [avatar_url, setAvatar_url] = useState({});
   const [token, setToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
-
-  const data = [
-    { id: '1', title: 'Modify Profile', onPress: handleModifyProfile },
-    // { id: '2', title: 'Sign Out', onPress: logOut },
-    // { id: '3', title: 'Delete Account', onPress: handleDeleteAccount },
-  ]
 
   useEffect(() => {
     SecureStore.getItemAsync("token1")
@@ -66,7 +61,8 @@ function Profil() {
           SecureStore.deleteItemAsync("token1").then(() => {
             SecureStore.deleteItemAsync("refreshtoken");
           });
-          navigation.navigate("UpdateUser");
+          navigation.navigate("Login");
+          console.log("sucessfully loged out");
         }
       });
     } catch (error) {
@@ -131,44 +127,77 @@ const handleModifyProfile = () => {
           />
         </TouchableOpacity>
 
+        <View style={styles.actionListContainer}>
         <TouchableOpacity style={styles.ListItem}>
           <View style={styles.listItemInnerContentView}>
             {userData && (
               <>
                 <Text style={styles.textStyles}>Login: {userData.login}</Text>
                 <Text style={styles.textStyles}>Email: {userData.email}</Text>
-                <Text style={styles.textStyles}>
-                  Rooms: {userData.id_rooms}
-                </Text>
+                <Text style={styles.textStyles}>Rooms: {userData.id_rooms}</Text>
+                
               </>
             )}
           </View>
         </TouchableOpacity>
+        </View>
       </View>
 
       <ActionList
-      actions={[{ id: '1', title: 'Modify Profile', handleModifyProfile: handleModifyProfile }]}
+      actions={[
+    { id: '1', title: 'Modify Profile', handleAction: handleModifyProfile },
+    { id: '2', title: 'Log Out', handleAction: handleSignOut },
+  ]}
      handleModifyProfile={handleModifyProfile}
-      // logOut={handleSignOut}
+      logOut={handleSignOut}
       // handleDeleteAccount={handleDeleteAccount}
       />
 
-      <LogoutButton />
+      {/* <LogoutButton /> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    backgroundColor: "#080713",
+  },
   container: {
     alignItems: "center",
     padding: 26,
   },
-  background: {
-    // backgroundColor:"#080713",
+  listItem: {
+    width: "100%",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFFFFF",
+  },
+  listItemInnerContentView: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   textStyles: {
-    // define your text styles here
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  actionListContainer: {
+    marginTop: 20,
+  },
+  actionListItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFFFFF",
+  },
+  actionListItemText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
+
 
 export default Profil;

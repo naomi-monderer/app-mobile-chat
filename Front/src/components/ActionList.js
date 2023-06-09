@@ -28,7 +28,7 @@ const styles = {
   container: {
     height: 200,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     padding: 16,
     marginTop: 50,
   },
@@ -38,6 +38,7 @@ const styles = {
   },
   itemText: {
     fontSize: 18,
+    color: 'white',
   },
   separator: {
     height: 1,
