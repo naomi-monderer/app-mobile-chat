@@ -23,7 +23,6 @@ const postMessageinChat = (req, res) => {
  
 	const tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
     const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
- 
     console.log(localISOTime)  // => '2015-01-26T06:40:36.181'
 	const data = req.body;
 	if (data.content && req.user.id_role !== 0) {
@@ -35,7 +34,7 @@ const postMessageinChat = (req, res) => {
 				console.log("data:", req.user.login);
 				const message = {
 					content: data.content,
-					created_at: "2023-01-12T17:32:11.000Z",
+					created_at: localISOTime,
 					login: req.user.login
 				};
  
