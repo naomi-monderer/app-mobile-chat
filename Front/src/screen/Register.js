@@ -5,6 +5,7 @@ import ROUTES from '../constant/routes';
 import { API } from '../constant/constant';
 
 const Register = ({navigation}) => {
+    console.log("inside register");
     const [email, setEmail] = useState('');
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -12,11 +13,11 @@ const Register = ({navigation}) => {
     const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
 
 	const handleSubmit = () => {
+        console.log('handleSubmit');
 		if (password !== passwordConfirm) {
 			alert('Passwords do not match');
-			return;
+            return;
 		}
-
         if (passwordRegex.test(password)) {
             console.log("Valid password");
             axios.post(`${API}/users/inscription`, {
@@ -46,7 +47,65 @@ const Register = ({navigation}) => {
         }
     }
 
-    const styles = StyleSheet.create({
+    
+    return (
+        // <View style={styles.background}>
+                <ImageBackground
+                source={require('../assets/inscription.png')} 
+                resizeMode="cover"
+                style={{width: '100%',
+                        height: '100%',
+                        backgroundColor: '#C5AAFF'
+                    }}
+                >
+                <Text style={styles.title} >Sign Up</Text>
+                <View style={styles.container}>
+                    <Text style={styles.label}>Login:</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={login}
+                        onChangeText={text => setLogin(text)}
+                    />
+
+					<Text style={styles.label}>Email:</Text>
+					<TextInput
+						style={styles.input}
+						value={email}
+						onChangeText={text => setEmail(text)}
+					/>
+
+					<Text style={styles.label}>Password:</Text>
+					<TextInput
+						style={styles.input}
+						value={password}
+						onChangeText={text => setPassword(text)}
+						secureTextEntry={true}
+					/>
+
+                    <Text style={styles.label}>Confirm password:</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={passwordConfirm}
+                        onChangeText={text => setPasswordConfirm(text)}
+                        secureTextEntry={true}
+                    />
+                </View>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.buttonText}
+                //   onPress={() => navigation.navigate(ROUTES.LOGIN)}
+                    >
+                        Register
+                    </Text>
+                </TouchableOpacity>
+            </ImageBackground>
+        // </View>
+
+	);
+
+
+
+}
+const styles = StyleSheet.create({
         container: {
             marginTop: 40,
         },
@@ -92,61 +151,5 @@ const Register = ({navigation}) => {
             fontSize: 18,
         },
     });
-
-    return (
-        // <View style={styles.background}>
-                <ImageBackground
-                source={require('../assets/inscription.png')} 
-                resizeMode="cover"
-                style={{width: '100%',
-                        height: '100%',
-                        backgroundColor: '#C5AAFF'
-                    }}
-                >
-                <Text style={styles.title} >Sign Up</Text>
-                <View style={styles.container}>
-                    <Text style={styles.label}>Login:</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={login}
-                        onChangeText={text => setLogin(text)}
-                    />
-
-					<Text style={styles.label}>Email:</Text>
-					<TextInput
-						style={styles.input}
-						value={email}
-						onChangeText={text => setEmail(text)}
-					/>
-
-					<Text style={styles.label}>Password:</Text>
-					<TextInput
-						style={styles.input}
-						value={password}
-						onChangeText={text => setPassword(text)}
-						secureTextEntry={true}
-					/>
-
-                    <Text style={styles.label}>Confirm password:</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={passwordConfirm}
-                        onChangeText={text => setPasswordConfirm(text)}
-                        secureTextEntry={true}
-                    />
-                </View>
-                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                    <Text style={styles.buttonText}
-                    onPress={() => navigation.navigate(ROUTES.LOGIN)}
-                    >
-                        Register
-                    </Text>
-                </TouchableOpacity>
-            </ImageBackground>
-        // </View>
-
-	);
-
-}
 
 export default Register;

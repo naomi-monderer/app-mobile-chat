@@ -76,19 +76,20 @@ const registerUsers = async (req, res) => {
 const authUsers = (req, res) => {
 	const login = req.body.login;
 	const password = req.body.password;
-	// console.log("----------")
-	// console.log(login)
-	// console.log(password)
-	// console.log("----------")
+	console.log("----------")
+	console.log(login)
+	console.log(password)
+	console.log("----------")
 
 
 	db.query(`SELECT users.id, users.login, users.email, users.id_role, users.password, GROUP_CONCAT(participants.id_room) AS rooms FROM users LEFT JOIN participants ON users.id = id_user WHERE login = '${login}' GROUP BY id`, function (error, results) {
 		console.log("results1: ",results)
+		console.log(results.length);
 		if (results.length > 0) {
-			console.log(bcrypt.compareSync(password, results[0].password))
+			console.log('compare bcrypt:', bcrypt.compareSync(password, results[0].password))
 			if(bcrypt.compareSync(password, results[0].password)) {
-				const rooms = results[0].rooms.split(',')
-
+				const rooms = results[0].rooms?.split(',')
+		
 				const mySecret = "mysecret";
 	
 				const token = jwt.sign({
@@ -152,6 +153,26 @@ const refreshToken = (id, callback) => {
 	})
 }
 
+const updateAvatar = (req, res) => {
+	console.log(req.params)
+	const userId = req.params.id;
+	const newAvatarUrl = req.body.avatar_url;
+	
+	const sql = 'UPDATE users SET avatar_url = ? WHERE id = ?';
+	const values = [newAvatarUrl, userId];
+	
+	db.query(sql, values, (error, results) => {
+	  if (error) {
+		console.error(error);
+		res.status(500).send('Error updating user avatar URL');
+	  } else {
+		res.status(200).send('User avatar URL updated successfully');
+	  }
+	});	
+  };
+  
+
+
 const getUsers = (req, res) => {
 	const sql = 'SELECT `login` FROM users'
 	db.query(sql, function (error, data) {
@@ -191,7 +212,15 @@ const addUserToRoom = (req, res) => {
 }
 
 const getUserDetails = (req, res) => {
-	const sql = `SELECT users.login, users.email, GROUP_CONCAT(rooms.name) AS rooms_name FROM users, rooms WHERE users.id = ${req.params.userId}`
+	const sql = `SELECT users.login, users.email, users.avatar_url, GROUP_CONCAT(rooms.name) AS rooms_name FROM users, rooms WHERE users.id = ${req.params.userId}`
+	db.query(sql, function (error, data) {
+		if (error) throw error;
+		else res.send(data);
+	})
+}
+
+const getUserRole = (req, res) => {
+	const sql = `SELECT users.id_role FROM users WHERE login = '${req.params.login}'`
 	db.query(sql, function (error, data) {
 		if (error) throw error;
 		else res.send(data);
@@ -199,7 +228,6 @@ const getUserDetails = (req, res) => {
 }
 
 const updateUser = (req, res) => {
-
 	const { login, email, password, confPassword } = req.body;
 
 	if (!login.length || !password.length || !email.length) {
@@ -247,7 +275,9 @@ module.exports = {
 	authUsers,
 	addUserToRoom,
 	getUserDetails,
+	getUserRole,
 	updateUser,
+	updateAvatar,
 	refreshToken,
 	getAllFromUsers
 }

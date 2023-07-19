@@ -30,7 +30,7 @@ const deleteMessageFromRoom = (req, res) => {
 
 		if(results.length > 0){
 			db.query(`DELETE FROM messages WHERE id = '${id_message}'`)
-			res.status(200).send("the message number: " + id_message +  " is now supressed")
+			res.status(200).send({message: "the message number: " + id_message +  " is now supressed"})
 		}
 		else {
 			res.status(400).json({
@@ -45,7 +45,22 @@ const adminUpdateRoom = (req, res) =>{
 	const sql = 'UPDATE rooms SET name = ? WHERE id = ?'
 	db.query(sql, [req.body.name, req.params.id],function(error){
 		if (error) throw error;
-		else res.status(200).send("Room's name updated !");
+		else res.status(200).send({message: "Room's name updated !", status: 200});
+	})
+}
+
+const adminDeleteRoom = (req, res) =>{
+
+	const sql = 'DELETE FROM participants WHERE id_room = ?'
+	db.query(sql, [req.params.id] , function(error){
+		if(error) throw error;
+		else {
+			const sql2 = `DELETE FROM rooms WHERE id = ?`
+			db.query(sql2,[req.params.id], function(error){
+				if(error) throw error;
+				else res.status(200).send({message: "Room deleted !", status: 200});
+			})
+		}
 	})
 }
 
@@ -63,6 +78,9 @@ const adminUpdateUser = (req, res) => {
 const adminUpdateRole = (req, res) => {
 	const id_role = parseInt(req.body.id_role)
 	const userId = parseInt(req.params.id)
+	// if(id_role > 2 || id_role < 1){
+			
+	// }
 	const sql = 'UPDATE users SET id_role = ? WHERE id = ?'
 	db.query(sql, [id_role, userId] , function(error, data){
 		if(error) throw error;
@@ -96,6 +114,7 @@ module.exports = {
 	adminUpdateRole, 
 	supressMessagesFromGreneral,
 	addNewRoom,
-	deleteMessageFromRoom
+	deleteMessageFromRoom,
+	adminDeleteRoom
 }
 

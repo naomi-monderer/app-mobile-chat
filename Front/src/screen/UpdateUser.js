@@ -104,7 +104,7 @@ const UpdateUser = () => {
             fontWeight:'600',
             fontSize:40,
             lineHeight:46,
-            color:'#FFFFFF',
+            color:'black',
         },
         container: {
             marginTop: 40,
@@ -119,7 +119,7 @@ const UpdateUser = () => {
             flex:5,
             fontSize:13,
             paddingLeft: 50,
-            color: '#FFFFFF',
+            color:'black',
         },
         label: {
             justifyContent:'flex-start',
@@ -127,21 +127,31 @@ const UpdateUser = () => {
             fontSize: 13,
             lineHeight:19,
             fontWeight:'500',
-            color:'#FFFFFF',
+            color:'black',
         },
         button: {
-            marginTop:30,
+            marginTop:100,
             backgroundColor: '#C5AAFF',
             padding: 10,
             margin:30,
             borderRadius: 10,
             alignItems: 'center',
+
         }
     })
 
     return (
         <View style={styles.background} >
-            <Text style={styles.title} >Edit your profile</Text>
+        <ImageBackground
+			source={require("../assets/connexion.png")}
+			resizeMode="cover"
+			style={{ 
+				width: '100%', 
+				height: '100%', 
+				backgroundColor: '#C5AAFF',
+			}}
+		>
+            {/* <Text style={styles.title} >Edit your profile</Text> */}
 
             <View style={styles.container}>
 
@@ -211,9 +221,10 @@ const UpdateUser = () => {
 
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 <Text
-                style={{color : '#000000'}}
+                style={{color : 'black'}}
                 >Update</Text>
             </TouchableOpacity>
+            </ImageBackground>
         </View>
     );
 

@@ -16,7 +16,7 @@ npm-debug.*
 *.orig.*
 web-build/
 App.js
-
+src/constant.js
 # macOS
 .DS_Store
 # 

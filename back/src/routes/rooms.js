@@ -2,14 +2,16 @@ var express = require('express');
 var router = express.Router();
 var { signIn } = require('../middlewares/auth');
 var {
-	getAllRooms,
 	deleteRoomForUser,
 	displayRoomsAndChat,
-	displayMainChat
+	displayMainChat,
+	getAllRoomsByUser,
+	getAllRooms
 } = require('../controllers/roomsController')
 
+router.get('/', getAllRooms);
 //[BACK/04]: Une route qui retourne toutes les rooms où l'user n'est pas.
-router.get('/', signIn, getAllRooms);
+router.get('/byuser', signIn, getAllRoomsByUser);
 
 // [BACK/30]: Une route qui permet à l'utilisateur de se supprimer d'une route.
 router.delete('/', signIn, deleteRoomForUser);

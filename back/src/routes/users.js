@@ -11,8 +11,10 @@ var {
 	addUserToRoom,
 	getUsers,
 	getUserDetails,
+	getUserRole,
 	updateUser,
 	refreshToken,
+	updateAvatar,
 	getAllFromUsers
 } = require('../controllers/usersController')
 
@@ -32,6 +34,8 @@ router.post('/auth', authUsers)
 //[BACK/03-get-all-users]: Une route qui retourne tous les utilisateurs dans une liste contenant les champs prenom et nom.
 router.get('/', getUsers);
 
+router.get('/role/:login', getUserRole);
+
 // Une route qui retourne toutes les infos de tous les utilisateurs
 router.get('/all', getAllFromUsers);
 
@@ -44,5 +48,9 @@ router.get('/details/:userId', signIn, getUserDetails);
 
 //[BACK/08-update-user]: Une route qui permet de mettre à jour les informations des utilisateurs
 router.post('/update', signIn, updateUser);
+
+//[FRONT/20-add-new-profil] patch avatar pic for the current user
+router.patch('/:userId/avatar', signIn, updateAvatar);
+
 
 module.exports = router;

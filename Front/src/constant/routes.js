@@ -2,11 +2,11 @@ export default {
     LOGIN: 'Login',
     REGISTER: ' ',
     HOME: 'Home',
-    CHATROOMS: 'Chuu-Rooms',
-    FEED: 'Feed',
-    CONTACT: 'Feed',
-    MESSAGES: 'Chat',
-    PROFILE: 'My Profile',
+    CHATROOMS: 'Bands',
+    // FEED: 'Feed',
+    CONTACT: 'My Chat',
+    MESSAGES: ' ',
+    PROFILE: 'My Account',
     
     
 };

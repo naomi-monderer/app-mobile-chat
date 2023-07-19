@@ -6,6 +6,7 @@ var express = require('express');
 const postMessage = (req, res) => {
 	const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
 	const data = req.body;
+	
 
 	if (data.content && req.user.id_role !== 0) {
 		const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${datetime}", ${req.user.id}, 0)`
@@ -19,38 +20,34 @@ const postMessage = (req, res) => {
 }
 
 const postMessageinChat = (req, res) => {
-	const datetime = new Date().toISOString().replace('T', ' ').toLocaleString({
-		timeZone: "Europe/Paris",
-	}).slice(0, 19);
+ 
+	const tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
+    console.log(localISOTime)  // => '2015-01-26T06:40:36.181'
 	const data = req.body;
 	if (data.content && req.user.id_role !== 0) {
 		if (Object.keys(req.params).length !== 0 && req.user.id_rooms.includes(req.params.roomId)) {
-			const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${datetime}", ${req.user.id}, "${req.params.roomId}")`
-
+			const sql = `INSERT INTO messages (content, created_at, id_user, id_room) VALUES ("${data.content}", "${localISOTime}", ${req.user.id}, "${req.params.roomId}")`
 			db.query(sql, function (err) {
 				if (err) throw err;
+ 
 				console.log("data:", req.user.login);
-				const msg = {
+				const message = {
 					content: data.content,
-					created_at: "2023-01-12T17:32:11.000Z",
-					updated_at: "2023-01-12T17:32:11.000Z",
-					id: data.id,
+					created_at: localISOTime,
 					login: req.user.login
 				};
-
-
-				io.to((parseInt(req.params.roomId))).emit('newMessage', msg)
-				// console.log('req.params.roomId', parseInt(req.params.roomId));
-				// console.log(4);
-
-				res.status(200).send('message inserted');
+ 
+				console.log('allo', req.params.roomId)
+				io.to(parseInt(req.params.roomId)).emit('newMessage', message)
+ 
+				res.status(200).json({message :'Message inserted.'});
 			});
 		}
-		else res.status(405).send('You are not allowed to post on this chat. Please subscribe to this chat.')
+		else res.status(405).json({message : 'You are not allowed to post on this chat. Please subscribe to this chat.'})
 	}
-	else res.send('write a message, please')
+	else res.json({message : "Please write a message"})
 }
-
 const deleteMessage = (req, res) => {
 	const sql = `SELECT id_user FROM messages WHERE id = ${req.params.messageId}`
 
@@ -63,7 +60,7 @@ const deleteMessage = (req, res) => {
 
 				db.query(sql, function (err) {
 					if (err) throw err;
-					else res.status(200).send("Message deleted.")
+					else res.status(200).send({message: "Message deleted."})
 				});
 			}
 			else {
@@ -100,17 +97,19 @@ const updateMessage = (req, res) => {
 
 const specificChat = (req, res) => {
 	if (req.user.id_rooms.includes(req.params.roomId)) {
-		const sql = `SELECT messages.id, content, created_at, login FROM messages INNER JOIN users ON messages.id_user = users.id WHERE id_room = ${req.params.roomId} ORDER BY created_at ASC`
+
+		const sql = `SELECT messages.id as id_message, content, created_at, login FROM messages INNER JOIN users ON messages.id_user = users.id WHERE id_room = ${req.params.roomId} ORDER BY created_at ASC`
 		db.query(sql, function (err, data) {
 			if (err) throw err;
 			else res.send(data);
-			console.log(" function specific chat");
 		})
 	} else res.status(400).send('You do not have access to the room');
 }
 
+
+
 const getMessagesinGlobalChat = (req, res) => {
-	const sql = `SELECT messages.id, content, created_at, users.login FROM messages INNER JOIN users ON id_user = users.id WHERE id_room = 0 ORDER BY created_at ASC`
+	const sql = `SELECT content, created_at, users.login FROM messages INNER JOIN users ON id_user = users.id WHERE id_room = 0 ORDER BY created_at ASC`
 
 	db.query(sql, function (err, data) {
 		if (err) throw err;
