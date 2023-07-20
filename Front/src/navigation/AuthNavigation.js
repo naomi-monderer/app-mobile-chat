@@ -50,7 +50,14 @@ export default function AuthNavigator() {
 			/>
 			<Stack.Screen name={ROUTES.LOGIN} component={Login}  options={{ headerShown: false }}/>
 			<Stack.Screen name={ROUTES.PROFILE} component={Profil} />
-			<Stack.Screen name="UpdateUser" component={UpdateUser} />
+			<Stack.Screen name={ROUTES.UPDATEPROFILE} component={UpdateUser} options={{
+					headerStyle: {backgroundColor: '#C5AAFF'},
+					headerTintColor: 'white',
+					headerBackTitleVisible: false,
+					headerShadowVisible: false,
+				}
+					
+			} />
 			<Stack.Screen name={ROUTES.REGISTER} component={Register} options={{
 				headerShadowVisible: false, // applied here
     			headerBackTitleVisible: false,

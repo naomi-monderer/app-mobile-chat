@@ -47,7 +47,10 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		backgroundColor: '#080713'
+		backgroundColor: '#080713',
+		width: "100%",
+		borderBottomWidth: 0.5,
+		borderBottomColor: "#FFFFFF",
 	},
 	tinyIcon: {
 		width: 50,

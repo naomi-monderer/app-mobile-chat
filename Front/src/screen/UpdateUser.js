@@ -104,7 +104,7 @@ const UpdateUser = () => {
             fontWeight:'600',
             fontSize:40,
             lineHeight:46,
-            color:'black',
+            color:'white',
         },
         container: {
             marginTop: 40,
@@ -117,17 +117,15 @@ const UpdateUser = () => {
         input: {
             alignContent:'center',
             flex:5,
-            fontSize:13,
-            paddingLeft: 50,
-            color:'black',
+            fontSize:20,
+            paddingLeft: 10,
+            color:'white',
         },
         label: {
             justifyContent:'flex-start',
-            marginBottom: 10,
-            fontSize: 13,
-            lineHeight:19,
+            fontSize: 20,
             fontWeight:'500',
-            color:'black',
+            color:'white',
         },
         button: {
             marginTop:100,
@@ -142,17 +140,6 @@ const UpdateUser = () => {
 
     return (
         <View style={styles.background} >
-        <ImageBackground
-			source={require("../assets/connexion.png")}
-			resizeMode="cover"
-			style={{ 
-				width: '100%', 
-				height: '100%', 
-				backgroundColor: '#C5AAFF',
-			}}
-		>
-            {/* <Text style={styles.title} >Edit your profile</Text> */}
-
             <View style={styles.container}>
 
                 <View style={styles.containerInput}>
@@ -193,7 +180,8 @@ const UpdateUser = () => {
             <Text style={styles.label}>Password:</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="password"
+                    placeholder="tap your password"
+                    placeholderTextColor="#9C9C9C"
                     value={password}
                     onChangeText={text => setPassword(text)}
                     secureTextEntry={true}
@@ -207,10 +195,11 @@ const UpdateUser = () => {
             />
 
             <View style={styles.containerInput}>
-            <Text style={styles.label}>Password Cofirm:</Text>
+            <Text style={styles.label}>Password Confirm:</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="passwordConfirm"
+                    placeholder="confirm your password"
+                    placeholderTextColor="#9C9C9C"
                     value={passwordConfirm}
                     onChangeText={text => setPasswordConfirm(text)}
                     secureTextEntry={true}
@@ -221,10 +210,9 @@ const UpdateUser = () => {
 
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 <Text
-                style={{color : 'black'}}
+                style={{color : 'white'}}
                 >Update</Text>
             </TouchableOpacity>
-            </ImageBackground>
         </View>
     );
 

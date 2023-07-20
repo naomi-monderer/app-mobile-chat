@@ -58,16 +58,6 @@ export default function Contact({navigation}) {
 			})
 		}, [underline]);
 
-
-		useEffect(()=>{
-			
-			// axios pour delete en base for real 
-
-		});
-
-
-
-
 	return (
 		<SafeAreaView style={styles.background}>
 			<View style={styles.tabs}>
@@ -78,11 +68,12 @@ export default function Contact({navigation}) {
 					<Text style={underline === 2 ? styles.selected : styles.notSelected}>My chuu chat </Text>
 				</TouchableOpacity>
 			</View>
-			<View>
+			<View >
 			{
 				contacts.length > 0 ?
 				contacts.map((contact) => 
 					<ContactMenu 
+						style={styles.container}
 						key={contact.id}
 						contact={contact}
 						onPress={() => navigation.navigate(ROUTES.MESSAGES, {id_room: contact.id, room_name : contact.name})}
@@ -108,9 +99,16 @@ const styles = StyleSheet.create({
 		flex:1,
 		backgroundColor: '#080713',
 	},
+	container:{
+	
+	},
 	tabs: {
 		flexDirection: "row",
 		justifyContent: "space-evenly",
+		width: "100%",
+		borderBottomWidth: 0.5,
+		borderBottomColor: "#FFFFFF",
+	
 	},
 	selected: {
 		textDecorationLine: 'underline',
@@ -120,6 +118,7 @@ const styles = StyleSheet.create({
 		marginBottom: 50,
 		marginLeft: 14,
 		paddingTop: 20,
+	
 	},
 	notSelected: {
 		color: '#C5AAFF',
@@ -128,21 +127,27 @@ const styles = StyleSheet.create({
 		marginBottom: 50,
 		marginLeft: 14,
 		paddingTop: 20,
+		
 	},
 	container2: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor:'red'
 	},
 	text: {
 		color: 'white',
+		
 	},
 	cta: {
 		marginTop: 15,
+		
+		
 	},
 	textCta: {
 		color: 'white',
 		padding: 5,
 		backgroundColor: '#C5AAFF',
+	
 	}
 })

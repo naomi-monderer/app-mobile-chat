@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity , ImageBackground} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import ROUTES from '../constant/routes';
 import Avatar from "../components/Avatar";
 import ActionList from "../components/ActionList";
 import LogoutButton from "../components/LogoutButton";
@@ -11,8 +12,8 @@ import { API } from "../constant/constant";
 import UpdateUser from "./UpdateUser";
 import Login from "./Login";
 
-function Profil() {
-  const navigation = useNavigation();
+function Profil({navigation}) {
+
   const [userData, setUserData] = useState({});
   const [avatar_url, setAvatar_url] = useState({});
   const [token, setToken] = useState(null);
@@ -32,15 +33,15 @@ function Profil() {
             },
           })
           .then((response) => {
-            console.log(response.data);
-            setUserData(response.data);
+            console.log('data', response.data);
+            setUserData('setUserData', response.data);
           })
           .catch((error) => {
-            console.log(error);
+            console.log('error axios', error);
           });
       })
       .catch((error) => {
-        console.log(error);
+        console.log('catch error', error);
       });
 
     SecureStore.getItemAsync("refreshtoken")
@@ -48,27 +49,11 @@ function Profil() {
         setRefreshToken(refresh);
       })
       .catch((error) => {
-        console.log(error);
+        console.log('refreshtoken error',error);
       });
   }, []);
 
-  console.log(userData, "...hurihurehirher");
-
-  const handleSignOut = async () => {
-    try {
-      SecureStore.getItemAsync("token1").then((res) => {
-        if (res) {
-          SecureStore.deleteItemAsync("token1").then(() => {
-            SecureStore.deleteItemAsync("refreshtoken");
-          });
-          navigation.navigate("Login");
-          console.log("sucessfully loged out");
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  console.log('userData spreadOperator', userData, "...hurihurehirher");
 
   const updateUserAvatar = async (userId, avatarUrl, token, refreshToken) => {
     try {
@@ -107,13 +92,14 @@ function Profil() {
     }
   };
 
-
-const handleModifyProfile = () => {
-  navigation.navigate("UpdateUser");
-};
-
   return (
+   
     <View style={styles.background}>
+        <ImageBackground
+          source={require('../assets/gradientProfile.png')} 
+          style={{width: '100%',  borderBottomWidth: 0.5,
+          borderBottomColor: "#FFFFFF"}}
+        >
       <View style={styles.container}>
         <TouchableOpacity onPress={handleChangeAvatar}>
           <Avatar
@@ -128,33 +114,29 @@ const handleModifyProfile = () => {
         </TouchableOpacity>
 
         <View style={styles.actionListContainer}>
-        <TouchableOpacity style={styles.ListItem}>
-          <View style={styles.listItemInnerContentView}>
-            {userData && (
-              <>
-                <Text style={styles.textStyles}>Login: {userData.login}</Text>
-                <Text style={styles.textStyles}>Email: {userData.email}</Text>
-                <Text style={styles.textStyles}>Rooms: {userData.id_rooms}</Text>
-                
-              </>
-            )}
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.ListItem}>
+            <View style={styles.listItemInnerContentView}>
+              {userData && (
+                <>
+                  <Text style={styles.textStyles}>Login: {userData.login}</Text>
+                  <Text style={styles.textStyles}>Email: {userData.email}</Text>
+                  <Text style={styles.textStyles}>Rooms: {userData.id_rooms}</Text>
+                  
+                </>
+              )}
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
-
-      <ActionList
-      actions={[
-    { id: '1', title: 'Modify Profile', handleAction: handleModifyProfile },
-    { id: '2', title: 'Log Out', handleAction: handleSignOut },
-  ]}
-     handleModifyProfile={handleModifyProfile}
-      logOut={handleSignOut}
-      // handleDeleteAccount={handleDeleteAccount}
-      />
-
-      {/* <LogoutButton /> */}
+      </ImageBackground>
+      <View >
+        <TouchableOpacity style={styles.actionListItem} onPress={() => navigation.navigate(ROUTES.UPDATEPROFILE)} >
+          <Text style={styles.actionList}> Modify profile </Text>
+        </TouchableOpacity> 
+       <LogoutButton/>
+      </View>
     </View>
+    
   );
 }
 
@@ -166,6 +148,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     padding: 26,
+    // backgroundColor:"red"
   },
   listItem: {
     width: "100%",
@@ -188,16 +171,26 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   actionListItem: {
-    padding: 10,
+    width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: "#FFFFFF",
+    
   },
   actionListItemText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
   },
+  actionList:{
+    color: "#FFFFFF",
+    padding: 20,
+    backgroundColor: '#080713',
+    width: "100%",
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFFFFF",
+    fontSize: 20,
+    
+  }
 });
-
 
 export default Profil;

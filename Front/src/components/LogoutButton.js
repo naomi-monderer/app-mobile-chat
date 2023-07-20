@@ -1,10 +1,9 @@
 import React from 'react';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from "react-native";
+import ROUTES from '../constant/routes';
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 
-export default function LogoutButton() {
+export default function LogoutButton({navigation}) {
     const logout = () => {
         SecureStore.getItemAsync('token1').then((res) => {
             if (res) {
@@ -17,11 +16,12 @@ export default function LogoutButton() {
 
     return (
         <View>
-            <TouchableOpacity
+            <TouchableOpacity style={styles.button}
                 onPress={() => logout()}
-                style={styles.button}
             >
-                <Text style={styles.buttonText}>Logout</Text>
+                <Text style={styles.buttonText}
+                   
+                >Logout</Text>
             </TouchableOpacity>
         </View>
     )
@@ -29,10 +29,15 @@ export default function LogoutButton() {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#0F0D23',
+        backgroundColor: '#080713',
+        width: "100%",
+        borderBottomWidth: 0.5,
+        borderBottomColor: "#FFFFFF",
     },
     buttonText: {
-        color: 'white',
-        padding: 14,
+    color: '#FFFFFF',
+    padding: 20,
+    fontSize: 20,
+    
     }
 })
