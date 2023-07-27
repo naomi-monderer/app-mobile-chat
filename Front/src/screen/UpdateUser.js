@@ -61,8 +61,11 @@ const UpdateUser = () => {
                     })
                 .then(response => {
                     console.log('response',response);
-                    // Show success message
-                })
+                    const newToken = response.data.newToken;
+					SecureStore.setItemAsync('token1', newToken).then(() => {
+                        console.log("Token updated");
+					})
+				})
                 .catch(error => {
                     if (error.response) {
                         alert(error.response.data.message)

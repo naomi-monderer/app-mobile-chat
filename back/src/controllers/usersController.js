@@ -290,7 +290,16 @@ const updateUser = (req, res) => {
 				}
 
 				db.query(sqlUpdate, [req.params.id], (err, data) => {
-					return res.status(200).json({ message: "Utilisateur modifié avec succès" });
+				return refreshToken(req.user.id,token => {
+								console.log(token)
+								return res.status(200).send({
+									message: "Utilisateur modifié avec succès",
+									id: req.user.id,
+									login: req.body.login,
+									email: req.body.email,
+									newToken: token
+								})
+							})
 				})
 			}
 		}

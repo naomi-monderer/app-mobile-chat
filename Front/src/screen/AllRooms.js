@@ -108,6 +108,10 @@ export default function AllRooms() {
 					})
 				}).then((response) => {
 						console.log(response.data)
+						const newToken = response.data.newToken;
+						SecureStore.setItemAsync('token1', newToken).then(() => {
+							console.log("Token updated");
+						})
 					})
 					.catch(error => {
 						if (error.response.status === 417) {
@@ -124,6 +128,10 @@ export default function AllRooms() {
 								})       
 							}).then((response) => {
 								console.log(response.data)
+								const newToken = response.data.newToken;
+								SecureStore.setItemAsync('token1', newToken).then(() => {
+									console.log("Token updated");
+								})
 							})
 							.catch(function (error) {
 								if (error.response) {
