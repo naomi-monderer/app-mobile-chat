@@ -127,9 +127,11 @@ const authUsers = (req, res) => {
 				});
 			}
 			else {
-				return res.status(400).send({ message: "The login or the password is invalid" });	
+				return res.status(400).send({ message: "The login or password is invalid" });
 			}
-			};
+		}else{
+			return res.status(400).send({ message: "The login or password is invalid" });
+		}
 	})
 }
 
