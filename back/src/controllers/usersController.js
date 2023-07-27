@@ -230,8 +230,8 @@ const getUserRole = (req, res) => {
 const updateUser = (req, res) => {
 	const { login, email, password, confPassword } = req.body;
 
-	if (!login.length || !password.length || !email.length) {
-		return res.status(400).json({ message: 'missing params' });
+	if (!login || !password || !email || !confPassword) {
+		return res.status(400).json({ message: 'Missing parameters.' });
 	}
 
 	const sql2 = "SELECT id FROM users WHERE NOT id = '" + req.user.id + "' AND (email = '" + req.body.email + "' OR login = '" + req.body.login + "')"
