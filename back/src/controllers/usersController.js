@@ -191,24 +191,55 @@ const getAllFromUsers = (req, res) => {
 	})
 }
 
-const addUserToRoom = (req, res) => {
+const insertToRoom = (id_room, id_user) => {
+	const sql = `INSERT INTO participants (id_room, id_user) VALUES (?,?)`
+	db.query(sql, [id_room, id_user], function (error, data) {
 
+		if (error) {
+			throw (error)
+		}
+		else {
+			return data
+		}
+
+	})
+}
+
+const addUserToRoom = (req, res) => {
+	//on verifie si l'utilisateur n'est pas banni
 	const verifyRoles = `SELECT role FROM  users INNER JOIN roles 
 	ON roles.id = users.id_role WHERE users.id = ?`
 	db.query(verifyRoles, [req.user.id], function (error, data) {
-
 		if (data.length !== 0) {
 			if (data[0].role !== "ban") {
-
-				const verifyParticipation = `SELECT id_room FROM participants WHERE id_user = ? AND id_room = ?`
-				db.query(verifyParticipation, [req.user.id, req.params.idRoom], function (error, dataIdRoom) {
-					if (dataIdRoom[0] == undefined) {
-						var insertUser = insertToRoom(req.body.id_room, req.user.id);
-						res.status(200).send({ message: 'Request succeed.' })
-
-					} else res.status(400).send({ message: 'The id user ' + [req.user.id] + ' is already related to the id room ' + [req.body.id_room] + ' .' });
+				//on verifie si la room à ajouter existe bel et bien
+				const verifyRoomId = "SELECT id FROM rooms WHERE id = ?"
+				db.query(verifyRoomId, [req.params.idRoom], (error, existingRooms) => {
+					if (existingRooms[0]) {
+						//on vérifie que l'user ne fasse pas deja partie de la room
+						const verifyParticipation = `SELECT id_room FROM participants WHERE id_user = ? AND id_room = ?`
+						db.query(verifyParticipation, [req.user.id, req.params.idRoom], function (error, dataIdRoom) {
+							if (dataIdRoom[0] == undefined) {
+								insertToRoom(req.params.idRoom, req.user.id);
+								//on regenere le token de l'user afin de mettre à jour le payload qui contient les id des rooms de l'user, puis on le renvoie dans la response
+								refreshToken(req.user.id,token => {
+									res.status(200).send({
+										message: 'The user id=' + [req.user.id] + ' has been added to the room id=' + [req.params.idRoom] + ' .',
+										newToken: token
+									})
+									console.log(token)
+								})
+							} else {
+								res.status(400).send({message: 'The id user ' + [req.user.id] + ' is already related to the id room ' + [req.params.idRoom] + ' .'});
+							}
+						})
+					} else {
+						res.status(400).send({message: 'The room id=' + req.params.idRoom + ' does not exists.'})
+					}
 				})
-			} else res.status(400).send({ message: 'You were ban of this room.' })
+			} else {
+				res.status(400).send({message: 'You were ban from this room.'})
+			}
 		}
 	})
 }
