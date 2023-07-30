@@ -1,5 +1,6 @@
 const db = require('../../database');
 var express = require('express');
+const {refreshToken} = require("./usersController");
 
 const getParticipants = (req, res) => {
 	// récupérer du front lorsque sur une chatroom et click sur (view les utilisateurs) ++ potentiellement en back get tous les id des groupes et les mettre en front en caché ???
@@ -50,9 +51,15 @@ const addParticipant = (req, res) => {
 			const sql = `INSERT INTO participants(id_room, id_user) VALUES (${roomId},${req.user.id})`
 			db.query(sql, function(error){
 				if (error) throw error
-				else res.send("Added to the chat.");
-			})		
+			})
 		});
+		refreshToken(req.user.id,token => {
+			res.status(200).send({
+				message: 'The user id=' + [req.user.id] + ' has been added to the rooms.',
+				newToken: token
+			})
+			console.log(token)
+		})
 	}
 	else res.send("You might be banned from entering another chatroom.");
 }

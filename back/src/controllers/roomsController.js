@@ -27,7 +27,7 @@ const deleteRoomForUser = (req,res) => {
 
 // get dernier message, d'un chat name etc...dans lequel le participant est
 const displayRoomsAndChat = (req, res) => {
-	const sql = `SELECT rooms.id, rooms.name, messages.content FROM messages CROSS JOIN rooms ON messages.id_room = rooms.id INNER JOIN participants ON participants.id_room = rooms.id WHERE participants.id_user = ${req.user.id} AND created_at IN (SELECT MAX(created_at) FROM messages GROUP BY id_room)`
+	const sql = `SELECT rooms.id, rooms.name, messages.content FROM messages RIGHT JOIN rooms ON messages.id_room = rooms.id INNER JOIN participants ON participants.id_room = rooms.id WHERE participants.id_user = ${req.user.id} AND (created_at IS NULL OR created_at IN (SELECT MAX(created_at) FROM messages GROUP BY id_room))`
 	db.query(sql, function(error, data){
 		if (error) throw error;
 		else res.status(200).send(data);
