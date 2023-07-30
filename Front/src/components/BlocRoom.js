@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		zIndex: 3,
 		elevation: 3,
+	
+
 	},
 	tinyIcon: {
 		width: 85,

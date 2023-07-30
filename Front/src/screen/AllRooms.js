@@ -188,6 +188,7 @@ export default function AllRooms() {
 
 	// console.log('moreRooms end', moreRooms)
 	return (
+		
 		<ScrollView style={styles.bg}>
 			<View style={styles.tabs}>
 				
@@ -218,18 +219,29 @@ export default function AllRooms() {
 					:
 					<Text>No rooms.</Text>
 				}
+				
 			</View>
-
+			
 			{
 				moreRooms.length >= 1 &&
 				<View
 					style={styles.pls}
 				>
-					<ScrollView 
+					<ScrollView  
 						style={styles.test}
 						horizontal={true}
 						// stickyHeaderIndices={[0]}
 					>
+							<TouchableOpacity 
+								onPress={() => addRooms()}
+								style={styles.btn}
+							>
+								<Text
+									style={{ color:"white", fontSize:25}}
+								>
+								 +
+								</Text>
+							</TouchableOpacity>
 						<View style={styles.help}>
 							{
 								moreRooms.map((arrayRoom) => 
@@ -242,21 +254,13 @@ export default function AllRooms() {
 									/>
 								)
 							}
-							<TouchableOpacity 
-								onPress={() => addRooms()}
-								style={styles.btn}
-							>
-								<Text
-									style={{ textTransform: 'uppercase'}}
-								>
-									Add
-								</Text>
-							</TouchableOpacity>
+						
 						</View>
 					</ScrollView>
 				</View>
 			} 
-		</ScrollView>
+			</ScrollView>
+		
 	)
 }
 
@@ -268,14 +272,13 @@ const styles = StyleSheet.create({
 	tabs: {
 		justifyContent: 'space-evenly',
 		flexDirection: 'row',
-		backgroundColor: '#080713',
 	},
 	selected: {
 		textDecorationLine: 'underline',
 		color: '#C5AAFF',
 		fontSize: 20,
 		fontWeight: '600',
-		marginBottom: 50,
+		marginBottom: 10,
 		marginLeft: 14,
 		paddingTop: 20,
 	},
@@ -283,7 +286,7 @@ const styles = StyleSheet.create({
 		color: '#C5AAFF',
 		fontSize: 20,
 		fontWeight: '600',
-		marginBottom: 50,
+		marginBottom: 10,
 		marginLeft: 14,
 		paddingTop: 20,
 	},
@@ -292,13 +295,22 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		flexWrap: 'wrap',
 		backgroundColor: '#080713',
+		height: '120%',
+		position: 'relative',
+		marginBottom: 20
+	
 	},
 	pls: {
-		marginTop: 100,
+		position: 'absolute',
+		width:'100%',
+		bottom: -140
+
 	},
 	test: {
-		backgroundColor: '#110f1f',
-		flex: 5,
+		// backgroundColor: '#110f1f',
+		backgroundColor: '#373353',
+		
+		
 	},
 	help: {
 		flexDirection: 'row',
@@ -307,11 +319,16 @@ const styles = StyleSheet.create({
 		paddingBottom: 5
 	},
 	btn: {
-		marginLeft: 40,
+		marginLeft: 20,
 		marginRight: 20,
-		backgroundColor: '#C5AAFF',
-		paddingHorizontal: 20,
-		paddingVertical: 10,
-		borderRadius: 10,
+		backgroundColor: '#080713',
+		borderRadius: 50,
+		width:70,
+		height:70,
+		marginTop:35,
+		justifyContent:'center',
+		alignItems: 'center',
+		borderColor : 'white',
+		borderWidth: 0.5
 	}
 })
