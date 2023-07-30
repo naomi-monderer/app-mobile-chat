@@ -1,14 +1,14 @@
 export default {
     LOGIN: 'Login',
-    REGISTER: '',
+    REGISTER: ' ',
     HOME: 'Home',
     CHATROOMS: 'Bands',
     // FEED: 'Feed',
     CONTACT: 'My Chat',
-    MESSAGES: '',
+    MESSAGES: ' ',
     PROFILE: 'My Account',
     UPDATEPROFILE : 'My Profile', 
-    LOGOUT: '',
+    LOGOUT: ' ',
     
     
 };

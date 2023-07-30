@@ -11,6 +11,7 @@ export default function LogoutButton({navigation}) {
                     SecureStore.deleteItemAsync('refreshtoken')
                 })
             }
+            navigation.navigate(ROUTES.LOGIN)
         })
     }
 

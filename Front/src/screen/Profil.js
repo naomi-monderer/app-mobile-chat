@@ -26,19 +26,19 @@ function Profil({navigation}) {
         setUserData(decodedToken);
         const url = `${API}/users/details/${decodedToken?.id}`;
 
-        axios
-          .get(url, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            console.log('data', response.data);
-            setUserData('setUserData', response.data);
-          })
-          .catch((error) => {
-            console.log('error axios', error);
-          });
+        // axios
+        //   .get(url, {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   })
+        //   .then((response) => {
+        //     console.log('data', response.data);
+        //     setUserData('setUserData', response.data);
+        //   })
+        //   .catch((error) => {
+        //     console.log('error axios', error);
+        //   });
       })
       .catch((error) => {
         console.log('catch error', error);
@@ -133,7 +133,7 @@ function Profil({navigation}) {
         <TouchableOpacity style={styles.actionListItem} onPress={() => navigation.navigate(ROUTES.UPDATEPROFILE)} >
           <Text style={styles.actionList}> Modify profile </Text>
         </TouchableOpacity> 
-       <LogoutButton/>
+       <LogoutButton navigation={navigation}/>
       </View>
     </View>
     

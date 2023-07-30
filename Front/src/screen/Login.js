@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, {useRef} from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ImageBackground} from "react-native";
@@ -14,6 +14,9 @@ export default function Login({ navigation }) {
 	const [rooms, setRooms] = useState([])
 	let first = true;
 
+	const loginField = useRef()
+	const passwordField = useRef()
+
 	useEffect(() => {
 	    if (first) {
 	        SecureStore.getItemAsync('token1').then((res) => {
@@ -22,7 +25,7 @@ export default function Login({ navigation }) {
 	                setRooms(decoded.id_rooms)
 	                navigation.navigate(ROUTES.HOME, { screen: ROUTES.CONTACT })
 					console.log(res);
-	            } 
+	            }
 	        })
 			first = false;
 	    }
@@ -37,12 +40,14 @@ export default function Login({ navigation }) {
 				.then(function (response) {
 					setLogin('');
 					setPassword('');
+					loginField.current.value = "";
+					passwordField.current.value = "";
 					const token = response.data.token;
 					const refresh = response.data.refresh;
 					SecureStore.setItemAsync('token1', token).then(() => {
 						SecureStore.setItemAsync('refreshtoken', refresh).then(() => {
 							console.log('co')
-							// navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
+							navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })
 						})
 					})
 				})
@@ -94,6 +99,7 @@ export default function Login({ navigation }) {
 					<TextInput
 						style={styles.input}
 						onChangeText={login => setLogin(login)}
+						ref={loginField}
 					/>
 					<Text style={styles.label}>
 						Password
@@ -102,6 +108,7 @@ export default function Login({ navigation }) {
 						style={styles.input}
 						onChangeText={password => setPassword(password)}
 						secureTextEntry={true}
+						ref={passwordField}
 					/>
 					<TouchableOpacity
 						onPress={() => connect()}
@@ -109,7 +116,6 @@ export default function Login({ navigation }) {
 					>
 						<Text
 							style={styles.buttonText}
-						// onPress={() => navigation.navigate(ROUTES.HOME, { screen: rooms.length > 1 ? ROUTES.FEED : ROUTES.CHATROOMS })}
 						>
 							Login
 						</Text>
