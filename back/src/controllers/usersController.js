@@ -147,7 +147,7 @@ const refreshToken = (id, callback) => {
 			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
 				const token = jwt.sign({
-					login: login,
+					login: results[0].login,
 					iat: ~~(Date.now() / 1000),
 					type: 'authtoken',
 					email: results[0].email,
