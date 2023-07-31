@@ -75,8 +75,11 @@ export default function AllRooms() {
 
 	useEffect(() => {
 		moreRooms.forEach((moreRoom) => {
-			idRooms.push(moreRoom.id)
+			if (!idRooms.includes(moreRoom.id)) {
+				idRooms.push(moreRoom.id)
+			}
 		})
+		console.log(idRooms)
 	}, [moreRooms])
 
 	const setNewRooms = (object) =>{

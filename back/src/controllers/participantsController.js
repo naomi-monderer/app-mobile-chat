@@ -48,6 +48,7 @@ const addParticipant = (req, res) => {
 	if(req.user.id_role !== 0) {
 		const arrayRoomId = Object.values(req.body.id)
 		arrayRoomId.forEach(roomId => {
+			console.log('ajout a la room: ',roomId)
 			const sql = `INSERT INTO participants(id_room, id_user) VALUES (${roomId},${req.user.id})`
 			db.query(sql, function(error){
 				if (error) throw error
@@ -55,7 +56,7 @@ const addParticipant = (req, res) => {
 		});
 		refreshToken(req.user.id,token => {
 			res.status(200).send({
-				message: 'The user id=' + [req.user.id] + ' has been added to the rooms.',
+				message: 'The user id=' + [req.user.id] + ' has been added to the rooms ['+arrayRoomId+'].',
 				newToken: token
 			})
 			console.log(token)
