@@ -146,9 +146,17 @@ const refreshToken = (id, callback) => {
 		if (results.length > 0) {
 			const rooms = results[0].rooms.split(',')
 			const mySecret = "mysecret";
-			const token = jwt.sign({
-				id: results[0].id,
-			}, mySecret)
+				const token = jwt.sign({
+					login: results[0].login,
+					iat: ~~(Date.now() / 1000),
+					type: 'authtoken',
+					email: results[0].email,
+					id: results[0].id.toString(),
+					id_role: results[0].id_role,
+					id_rooms: rooms
+				}, mySecret,{
+					expiresIn: "60d",
+					});
 			//je place un callback en paramètre 
 			callback(token)
 		}
